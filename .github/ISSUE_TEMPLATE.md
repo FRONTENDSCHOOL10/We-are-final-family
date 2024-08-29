@@ -7,7 +7,8 @@
 
 ### 반영 브랜치
 
-ex) feat/login -> dev
+ex) feat/BrachName/A(안) or G(고) or P(박) or L(이)
+ex) feat/componentBrachName/A(안) or G(고) or P(박) or L(이)
 
 ### 변경 사항
 
