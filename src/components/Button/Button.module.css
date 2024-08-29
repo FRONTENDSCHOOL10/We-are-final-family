@@ -1,0 +1,25 @@
+.button {
+  margin: 3px;
+  border: none;
+  outline: none;
+  width: 17rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 1.225rem */
+  color: var(--white);
+}
+.button:not(.disabled):not(.active):hover {
+  background-color: #e0e0e0;
+}
+
+.disabled {
+  color: var(--gray-300);
+}
+
+.active {
+  cursor: pointer;
+  color: white;
+}
