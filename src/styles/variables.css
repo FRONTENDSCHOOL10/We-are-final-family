@@ -1,0 +1,36 @@
+:root {
+  /* Color styles */
+  --black: #181818;
+  --white: #ffffff;
+  --primary: #148ce1;
+  --secondary: #5aaef1;
+  --negative: #ff4500;
+  --gray-100: #e5e5e5;
+  --gray-200: #cccccc;
+  --gray-300: #b2b2b2;
+  --gray-400: #999999;
+  --gray-500: #7f7f7f;
+  --gray-600: #666666;
+  --gray-700: #4c4c4c;
+  --gray-800: #333333;
+  --gray-900: #212121;
+
+  /* Text-size styles */
+  /* base size: heading---small (11px) */
+  --heading---small: 1rem;
+  --heading---medium: 1.27rem;
+  --heading---large: 1.64rem;
+  --heading---x-l: 2.18rem;
+  --heading---x-x-l: 2.91rem;
+  --heading---x-x-x-l: 4rem;
+  --label---small: 1rem;
+  --label---medium: 1.27rem;
+  --label---large: 1.64rem;
+  --label---x-l: 2.18rem;
+  --label---x-x-l: 2.91rem;
+  --paragraph--underline: 0.91rem;
+  --paragraph---small: 1rem;
+  --paragraph---medium: 1.27rem;
+  --paragraph---large: 1.64rem;
+  --paragraph---x-l: 2.18rem;
+}
