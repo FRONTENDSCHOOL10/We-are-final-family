@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import S from './Calender.module.css';
 
+// eslint-disable-next-line react/prop-types
 const Calendar = ({ selectedDate, onChange, onClose }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate));
 
@@ -31,6 +32,7 @@ const Calendar = ({ selectedDate, onChange, onClose }) => {
         <div
           key={i}
           className={`${S.day} ${
+            // eslint-disable-next-line
             date.toDateString() === selectedDate.toDateString()
               ? S.selected
               : ''
