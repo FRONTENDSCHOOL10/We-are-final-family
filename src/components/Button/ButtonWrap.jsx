@@ -8,36 +8,16 @@ export function ButtonWrap() {
   return (
     <div>
       <h1>버튼입니다</h1>
-      <Button
-        active={true}
-        style={{ background: 'var(--gray-900)' }}
-        onClick={handleClick}
-      >
+      <Button color={'black'} onClick={handleClick}>
         회원가입
       </Button>
-      <Button
-        disabled={true}
-        style={{ background: 'var(--gray-900)' }}
-        onClick={handleClick}
-      >
+      <Button disabled={true} color={'black'} onClick={handleClick}>
         회원가입
       </Button>
-      <Button
-        active={true}
-        style={{ background: 'var(--primary)' }}
-        onClick={handleClick}
-      >
+      <Button color={'primary'} disabled={true} onClick={handleClick}>
         시작하기
       </Button>
-      <Button
-        active={true}
-        onClick={handleClick}
-        style={{
-          background: 'var(----white)',
-          color: 'black',
-          border: '1px solid var(--black)',
-        }}
-      >
+      <Button onClick={handleClick} color={'white'}>
         관심분야 선택하기
       </Button>
     </div>
