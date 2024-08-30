@@ -1,0 +1,147 @@
+@import './variables.css';
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('../assets/fonts/icomoon.eot?qks19h');
+  src: url('../assets/fonts/icomoon.eot?qks19h#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/icomoon.ttf?qks19h') format('truetype'),
+    url('../assets/fonts/icomoon.woff?qks19h') format('woff'),
+    url('../assets/fonts/icomoon.svg?qks19h#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^='icon_'],
+[class*=' icon_'] {
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-size: 1.5rem;
+  font-weight: normal;
+  font-variant: normal;
+  color: var(--gray-900);
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_board_filled:before {
+  content: '\e900';
+}
+.icon_board_line:before {
+  content: '\e901';
+}
+.icon_calendar_filled:before {
+  content: '\e902';
+}
+.icon_calendar_line:before {
+  content: '\e903';
+}
+.icon_certificate:before {
+  content: '\e904';
+}
+.icon_chat_filled:before {
+  content: '\e905';
+}
+.icon_chat_line:before {
+  content: '\e906';
+}
+.icon_check:before {
+  content: '\e907';
+}
+.icon_close:before {
+  content: '\e908';
+}
+.icon_comment_filled:before {
+  content: '\e909';
+}
+.icon_comment_line:before {
+  content: '\e90a';
+}
+.icon_direction_bottom:before {
+  content: '\e90b';
+}
+.icon_direction_left:before {
+  content: '\e90c';
+}
+.icon_direction_right:before {
+  content: '\e90d';
+}
+.icon_direction_top:before {
+  content: '\e90e';
+}
+.icon_emoji:before {
+  content: '\e90f';
+}
+.icon_export:before {
+  content: '\e910';
+}
+.icon_home_filled:before {
+  content: '\e911';
+}
+.icon_home_line:before {
+  content: '\e912';
+}
+.icon_like_filled:before {
+  content: '\e913';
+}
+.icon_like_line:before {
+  content: '\e914';
+}
+.icon_location_filled:before {
+  content: '\e915';
+}
+.icon_location_line:before {
+  content: '\e916';
+}
+.icon_lock_filled:before {
+  content: '\e917';
+}
+.icon_lock_line:before {
+  content: '\e918';
+}
+.icon_menu:before {
+  content: '\e919';
+}
+.icon_minus:before {
+  content: '\e91a';
+}
+.icon_option:before {
+  content: '\e91b';
+}
+.icon_pencil:before {
+  content: '\e91c';
+}
+.icon_people_filled:before {
+  content: '\e91d';
+}
+.icon_people_line:before {
+  content: '\e91e';
+}
+.icon_picture_filled:before {
+  content: '\e91f';
+}
+.icon_picture_line:before {
+  content: '\e920';
+}
+.icon_plus:before {
+  content: '\e921';
+}
+.icon_profile_filled:before {
+  content: '\e922';
+}
+.icon_profile_line:before {
+  content: '\e923';
+}
+.icon_search:before {
+  content: '\e924';
+}
+.icon_send:before {
+  content: '\e925';
+}
+.icon_target:before {
+  content: '\e926';
+}
