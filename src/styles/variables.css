@@ -43,4 +43,8 @@
   --paragraph---xl: 2.18rem;
 
   --base-font: 'Pretendard-Regular';
+
+  --icon-color-white: var(--white);
+  --icon-color-black: var(--gray-900);
+  --icon-color-primary: var(--primary);
 }
