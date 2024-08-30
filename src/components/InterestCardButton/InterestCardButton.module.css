@@ -29,7 +29,7 @@
 }
 .unCheckedIcon {
   color: white;
-  background-image: url('@/assets/button/icon/Group 3.svg');
+  background-image: url('@/assets/button/icon/plus.svg');
   width: 0.75rem;
   height: 0.75rem;
   background-size: contain;
