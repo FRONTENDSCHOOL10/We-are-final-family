@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   /* Color styles */
   --black: #181818;
@@ -20,17 +28,19 @@
   --heading---small: 1rem;
   --heading---medium: 1.27rem;
   --heading---large: 1.64rem;
-  --heading---x-l: 2.18rem;
-  --heading---x-x-l: 2.91rem;
-  --heading---x-x-x-l: 4rem;
+  --heading---xl: 2.18rem;
+  --heading---xxl: 2.91rem;
+  --heading---xxxl: 4rem;
   --label---small: 1rem;
   --label---medium: 1.27rem;
   --label---large: 1.64rem;
-  --label---x-l: 2.18rem;
-  --label---x-x-l: 2.91rem;
+  --label---xl: 2.18rem;
+  --label---xxl: 2.91rem;
   --paragraph--underline: 0.91rem;
   --paragraph---small: 1rem;
   --paragraph---medium: 1.27rem;
   --paragraph---large: 1.64rem;
-  --paragraph---x-l: 2.18rem;
+  --paragraph---xl: 2.18rem;
+
+  --base-font: 'Pretendard-Regular';
 }
