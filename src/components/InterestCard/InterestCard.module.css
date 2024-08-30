@@ -1,0 +1,55 @@
+/* InterestCard.module.css */
+.component {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  width: 6.75rem;
+  height: 2.58rem;
+  border-radius: 0.5rem;
+}
+
+.textContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.interest,
+.category {
+  font-style: normal;
+  font-weight: 400;
+}
+
+.interest {
+  font-size: 0.625rem;
+  line-height: 160%;
+}
+
+.category {
+  font-size: 0.875rem;
+  line-height: 150%;
+}
+
+/* Active state */
+.componentActive {
+  background-color: var(--primary);
+}
+
+.interestActive,
+.categoryActive {
+  color: var(--white);
+}
+
+/* Inactive state */
+.componentInactive {
+  background-color: var(--gray-100);
+}
+
+.interestInactive,
+.categoryInactive {
+  color: var(--gray-600);
+}

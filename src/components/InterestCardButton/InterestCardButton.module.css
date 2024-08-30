@@ -1,0 +1,38 @@
+.checkedIcon {
+  color: white;
+  background-image: url('@/assets/button/icon/check.svg');
+  width: 0.75rem;
+  height: 0.75rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.checked {
+  display: flex;
+  width: 1.125rem;
+  height: 1.125rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 1.5rem;
+  background: var(--white, #fff);
+}
+.unChecked {
+  display: flex;
+  width: 1.125rem;
+  height: 1.125rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 1.5rem;
+  background: var(--gray-200);
+}
+.unCheckedIcon {
+  color: white;
+  background-image: url('@/assets/button/icon/Group 3.svg');
+  width: 0.75rem;
+  height: 0.75rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
