@@ -1,0 +1,67 @@
+.calendar {
+  background: var(--white);
+  border: 0.0625rem solid var(--primary);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.weekday {
+  text-align: center;
+  font-weight: bold;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.day,
+.emptyDay {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.day:hover {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.selected {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.emptyDay {
+  background: none;
+  cursor: default;
+}
