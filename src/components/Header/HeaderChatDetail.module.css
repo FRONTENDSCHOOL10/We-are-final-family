@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  height: 2.25rem;
+  padding: 0 0.25rem;
+  color: var(--gray-900);
+  border-bottom: 1px solid var(--gray-100);
+  background-color: var(--white);
+}
