@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import S from './Navigation.module.css';
-import { navigationOptions } from './Date/navigationData';
+import { navigationOptions } from './Data/navigationData';
 
 export default function Navigation() {
   const [activeButton, setActiveButton] = useState(null);
