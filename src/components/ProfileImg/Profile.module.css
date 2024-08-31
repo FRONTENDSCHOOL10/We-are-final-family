@@ -1,0 +1,6 @@
+.component {
+  border-radius: 50%;
+  background-position: center;
+  background-size: contain;
+  background-color: var(--gray-200);
+}
