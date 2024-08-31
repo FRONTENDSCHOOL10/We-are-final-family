@@ -1,0 +1,53 @@
+/* 모바일 스타일 (720px 이하) */
+@media screen and (max-width: 720px) {
+  .con {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+    font-size: var(--label---small);
+    font-weight: 400;
+    line-height: 160%;
+  }
+
+  .sel,
+  .timeSelect,
+  .ampmToggle {
+    font-size: var(--label---small);
+  }
+  .btnCon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: var(--label---small);
+    width: 20%;
+  }
+}
+
+/* 데스크톱 스타일 (720px 초과) */
+@media screen and (min-width: 721px) {
+  .con {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+    max-width: 70%;
+    font-size: var(--label---large);
+    font-weight: 400;
+    line-height: 160%;
+  }
+
+  .sel,
+  .timeSelect,
+  .ampmToggle {
+    font-size: var(--label---large);
+  }
+  .btnCon {
+    display: flex;
+    flex-flow: nowrap;
+    align-items: center;
+    font-size: var(--label---large);
+    gap: 0.25rem;
+    padding: 1rem;
+  }
+}
