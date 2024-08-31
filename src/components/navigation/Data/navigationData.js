@@ -2,25 +2,25 @@ export const navigationOptions = [
   {
     value: 'party',
     label: '파티모집',
-    defaultIcon: 'shipIcon',
-    activeIcon: 'onShipIcon',
+    defaultIcon: 'i_home_line',
+    activeIcon: 'i_home_filled',
   },
   {
     value: 'board',
     label: '게시판',
-    defaultIcon: 'boardIcon',
-    activeIcon: 'onBoardIcon',
+    defaultIcon: 'i_board_line',
+    activeIcon: 'i_board_filled',
   },
   {
     value: 'chat',
     label: '채팅',
-    defaultIcon: 'chatIcon',
-    activeIcon: 'onChatIcon',
+    defaultIcon: 'i_chat_line',
+    activeIcon: 'i_chat_filled',
   },
   {
     value: 'profile',
     label: '내 정보',
-    defaultIcon: 'profileIcon',
-    activeIcon: 'onProfileIcon',
+    defaultIcon: 'i_profile_line',
+    activeIcon: 'i_profile_filled',
   },
 ];

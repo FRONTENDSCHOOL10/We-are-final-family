@@ -15,6 +15,10 @@
   cursor: pointer;
 }
 
+.iconFilled {
+  color: var(--primary);
+}
+
 .calendarWrapper {
   position: absolute;
   top: 100%;
