@@ -4,6 +4,8 @@ import S from './Calender.module.css';
 // eslint-disable-next-line react/prop-types
 const Calendar = ({ selectedDate, onChange, onClose }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const daysInMonth = (date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -28,6 +30,7 @@ const Calendar = ({ selectedDate, onChange, onClose }) => {
         currentMonth.getMonth(),
         i
       );
+      const isPastDate = date < today;
       days.push(
         <div
           key={i}
@@ -36,10 +39,12 @@ const Calendar = ({ selectedDate, onChange, onClose }) => {
             date.toDateString() === selectedDate.toDateString()
               ? S.selected
               : ''
-          }`}
+          } ${isPastDate ? S.pastDate : ''}`}
           onClick={() => {
-            onChange(date);
-            onClose();
+            if (!isPastDate || date.toDateString() === today.toDateString()) {
+              onChange(date);
+              onClose();
+            }
           }}
         >
           {i}
