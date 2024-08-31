@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import S from './DateSelector.module.css';
-import CalendarIcon from '@/assets/button/icon/calendar.svg';
 import Calendar from './Calender/Calender';
 
 function DateSelector() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isIconFilled, setIsIconFilled] = useState(false);
   const datePickerRef = useRef(null);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ function DateSelector() {
         !datePickerRef.current.contains(event.target)
       ) {
         setIsCalendarOpen(false);
+        setIsIconFilled(false);
       }
     }
 
@@ -63,25 +64,36 @@ function DateSelector() {
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setIsCalendarOpen(false);
+    setIsIconFilled(false);
+  };
+
+  const toggleCalendar = () => {
+    setIsCalendarOpen(!isCalendarOpen);
+    setIsIconFilled(!isIconFilled);
   };
 
   return (
     <div className={S.con}>
       <span className={S.label}>날짜</span>
       <div className={S.dateSelector} ref={datePickerRef}>
-        <img
-          src={CalendarIcon}
-          alt="Calendar"
-          className={S.icon}
-          onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+        <span
+          className={`${S.icon} ${isIconFilled ? S.iconFilled : ''} ${
+            isIconFilled ? 'i_calendar_filled' : 'i_calendar_line'
+          }`}
+          onClick={toggleCalendar}
         />
-        <span>{formatDate(selectedDate)}</span>
+        <span className={`${isIconFilled ? S.iconFilled : ''}`}>
+          {formatDate(selectedDate)}
+        </span>
         {isCalendarOpen && (
           <div className={S.calendarWrapper}>
             <Calendar
               selectedDate={selectedDate}
               onChange={handleDateChange}
-              onClose={() => setIsCalendarOpen(false)}
+              onClose={() => {
+                setIsCalendarOpen(false);
+                setIsIconFilled(false);
+              }}
             />
           </div>
         )}

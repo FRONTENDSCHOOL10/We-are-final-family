@@ -3,6 +3,7 @@ import S from './CategorySelect.module.css';
 
 export default function CategorySelect() {
   const [selectedOption, setSelectedOption] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   // 옵션 데이터 배열
   const options = [
@@ -23,22 +24,62 @@ export default function CategorySelect() {
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    setIsOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
     <div className={S.con}>
-      <select value={selectedOption} onChange={handleChange} className={S.sel}>
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            disabled={option.disabled}
-            className={S.opt}
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className={S.selectWrapper} onClick={toggleDropdown}>
+        <select
+          value={selectedOption}
+          onChange={handleChange}
+          className={S.sel}
+          style={{ display: 'none' }}
+        >
+          {options.map((option) => (
+            <option
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+              className={S.opt}
+            >
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <div className={S.selectedOption}>
+          {selectedOption
+            ? options.find((opt) => opt.value === selectedOption)?.label
+            : '카테고리를 선택해주세요.'}
+        </div>
+        <i
+          className={`${isOpen ? 'i_direction_top' : 'i_direction_bottom'} ${
+            S.icon
+          }`}
+        ></i>
+      </div>
+      {isOpen && (
+        <ul className={S.optionList}>
+          {options.map((option) => (
+            <li
+              key={option.value}
+              className={S.optionItem}
+              onClick={() => {
+                if (!option.disabled) {
+                  setSelectedOption(option.value);
+                  setIsOpen(false);
+                }
+              }}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

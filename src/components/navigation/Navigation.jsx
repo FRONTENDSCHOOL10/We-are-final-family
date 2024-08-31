@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import S from './Navigation.module.css';
+import '@/styles/iconfonts.css';
 import { navigationOptions } from './Data/navigationData';
 
 export default function Navigation() {
@@ -14,31 +15,27 @@ export default function Navigation() {
   };
 
   const getIconClass = (value, defaultIcon, activeIcon) => {
-    return `${S.icon} ${
-      activeButton === value ? S[activeIcon] : S[defaultIcon]
-    }`;
+    return `${activeButton === value ? activeIcon : defaultIcon}`;
   };
 
   return (
-    <div>
-      <nav className={S.nav}>
-        {navigationOptions.map((option) => (
-          <button
-            key={option.value}
-            className={getButtonClass(option.value)}
-            onClick={() => handleClick(option.value)}
-          >
-            <div
-              className={getIconClass(
-                option.value,
-                option.defaultIcon,
-                option.activeIcon
-              )}
-            ></div>
-            <label>{option.label}</label>
-          </button>
-        ))}
-      </nav>
-    </div>
+    <nav className={S.nav}>
+      {navigationOptions.map((option) => (
+        <button
+          key={option.value}
+          className={getButtonClass(option.value)}
+          onClick={() => handleClick(option.value)}
+        >
+          <span
+            className={getIconClass(
+              option.value,
+              option.defaultIcon,
+              option.activeIcon
+            )}
+          />
+          <label>{option.label}</label>
+        </button>
+      ))}
+    </nav>
   );
 }
