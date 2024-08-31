@@ -54,9 +54,9 @@ function DateSelector() {
       const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][
         selectedDay.getDay()
       ];
-      return `D${diffDays > 0 ? '+' : '-'}${Math.abs(
-        diffDays
-      )} ${dayOfWeek}요일`;
+      return `${Math.abs(diffDays)}${
+        diffDays > 0 ? '일후' : '일전'
+      } ${dayOfWeek}요일`;
     }
   };
 
