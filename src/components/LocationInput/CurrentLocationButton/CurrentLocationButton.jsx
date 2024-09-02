@@ -25,7 +25,10 @@ const CurrentLocationButton = ({ onLocationUpdate }) => {
       const response = await fetch(url);
       const data = await response.json();
       return (
-        data.address.town || data.address.village || '주소를 찾을 수 없습니다'
+        data.address.suburb ||
+        data.address.town ||
+        data.address.village ||
+        '주소를 찾을 수 없습니다'
       );
     } catch (error) {
       console.error('Error fetching address:', error);
