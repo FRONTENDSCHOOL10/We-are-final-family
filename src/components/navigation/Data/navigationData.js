@@ -1,4 +1,4 @@
-export const navigationOptions = [
+export const NavigationData = [
   {
     value: 'party',
     label: '파티모집',

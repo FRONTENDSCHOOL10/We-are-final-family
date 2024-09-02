@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import S from './Navigation.module.css';
 import '@/styles/iconfonts.css';
-import { navigationOptions } from './Data/navigationData';
+import { NavigationData } from './data/NavigationData';
 
 export default function Navigation() {
   const [activeButton, setActiveButton] = useState(null);
@@ -20,7 +20,7 @@ export default function Navigation() {
 
   return (
     <nav className={S.nav}>
-      {navigationOptions.map((option) => (
+      {NavigationData.map((option) => (
         <button
           key={option.value}
           className={getButtonClass(option.value)}
