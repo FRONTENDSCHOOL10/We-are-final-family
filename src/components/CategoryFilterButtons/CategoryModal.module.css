@@ -1,0 +1,77 @@
+.modalOverlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.modalContent {
+  background-color: var(--white);
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 100%;
+}
+
+.modalTitleContent {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.closeButton {
+  display: flex;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.closeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 1rem;
+}
+
+.categoryList {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.categoryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.categoryItem button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.categoryItem span {
+  font-size: 14px;
+  color: var(--primary);
+}
+
+.modalList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
