@@ -14,16 +14,13 @@ function PersonnelCounter() {
 
   return (
     <div className={S.con}>
-      <span>인원 </span>
-      <div className={S.count}>
-        <button className={S.btn} onClick={decrement} disabled={count === 2}>
-          <span className="i_minus"></span>
-        </button>
-        <span>{count}명</span>
-        <button className={S.btn} onClick={increment} disabled={count === 6}>
-          <span className="i_plus"></span>
-        </button>
-      </div>
+      <button className={S.btn} onClick={decrement} disabled={count === 2}>
+        <span className={`${S.icon} i_minus`}></span>
+      </button>
+      <span>{count}명</span>
+      <button className={S.btn} onClick={increment} disabled={count === 6}>
+        <span className={`${S.icon} i_plus`}></span>
+      </button>
     </div>
   );
 }

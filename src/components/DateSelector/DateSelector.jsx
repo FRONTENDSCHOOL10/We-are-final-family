@@ -74,7 +74,6 @@ function DateSelector() {
 
   return (
     <div className={S.con}>
-      <span className={S.label}>날짜</span>
       <div className={S.dateSelector} ref={datePickerRef}>
         <span
           className={`${S.icon} ${isIconFilled ? S.iconFilled : ''} ${
