@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import S from './Header.module.css';
-import IconButton from '@/components/IconButton/IconButton';
 import { string, bool, array } from 'prop-types';
+import IconButton from '@/components/IconButton/IconButton';
+import OptionPopup from '../OptionPopup/OptionPopup';
 
-function HeaderTest({
+function Header({
   title,
   contactName,
   back = false,
@@ -11,12 +12,24 @@ function HeaderTest({
   search = false,
   actions = [],
 }) {
+  const menuOptions = [
+    { label: '모집완료', onClick: () => console.log('모집완료 클릭!') },
+    { label: '수정하기', onClick: () => console.log('수정하기 클릭!') },
+    { label: '삭제하기', onClick: () => console.log('삭제하기 클릭!') },
+  ];
+
   const [location, setLocation] = useState('i_location_line');
+  const [isOptionPopupActive, setIsOptionPopupActive] = useState(false);
 
   const handleClick = () => {
     setLocation((prevClass) =>
       prevClass === 'i_location_line' ? 'i_location_filled' : 'i_location_line'
     );
+  };
+
+  // OptionPopup 토글
+  const isToggleOption = () => {
+    setIsOptionPopupActive((prevState) => !prevState);
   };
 
   return (
@@ -48,14 +61,25 @@ function HeaderTest({
       )}
 
       {/* 우측 아이콘 버튼이 1개일 경우 */}
-      {actions.length === 1 && <IconButton className={actions[0]} />}
+      {actions.length === 1 && (
+        <IconButton
+          className={actions[0]}
+          onClick={actions[0] === 'i_option' ? isToggleOption : undefined}
+        />
+      )}
 
       {/* 우측 아이콘 버튼이 2개 이상일 경우 */}
       {actions.length > 1 && (
         <ul role="group">
           {actions.map((action, index) => (
             <li key={index}>
-              <IconButton className={action} />
+              <IconButton
+                className={action}
+                onClick={action === 'i_option' ? isToggleOption : undefined}
+              />
+              {isOptionPopupActive && action === 'i_option' && (
+                <OptionPopup options={menuOptions} />
+              )}
             </li>
           ))}
         </ul>
@@ -64,7 +88,7 @@ function HeaderTest({
   );
 }
 
-HeaderTest.propTypes = {
+Header.propTypes = {
   title: string, // title=""
   contactName: string, // contactName=""
   back: bool, // back={boolean}
@@ -73,4 +97,4 @@ HeaderTest.propTypes = {
   actions: array, // actions={['i_example']}
 };
 
-export default HeaderTest;
+export default Header;

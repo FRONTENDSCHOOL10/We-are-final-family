@@ -21,6 +21,9 @@
     flex-flow: row nowrap;
     gap: 0.25rem;
   }
+  li {
+    position: relative;
+  }
 }
 
 .location_btn {
