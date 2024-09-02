@@ -1,0 +1,7 @@
+.component {
+  min-width: 3.25rem;
+  min-height: 3.25rem;
+  border-radius: 50%;
+  background-position: center;
+  background: lightgray 50% / cover no-repeat;
+}

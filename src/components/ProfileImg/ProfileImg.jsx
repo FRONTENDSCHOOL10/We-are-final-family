@@ -1,5 +1,5 @@
 import { string } from 'prop-types';
-import S from './Profile.module.css';
+import S from './ProfileImg.module.css';
 
 ProfileImg.propTypes = {
   image: string,
@@ -9,8 +9,8 @@ ProfileImg.propTypes = {
 
 export function ProfileImg({
   image = '/src/assets/testImg/bonobobono.jpeg',
-  width = '3.25rem',
-  height = '3.25rem',
+  width = '',
+  height = '',
 }) {
   const styled = {
     backgroundImage: `url(${image})`,
