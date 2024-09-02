@@ -1,0 +1,10 @@
+.group {
+  display: flex;
+}
+
+.i {
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  padding: 10px;
+}
