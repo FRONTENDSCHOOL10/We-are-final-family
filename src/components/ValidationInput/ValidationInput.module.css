@@ -1,0 +1,19 @@
+.container {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.error {
+  color: var(--negative);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.inputError {
+  border-color: var(--negative);
+}
