@@ -1,14 +1,14 @@
-import S from './ChatProfileCard.module.css';
+import S from './JoinPartyCard.module.css';
 import { node, string } from 'prop-types';
 import { ProfileTitle } from '../ProfileTitle/ProfileTitle';
 import { ProfileImg } from '../ProfileImg/ProfileImg';
 
-ChatProfileCard.propTypes = {
+JoinPartCard.propTypes = {
   children: node,
   description: string,
 };
 
-export function ChatProfileCard({ children, description = '최신 채팅 내역' }) {
+export function JoinPartCard({ children, description = '최신 채팅 내역' }) {
   return (
     <div className={S.wrapper}>
       <ProfileImg></ProfileImg>
