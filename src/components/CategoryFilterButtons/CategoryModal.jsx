@@ -35,7 +35,15 @@ function CategoryModal({ isOpen, onClose }) {
   return (
     <div className={S.modalOverlay}>
       <div className={S.modalContent}>
-        <h2 className={S.modalTitle}>카테고리 선택</h2>
+        <div className={S.modalList}>
+          <div className={S.modalTitleContent}>
+            <h2 className={S.modalTitle}>주제 목록</h2>
+            <span>주제에 참여하고 관심있는 게시글을 둘러보세요.</span>
+          </div>
+          <button className={S.closeButton} onClick={onClose}>
+            <span className={`${S.closeIcon} i_close`} />
+          </button>
+        </div>
         <ToggleAllButton
           validCategories={validCategories}
           selectedCategories={selectedCategories}
@@ -46,9 +54,6 @@ function CategoryModal({ isOpen, onClose }) {
           selectedCategories={selectedCategories}
           toggleCategory={toggleCategory}
         />
-        <button className={S.closeButton} onClick={onClose}>
-          닫기
-        </button>
       </div>
     </div>
   );

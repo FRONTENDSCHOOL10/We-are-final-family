@@ -11,25 +11,38 @@
 
 .modalContent {
   background-color: var(--white);
-  padding: 20px;
+
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   width: 100%;
 }
 
+.modalTitleContent {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
 .modalTitle {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 15px;
 }
 
 .closeButton {
-  margin-top: 15px;
-  padding: 8px 16px;
-  background-color: var(--gray-200);
+  display: flex;
+  background-color: transparent;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+}
+
+.closeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 1rem;
 }
 
 .categoryList {
@@ -55,4 +68,10 @@
 .categoryItem span {
   font-size: 14px;
   color: var(--primary);
+}
+
+.modalList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
