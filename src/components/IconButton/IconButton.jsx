@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import S from './IconButton.module.css';
-import PropTypes from 'prop-types';
+import { string, func } from 'prop-types';
 
-function IconButton({ className }) {
+function IconButton({ className, onClick }) {
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
     setActive(!active);
+
+    if (className === 'i_option' && onClick) {
+      onClick();
+    }
   };
 
   const updateClassName = className.endsWith('_line')
@@ -21,7 +25,8 @@ function IconButton({ className }) {
 }
 
 IconButton.propTypes = {
-  className: PropTypes.string.isRequired, // className="" (문자열로 사용)
+  className: string.isRequired, // className="" (문자열로 사용)
+  onClick: func,
 };
 
 export default IconButton;
