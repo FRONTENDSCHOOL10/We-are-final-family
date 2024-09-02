@@ -25,7 +25,7 @@ export function Button({ onClick, disabled, children, color, ...props }) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={buttonClassName}
+      className={`${buttonClassName} hdg-md`}
       {...props}
     >
       {children}
