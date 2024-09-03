@@ -53,6 +53,9 @@ importers:
       react-router-dom:
         specifier: 6.26.1
         version: 6.26.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      stipop-react-sdk:
+        specifier: 1.2.6-beta.1
+        version: 1.2.6-beta.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       use-immer:
         specifier: 0.10.0
         version: 0.10.0(immer@10.1.1)(react@18.3.1)
@@ -2218,6 +2221,12 @@ packages:
   statuses@1.5.0:
     resolution: {integrity: sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==}
     engines: {node: '>= 0.6'}
+
+  stipop-react-sdk@1.2.6-beta.1:
+    resolution: {integrity: sha512-Ut/jI7Z+V9RxojWL2SOUhNddTItiD0FPXhIm0vUSgF8dF+6GDyfaSXu0T6ahxaJbHvL0S10dDxCtu+D2IPE6YQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   stream-to-array@2.3.0:
     resolution: {integrity: sha512-UsZtOYEn4tWU2RGLOXr/o/xjRBftZRlG3dEWoaHr8j4GuypJ3isitGbVyjQKAuMu+xbiop8q224TjiZWc4XTZA==}
@@ -4819,6 +4828,11 @@ snapshots:
   stat-mode@0.3.0: {}
 
   statuses@1.5.0: {}
+
+  stipop-react-sdk@1.2.6-beta.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   stream-to-array@2.3.0:
     dependencies:
