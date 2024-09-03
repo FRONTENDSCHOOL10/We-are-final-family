@@ -1,0 +1,45 @@
+.list_item {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.25rem;
+  list-style-type: none;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.category {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+}
+
+.info {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+  color: var(--gray-500);
+}
+
+.info_sub {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--gray-500);
+
+  .people_count {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    span[class^='i_'],
+    span[class*=' i_'] {
+      color: var(--gray-500);
+      font-size: 1rem;
+    }
+
+    .current {
+      color: var(--primary);
+    }
+  }
+}
