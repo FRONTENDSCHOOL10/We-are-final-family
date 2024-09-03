@@ -2,6 +2,10 @@ import { bool } from 'prop-types';
 import S from './Button.module.css';
 import { node, string, func } from 'prop-types';
 
+const combineClasses = (...classes) => {
+  return classes.filter(Boolean).join(' ');
+};
+
 Button.propTypes = {
   onClick: func,
   disabled: bool,
@@ -15,10 +19,6 @@ Button.propTypes = {
 export function Button({ onClick, disabled, children, color, ...props }) {
   const variantClass = S[color];
 
-  const combineClasses = (...classes) => {
-    return classes.filter(Boolean).join(' ');
-  };
-
   const buttonClassName = combineClasses(S.button, variantClass);
 
   return (
@@ -26,6 +26,7 @@ export function Button({ onClick, disabled, children, color, ...props }) {
       onClick={onClick}
       disabled={disabled}
       className={`${buttonClassName} hdg-md`}
+      tabIndex={0}
       {...props}
     >
       {children}
