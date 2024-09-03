@@ -1,0 +1,14 @@
+.component {
+  display: inline-flex;
+  flex-direction: row;
+  padding: 0.4375rem 1rem; /* align-items: center; */
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.component > div {
+  border-radius: 2.25rem;
+  background: var(--secondary);
+  color: var(--white);
+  padding: 0.4375rem 1rem;
+}
