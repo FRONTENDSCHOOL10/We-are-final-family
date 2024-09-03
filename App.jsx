@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Intro from '@/pages/Intro/Intro';
-import Test from '@/test';
+import Test from '@/Test';
 import '@/styles/iconfonts.css';
 
 function App() {
