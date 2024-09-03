@@ -1,8 +1,15 @@
 import { Button } from '@/components/Button/Button';
 import Logo from '@/components/Logo/Logo';
 import S from './Intro.module.css';
+import { useNavigate } from 'react-router-dom';
 
 function Intro() {
+  const navigate = useNavigate();
+
+  function handleStart() {
+    navigate('/test');
+  }
+
   return (
     <div className={S.container}>
       <div className={S.content}>
@@ -17,7 +24,7 @@ function Intro() {
       </div>
 
       <div className={S.start}>
-        <Button color={'primary'} disabled={false}>
+        <Button color={'primary'} disabled={false} onClick={handleStart}>
           시작하기
         </Button>
         <div className={S.welcome}>
