@@ -8,27 +8,24 @@
   color: var(--white);
   cursor: pointer;
 }
+.button:focus {
+  outline-offset: 1px;
+  outline: 2px solid var(--secondary);
+}
+
+.button:disabled {
+  color: var(--gray-300);
+  cursor: auto;
+}
 
 .black {
   background: var(--gray-900);
-  &:disabled {
-    color: var(--gray-300);
-    cursor: auto;
-  }
 }
 .primary {
   background: var(--primary);
-  &:disabled {
-    color: var(--gray-300);
-    cursor: auto;
-  }
 }
 .white {
   background: var(--white);
   color: var(--gray-900);
   border: 1px solid var(--gray-900);
-  &:disabled {
-    color: var(--gray-300);
-    cursor: auto;
-  }
 }

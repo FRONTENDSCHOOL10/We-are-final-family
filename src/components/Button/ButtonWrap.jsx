@@ -6,7 +6,7 @@ export function ButtonWrap() {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', gap: '10px' }}>
       <h1>버튼입니다</h1>
       <Button color={'black'} onClick={handleClick}>
         회원가입
