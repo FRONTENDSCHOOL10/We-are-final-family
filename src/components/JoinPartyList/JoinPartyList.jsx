@@ -1,6 +1,6 @@
 import { number } from 'prop-types';
 import S from './JoinPartyList.module.css';
-import { JoinPartCard } from '../JoinPartyCard/JoinPartyCard';
+import { UserCard } from '../UserCard/UserCard';
 
 JoinPartyList.propTypes = {
   join: number,
@@ -15,12 +15,7 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
         <span style={{ color: 'var(--primary)' }}> {join}/</span>
         {maxparty}
       </h3>
-      <JoinPartCard description="연남동">
-        <div className={S.wrapper}>
-          <span className="i_certificate" />
-          파티장
-        </div>
-      </JoinPartCard>
+      <UserCard states={'join'} />
     </div>
   );
 }
