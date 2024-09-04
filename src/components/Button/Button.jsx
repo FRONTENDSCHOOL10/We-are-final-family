@@ -1,6 +1,5 @@
-import { bool } from 'prop-types';
 import S from './Button.module.css';
-import { node, string, func } from 'prop-types';
+import { node, string, func, bool } from 'prop-types';
 
 const combineClasses = (...classes) => {
   return classes.filter(Boolean).join(' ');
