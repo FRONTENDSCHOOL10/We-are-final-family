@@ -9,13 +9,17 @@ export function InterestCardButton({ active }) {
   if (active) {
     return (
       <div className={S.checked}>
-        <div className={S.checkedIcon}></div>
+        <div className={`${S.checkedIcon} `}>
+          <span className="i_check"></span>
+        </div>
       </div>
     );
   } else {
     return (
       <div className={S.unChecked}>
-        <div className={S.unCheckedIcon}></div>
+        <div className={S.unCheckedIcon}>
+          <span className="i_plus"></span>
+        </div>
       </div>
     );
   }

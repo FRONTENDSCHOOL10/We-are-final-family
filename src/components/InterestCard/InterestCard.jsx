@@ -16,15 +16,12 @@ InterestCard.propTypes = {
 // 기본값 false 로 되어있음 활성화 안된상태로 랜더링됨
 
 export function InterestCard({ active = false, children, category }) {
-  const [state, setState] = useState();
-
-  useState(active);
+  const [state, setState] = useState(active);
 
   const handleClick = () => {
     setState((state) => !state);
   };
 
-  active = true;
   const componentClass = state
     ? `${S.component} ${S.componentActive}`
     : `${S.component} ${S.componentInactive}`;
