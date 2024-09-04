@@ -53,3 +53,21 @@
 .categoryInactive {
   color: var(--gray-600);
 }
+.checkedIcon {
+  display: flex;
+  span {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: bolder;
+  }
+}
+.checked {
+  display: flex;
+  width: 1.125rem;
+  height: 1.125rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 1.5rem;
+  background: var(--white);
+}

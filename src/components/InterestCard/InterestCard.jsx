@@ -1,5 +1,4 @@
 import { bool, node, string } from 'prop-types';
-import { InterestCardButton } from '../InterestCardButton/InterestCardButton';
 import S from './InterestCard.module.css';
 import { useState } from 'react';
 
@@ -15,8 +14,8 @@ InterestCard.propTypes = {
 // active 상태되면 색상변경 오른쪽 아이콘 색상도 변경됨
 // 기본값 false 로 되어있음 활성화 안된상태로 랜더링됨
 
-export function InterestCard({ active = false, children, category }) {
-  const [state, setState] = useState(active);
+export function InterestCard({ children, category }) {
+  const [state, setState] = useState(false);
 
   const handleClick = () => {
     setState((state) => !state);
@@ -38,7 +37,19 @@ export function InterestCard({ active = false, children, category }) {
         <p className={interestClass}>{category}</p>
         <p className={categoryClass}>{children}</p>
       </div>
-      <InterestCardButton active={state} />
+
+      <div className={S.checked}>
+        <div className={`${S.checkedIcon} `}>
+          {state ? (
+            <span className="i_check"></span>
+          ) : (
+            <span
+              className="i_plus"
+              style={{ color: 'var(--gray-200)' }}
+            ></span>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
