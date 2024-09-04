@@ -1,11 +1,10 @@
 .checkedIcon {
-  color: white;
-  background-image: url('@/assets/button/icon/check.svg');
-  width: 0.75rem;
-  height: 0.75rem;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  span {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: bolder;
+  }
 }
 .checked {
   display: flex;
@@ -15,7 +14,7 @@
   align-items: center;
   gap: 0.625rem;
   border-radius: 1.5rem;
-  background: var(--white, #fff);
+  background: var(--white);
 }
 .unChecked {
   display: flex;
@@ -28,11 +27,10 @@
   background: var(--gray-200);
 }
 .unCheckedIcon {
-  color: white;
-  background-image: url('@/assets/button/icon/plus.svg');
-  width: 0.75rem;
-  height: 0.75rem;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  span {
+    color: var(--white);
+    font-size: 15px;
+    font-weight: bolder;
+  }
 }
