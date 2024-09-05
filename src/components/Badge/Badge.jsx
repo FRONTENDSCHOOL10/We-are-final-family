@@ -1,23 +1,31 @@
 import S from './Badge.module.css';
 import { string } from 'prop-types';
 
-// function Badge({ text, variant }) {
-//   const badgeClass = `${S.Badge} ${S[variant]}`;
-//   return <span className={badgeClass}>{text}</span>;
-// }
+// 사용 방법
+// <Badge text="테스트" variant="recruit" />
+// <Badge text="테스트" variant="end_recruit" />
+// <Badge text="테스트" variant="category" />
+// <Badge text="테스트" variant="end_category" />
+
+Badge.propTypes = {
+  text: string,
+  variant: string,
+};
 
 function Badge({ text, variant }) {
+  const badgeBackgroundColor =
+    variant === 'recruit'
+      ? '--primary'
+      : variant === 'end_recruit'
+      ? '--gray-500'
+      : variant === 'category'
+      ? '--secondary'
+      : variant === 'end_category'
+      ? '--gray-300'
+      : '--secondary';
+
   const badgeStyle = {
-    '--badge-background-color':
-      variant === 'recruit'
-        ? '#148ce1'
-        : variant === 'end_recruit'
-        ? '#7f7f7f'
-        : variant === 'category'
-        ? '#5aaef1'
-        : variant === 'end_category'
-        ? '#b2b2b2'
-        : 'blue',
+    '--badge-background-color': `var(${badgeBackgroundColor})`,
   };
 
   return (
@@ -26,9 +34,5 @@ function Badge({ text, variant }) {
     </span>
   );
 }
-
-Badge.propTypes = {
-  text: string,
-};
 
 export default Badge;

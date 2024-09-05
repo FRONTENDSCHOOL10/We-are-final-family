@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button/Button';
+import Button from '@/components/Button/Button';
 import Logo from '@/components/Logo/Logo';
 import S from './Intro.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -11,26 +11,33 @@ function Intro() {
   }
 
   return (
-    <div className={S.container}>
-      <div className={S.content}>
-        <div className={S.hello}>
+    <div className={S.intro}>
+      {/* 로고 + 타이틀 */}
+      <div className={S.logoContainer}>
+        <h1 className="hdg-xxl">
           <Logo W="7rem" H="7rem" />
-          <h1>파티구함</h1>
-          <div className={S.helloText}>
-            <span>함께 배우고 적용하며</span>
-            <span>성장해보세요!</span>
-          </div>
-        </div>
+          파티구함
+        </h1>
+
+        {/* 텍스트 */}
+        <p className="para-md">
+          함께 배우고 적용하며
+          <br />
+          성장해보세요!
+        </p>
       </div>
 
-      <div className={S.start}>
-        <Button color={'primary'} disabled={false} onClick={handleStart}>
+      {/* 버튼 */}
+      <div className={S.buttonContainer}>
+        <Button type="button" color="primary" onClick={handleStart}>
           시작하기
         </Button>
-        <div className={S.welcome}>
-          <span>이미계정이 있나요?</span>
-          <button className={S.loginBtn}>로그인</button>
-        </div>
+        <p className="para-sm">
+          이미 계정이 있나요?{' '}
+          <button type="button" className={`${S.loginBtn} lbl-sm`}>
+            로그인
+          </button>
+        </p>
       </div>
     </div>
   );
