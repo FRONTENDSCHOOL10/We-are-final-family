@@ -1,5 +1,5 @@
 .Badge {
-  padding: 0.125rem 0.375rem;
+  padding: 0.25rem 0.375rem;
   letter-spacing: var(--ls);
   line-height: var(--lh-para);
   font-size: var(--fs-sm);
