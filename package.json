@@ -31,7 +31,6 @@
 		"axios": "1.7.4",
 		"clsx": "2.1.1",
 		"immer": "10.1.1",
-		"motion": "10.18.0",
 		"postcss": "8.4.41",
 		"postcss-import": "16.1.0",
 		"react": "18.3.1",
