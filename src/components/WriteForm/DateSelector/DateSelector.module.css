@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.dateSelector {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.iconFilled {
+  color: var(--primary);
+}
+
+.calendarWrapper {
+  position: absolute;
+  top: 100%;
+  transform: translateX(-100%);
+  z-index: 1;
+}

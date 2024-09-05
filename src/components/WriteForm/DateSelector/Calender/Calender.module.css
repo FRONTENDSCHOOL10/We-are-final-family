@@ -1,0 +1,131 @@
+.calendarWrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.calendarWrapperOpen {
+  height: 100%;
+}
+.calendar {
+  background: var(--white);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  padding: 1rem;
+  width: 100%;
+
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.calendarOpen {
+  transform: translateY(0);
+}
+
+.closeButtonWrapper {
+  display: flex;
+  justify-content: end;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 0 1rem 0;
+  padding: 0 4rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.header button {
+  display: flex;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.weekday {
+  text-align: center;
+  font-weight: bold;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.day,
+.emptyDay {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.day:hover {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.selected {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.day:hover:not(.pastDate) {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+
+.selected {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.emptyDay {
+  background: none;
+}
+
+.pastDate {
+  color: var(--gray-300);
+  cursor: not-allowed;
+}
+
+.pastDate:hover {
+  background-color: transparent;
+  color: var(--gray-300);
+}
+
+.arrow:hover,
+.closeButton {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 10rem;
+}
+
+.arrow:hover,
+.closeButton:hover {
+  background-color: var(--secondary);
+}

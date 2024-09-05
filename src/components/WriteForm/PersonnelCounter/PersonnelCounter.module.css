@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.counter {
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 0.13rem;
+  color: var(--gray-600);
+  border: 0.06rem solid var(--gray-100);
+  border-radius: 1rem;
+}
