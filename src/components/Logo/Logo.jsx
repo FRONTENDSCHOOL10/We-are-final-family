@@ -7,7 +7,7 @@ function Logo({ W = '', H = '' }) {
   return (
     <img
       src="/logo.svg"
-      alt="logo"
+      alt="파티구함 로고"
       style={{ width: widthUnit, height: heightUnit }}
     />
   );
