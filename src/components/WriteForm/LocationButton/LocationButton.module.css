@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.label {
+  color: var(--gray-900);
+}
+
+.locationText {
+  color: var(--gray-400);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  border-radius: 100rem;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background-color: var(--secondary);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* 변경: 하단 정렬 */
+  z-index: 10;
+}
+
+.modalContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 1rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out; /* 추가: 애니메이션 */
+}
+
+/* 추가: 슬라이드 업 애니메이션 */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

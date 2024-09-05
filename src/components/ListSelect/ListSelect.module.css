@@ -1,0 +1,152 @@
+.con {
+  position: relative;
+}
+
+.selectWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 0.0625rem solid var(--gray-100);
+  background-color: var(--white);
+  cursor: pointer;
+}
+.selectWrapper:hover {
+  background-color: var(--gray-100);
+}
+.selectedOption {
+  flex-grow: 1;
+}
+
+.icon {
+  color: var(--gray-600);
+  transition: color 0.3s ease;
+}
+
+.optionListWrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  /* z-index: 1000; */
+}
+
+.optionListWrapper::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  pointer-events: none;
+}
+
+.optionListWrapper.open {
+  max-height: 80vh;
+}
+
+.optionListWrapper.open::before {
+  opacity: 1;
+  pointer-events: auto;
+}
+.title {
+  display: flex;
+  width: 100%;
+}
+
+.closeButtonWrapper {
+  display: flex;
+  align-items: c;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 1rem;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  display: flex;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+  /* z-index: 1; */
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 100rem;
+}
+
+.closeButton:hover {
+  background-color: var(--gray-100);
+}
+
+.optionList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  overflow-y: auto;
+  max-height: calc(80vh - 44px); /* 닫기 버튼 높이를 뺀 값 */
+  position: relative;
+  /* z-index: 1; */
+}
+.optionList::before {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.optionItem {
+  padding: 0.5rem 1rem;
+  border-bottom: 0.0625rem solid var(--gray-100);
+  cursor: pointer;
+}
+
+.optionItem:hover {
+  background-color: var(--gray-100);
+}
+.optionItem:last-child {
+  border-bottom: none;
+}
+.optionsOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* z-index: 1000; */
+}
+
+.optionListWrapper {
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  /* z-index: 1000; */
+}
+.contanierBtn {
+  z-index: 1;
+}
