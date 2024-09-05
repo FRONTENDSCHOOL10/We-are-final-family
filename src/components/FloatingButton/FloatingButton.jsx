@@ -1,6 +1,10 @@
 import S from './FloatingButton.module.css';
 import { func } from 'prop-types';
 
+FloatingButton.propTypes = {
+  handleFloatBtnClick: func,
+};
+
 function FloatingButton({ handleFloatBtnClick }) {
   return (
     <button
@@ -12,9 +16,5 @@ function FloatingButton({ handleFloatBtnClick }) {
     </button>
   );
 }
-
-FloatingButton.propTypes = {
-  handleFloatBtnClick: func,
-};
 
 export default FloatingButton;

@@ -1,10 +1,15 @@
 import ListItem from '@/components/ListItem/ListItem';
 import { supabase } from '@/services/supabase';
 import { useState, useEffect } from 'react';
+import { string } from 'prop-types';
 
 // 사용 방법
 // <List type="party" />
 // <List type="board" />
+
+List.propTypes = {
+  type: string, // type=""
+};
 
 function List({ type }) {
   const [data, setData] = useState([]); // 상태
