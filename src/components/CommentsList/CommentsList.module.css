@@ -1,0 +1,39 @@
+.component {
+  padding: 0.5rem 1.5rem;
+}
+.component > h2 {
+  padding-bottom: 0.5rem;
+  color: var(--gray-900);
+  display: flex;
+  width: 20rem;
+  align-items: center;
+  gap: 0.25rem;
+}
+.listBox {
+  display: flex;
+  padding: 0.5rem 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  align-self: stretch;
+  border-bottom: 1px solid var(--gray-100);
+
+  p {
+    align-self: stretch;
+    color: var(--gray-900);
+  }
+}
+.authorName {
+  color: var(--gray-900);
+}
+
+.time {
+  color: var(--gray-600);
+
+  /* Paragraph/underline */
+  font-family: Pretendard;
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 1rem */
+}

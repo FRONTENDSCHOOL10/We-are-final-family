@@ -5,30 +5,6 @@ import pluginReactHooks from 'eslint-plugin-react-hooks';
 import pluginReactRefresh from 'eslint-plugin-react-refresh';
 
 export default [
-  js.configs.recommended,
-  {
-    plugins: {
-      import: importPlugin,
-    },
-    rules: {
-      'import/newline-after-import': 'off',
-      'import/max-dependencies': ['error', { max: 15 }],
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-          ],
-          'newlines-between': 'never',
-        },
-      ],
-    },
-  },
   {
     files: ['**/*.{js,mjs,cjs,jsx}'],
     ignores: ['dist'],
