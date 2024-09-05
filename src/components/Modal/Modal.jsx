@@ -1,5 +1,5 @@
 import S from './Modal.module.css';
-import { Button } from '@/components/Button/Button';
+import Button from '@/components/Button/Button';
 import { string, array, func } from 'prop-types';
 
 /* 사용 방법 */
@@ -11,21 +11,36 @@ import { string, array, func } from 'prop-types';
 // } from '@/components/Modal/data';
 
 // return 문
-{
-  /* <Modal
-  title="모달 제목 입력"
-  desc="설명 텍스트 입력"
-  subDesc="부가 설명 텍스트 입력"
-  buttons={[
-    { color: 'white', label: '취소', action: 'cancel' },
-    { color: 'black', label: '확인', action: 'confirm' },
-  ]}
-  onConfirm={handleModalConfirm}
-  onCancel={handleModalCancel}
-  onClose={handleModalClose}
-></Modal>; */
-}
+// <Modal
+// title="모달 제목 입력"
+// desc="설명 텍스트 입력"
+// subDesc="부가 설명 텍스트 입력"
+// buttons={[
+//   {
+//     type: 'button',
+//     to: '/', (Link일 경우 to 프롭스 전달)
+//     color: 'white',
+//     label: '취소',
+//     action: 'cancel',
+//   },
+//   { type: 'submit', color: 'black', label: '확인', action: 'confirm' },
+// ]}
+// onConfirm={handleModalConfirm}
+// onCancel={handleModalCancel}
+// onClose={handleModalClose}
+// ></Modal>
+
 // 핸들러 -> data.js
+
+Modal.propTypes = {
+  title: string,
+  desc: string,
+  subDesc: string,
+  buttons: array,
+  onConfirm: func,
+  onCancel: func,
+  onClose: func,
+};
 
 function Modal({
   title,
@@ -86,6 +101,8 @@ function Modal({
             {buttons.map((button, index) => (
               <Button
                 key={index}
+                type={button.type}
+                to={button.to}
                 color={button.color}
                 onClick={() => handleButtonClick(button.action)}
               >
@@ -99,15 +116,5 @@ function Modal({
     </div>
   );
 }
-
-Modal.propTypes = {
-  title: string,
-  desc: string,
-  subDesc: string,
-  buttons: array,
-  onConfirm: func,
-  onCancel: func,
-  onClose: func,
-};
 
 export default Modal;

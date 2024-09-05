@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import S from './PartyCategory.module.css';
 
+// 사용 방법
+// <PartyCategory />
+
 function PartyCategory() {
   const [activeCategory, setActiveCategory] = useState('전체');
 

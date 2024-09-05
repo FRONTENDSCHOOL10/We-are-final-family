@@ -2,10 +2,10 @@ import S from './Badge.module.css';
 import { string } from 'prop-types';
 
 // 사용 방법
-// <Badge text="테스트" variant="recruit" />
-// <Badge text="테스트" variant="end_recruit" />
-// <Badge text="테스트" variant="category" />
-// <Badge text="테스트" variant="end_category" />
+// <Badge text="모집중" variant="recruit" />
+// <Badge text="모집종료" variant="end_recruit" />
+// <Badge text="프로젝트" variant="category" />
+// <Badge text="프로젝트" variant="end_category" />
 
 Badge.propTypes = {
   text: string,
