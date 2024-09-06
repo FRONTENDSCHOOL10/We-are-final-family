@@ -31,7 +31,7 @@
 .disagree {
   border: none;
   outline: none;
-  color: var(--negative, #ff4500);
+  color: var(--negative);
   background-color: inherit;
   cursor: pointer;
 }
@@ -44,4 +44,11 @@
 }
 .iconwrapper > span {
   color: var(--primary);
+}
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
