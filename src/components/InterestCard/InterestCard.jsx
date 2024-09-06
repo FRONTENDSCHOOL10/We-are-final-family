@@ -14,7 +14,7 @@ InterestCard.propTypes = {
 // active 상태되면 색상변경 오른쪽 아이콘 색상도 변경됨
 // 기본값 false 로 되어있음 활성화 안된상태로 랜더링됨
 
-export function InterestCard({ children, category }) {
+function InterestCard({ children, category }) {
   const [state, setState] = useState(false);
 
   const handleClick = () => {
@@ -53,3 +53,5 @@ export function InterestCard({ children, category }) {
     </div>
   );
 }
+
+export default InterestCard;

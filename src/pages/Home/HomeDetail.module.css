@@ -1,0 +1,12 @@
+.home_detail {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.post {
+  flex: 1;
+}
