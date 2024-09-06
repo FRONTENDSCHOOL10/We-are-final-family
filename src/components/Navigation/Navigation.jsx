@@ -1,16 +1,17 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import S from './Navigation.module.css';
 import '@/styles/iconfonts.css';
 import { NavigationData } from './data/NavigationData';
 
-export default function Navigation() {
+function Navigation() {
   const [activeButton, setActiveButton] = useState(null);
 
   const handleClick = (value) => {
     setActiveButton(value);
   };
 
-  const getButtonClass = (value) => {
+  const getLinkClass = (value) => {
     return `${S.btnCon} ${activeButton === value ? S.activeBtn : ''}`;
   };
 
@@ -21,10 +22,10 @@ export default function Navigation() {
   return (
     <nav className={S.nav}>
       {NavigationData.map((option) => (
-        <button
-          type="button"
+        <Link
           key={option.value}
-          className={getButtonClass(option.value)}
+          to={option.path}
+          className={getLinkClass(option.value)}
           onClick={() => handleClick(option.value)}
         >
           <span
@@ -34,9 +35,11 @@ export default function Navigation() {
               option.activeIcon
             )}
           />
-          <span className="para-sm">{option.label}</span>
-        </button>
+          <label>{option.label}</label>
+        </Link>
       ))}
     </nav>
   );
 }
+
+export default Navigation;

@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0rem;
+}
+
+.toggleContainer {
+  display: inline-block;
+}
+.toggleCheckbox {
+  display: none;
+}
+
+.toggleLabel {
+  display: block;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 30px;
+  background-color: var(--gray-300);
+
+  cursor: pointer;
+
+  position: relative;
+}
+
+.toggleButton {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--white);
+  transition: all 0.2s ease-in;
+}
+
+.toggleCheckbox:checked + .toggleLabel {
+  background: var(--primary);
+  transition: all 0.2s ease-in;
+}
+
+.toggleCheckbox:checked + .toggleLabel .toggleButton {
+  left: calc(100% - 50%);
+  background: var(--white);
+  transition: all 0.2s ease-in;
+}
