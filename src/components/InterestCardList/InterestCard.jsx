@@ -5,7 +5,7 @@ import { useState } from 'react';
 InterestCard.propTypes = {
   active: bool,
   children: node,
-  category: string,
+  Interest: string,
 };
 
 // 전달되는 props
@@ -14,7 +14,7 @@ InterestCard.propTypes = {
 // active 상태되면 색상변경 오른쪽 아이콘 색상도 변경됨
 // 기본값 false 로 되어있음 활성화 안된상태로 랜더링됨
 
-function InterestCard({ children, category }) {
+function InterestCard({ children, Interest }) {
   const [state, setState] = useState(false);
 
   const handleClick = () => {
@@ -26,9 +26,9 @@ function InterestCard({ children, category }) {
     : `${S.component}`;
 
   return (
-    <div className={componentClass} onClick={handleClick}>
+    <div className={`${S.btn} ${componentClass}`} onClick={handleClick}>
       <div className={S.textContainer}>
-        <span className="para-sm">{category}</span>
+        <span className="para-sm">{Interest}</span>
         <p className="para-md">{children}</p>
       </div>
 
