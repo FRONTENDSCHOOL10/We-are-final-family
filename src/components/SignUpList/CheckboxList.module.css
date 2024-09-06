@@ -1,0 +1,82 @@
+.checkboxList {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkboxContainer {
+  border-bottom: 0.0625rem solid var(--gray-100);
+  padding: 0.56rem 0;
+}
+
+.checkboxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkboxTitleArea {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxInput {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.checkboxIcon {
+  padding: 0.13rem;
+  margin-bottom: auto;
+  border: 0.0625rem solid var(--gray-100);
+  border-radius: 0.25rem;
+  color: var(--gray-400);
+  transition: color 0.3s ease, background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.checkboxInput:checked + .checkboxLabel .checkboxIcon {
+  color: var(--white);
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.checkboxTitle {
+}
+
+.requiredText {
+  color: var(--primary);
+}
+
+.expandButton {
+  color: var(--primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.agreementInfo {
+  margin-top: 1rem;
+  padding-left: 3rem;
+
+  border-radius: 0.5rem;
+}
+
+.agreementContent {
+  color: var(--gray-400);
+  margin-bottom: 0.5rem;
+}
+
+.agreementInfoText {
+  color: var(--primary);
+}
