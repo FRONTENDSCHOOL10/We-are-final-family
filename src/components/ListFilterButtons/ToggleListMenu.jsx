@@ -7,24 +7,22 @@ function ToggleListMenu({
   toggleCategory,
 }) {
   return (
-    <div className={S.contanier}>
+    <ul className={S.contanier}>
       {validCategories.map((option) => (
-        <div key={option.value} className={S.conItem}>
+        <li key={option.value} className={S.conItem}>
           <button
             className={`${S.contanierBtn} para-md`}
             onClick={() => toggleCategory(option.value)}
           >
-            <div className={S.btnImgName}>
-              <span className={`${S.btnimg} ${option.icon} `} />
-              <div className={S.btnName}>{option.label}</div>
-            </div>
+            <span className={`${option.icon} `} />
+            <span className={S.lable}>{option.label}</span>
             {selectedCategories[option.value] && (
               <span className={`${S.join} lbl-sm`}>참여중</span>
             )}
           </button>
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 

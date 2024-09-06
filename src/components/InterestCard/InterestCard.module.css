@@ -1,73 +1,39 @@
 /* InterestCard.module.css */
 .component {
   display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
-  width: 6.75rem;
   height: 2.58rem;
+  padding: 0.5rem 1rem;
+  color: var(--gray-600);
   border-radius: 0.5rem;
+  background-color: var(--gray-100);
+  cursor: pointer;
+  .icon {
+    padding: 0.125rem;
+    font-size: 1rem;
+    color: var(--white);
+    border-radius: 1.125rem;
+    background-color: var(--gray-200);
+  }
 }
 
 .textContainer {
   display: flex;
-  flex-flow: column;
+  flex-flow: column nowrap;
+  align-items: flex-start;
   justify-content: center;
-  align-items: center;
 }
 
-.interest,
-.category {
-  font-style: normal;
-  font-weight: 400;
-}
-
-.interest {
-  font-size: 0.625rem;
-  line-height: 160%;
-}
-
-.category {
-  font-size: 0.875rem;
-  line-height: 150%;
-}
-
-/* Active state */
 .componentActive {
-  background-color: var(--primary);
-}
-
-.interestActive,
-.categoryActive {
   color: var(--white);
-}
+  background-color: var(--primary);
 
-/* Inactive state */
-.componentInactive {
-  background-color: var(--gray-100);
-}
-
-.interestInactive,
-.categoryInactive {
-  color: var(--gray-600);
-}
-.checkedIcon {
-  display: flex;
-  span {
+  .icon {
     color: var(--primary);
-    font-size: 12px;
-    font-weight: bolder;
+    border-radius: 1.125rem;
+    background-color: var(--white);
   }
-}
-.checked {
-  display: flex;
-  width: 1.125rem;
-  height: 1.125rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.625rem;
-  border-radius: 1.5rem;
-  background: var(--white);
 }

@@ -1,24 +1,26 @@
 .modalOverlay {
   position: fixed;
+  z-index: 1;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  transition: opacity 0.3s ease-in-out;
+  height: 100%;
   opacity: 0;
+  transition: opacity 0.3s ease-in-out;
   pointer-events: none;
-  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .modalContent {
-  background-color: var(--white);
-  border-top-left-radius: 0.625rem;
-  border-top-right-radius: 0.625rem;
+  display: flex;
+  flex-flow: column nowrap;
   width: 100%;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background-color: var(--white);
   transform: translateY(100%);
   transition: transform 0.3s ease-in-out;
 }
@@ -42,20 +44,15 @@
 }
 
 .modalHeader {
-  background-color: var(--white);
-  border-top-left-radius: 0.625rem;
-  border-top-right-radius: 0.625rem;
-  width: 100%;
-}
-
-.modalList {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
   padding: 1rem;
 }
 
 .modalHeaderText {
+  flex: 1;
   display: flex;
   flex-flow: column;
   gap: 0.5rem;
@@ -72,22 +69,20 @@
 
 .closeButton {
   display: flex;
-  background-color: transparent;
+  color: var(--gray-600);
   border: none;
+  border-radius: 0.25rem;
+  background-color: transparent;
   cursor: pointer;
-}
-
-.closeButton:hover {
-  background-color: var(--secondary);
-  border-radius: 100rem;
+  &:hover {
+    color: var(--primary);
+  }
+  &:focus {
+    outline-offset: 2px;
+    outline: 2px solid var(--secondary);
+  }
 }
 
 .closeIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 0.75rem;
-  height: 0.75rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  font-size: 1.5rem;
 }

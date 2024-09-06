@@ -9,12 +9,10 @@ function ToggleAllButton({ validCategories, selectedCategories, onClick }) {
   return (
     <>
       <button className={S.btn} onClick={onClick}>
-        <div className={S.btnImgName}>
-          <span className={`${S.btnimg} i_emoji `} />
-          <span className={`${S.btnName} para-md`}>
-            {allSelected ? '전체 해제' : '전체 선택'}
-          </span>
-        </div>
+        <span className="i_emoji" />
+        <span className="para-md">
+          {allSelected ? '전체 해제' : '전체 선택'}
+        </span>
       </button>
     </>
   );

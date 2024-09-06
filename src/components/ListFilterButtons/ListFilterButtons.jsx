@@ -46,7 +46,7 @@ function ListFilterButtons({ filter }) {
           onClick={toggleModal}
         >
           <span className="i_menu" />
-          <span className={`${S.categoryTitle} para-md`}>주제</span>
+          <span className={`${S.categoryTitle} para-md`}>관심분야</span>
         </button>
       )}
       {filterOptions.map(({ key, label }) => (

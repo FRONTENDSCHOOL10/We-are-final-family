@@ -1,17 +1,15 @@
 .component {
-  color: var(--gray-900);
-  width: 20rem;
-  padding: 1rem 1rem 0rem 1rem;
+  display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-}
-.wrapper > span {
-  color: var(--primary);
+  h3 {
+    display: flex;
+    flex-flow: row nowrap;
+    color: var(--gray-900);
+    span {
+      padding-left: 0.5rem;
+      padding-inline-start: 0.5rem;
+      color: var(--primary);
+    }
+  }
 }

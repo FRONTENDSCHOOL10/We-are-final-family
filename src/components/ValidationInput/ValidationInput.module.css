@@ -1,19 +1,21 @@
 .container {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.25rem;
 }
 
 .label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  margin-bottom: 0.25rem;
+  margin-block-end: 0.25rem;
 }
 
 .error {
   color: var(--negative);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
 }
 
 .inputError {
-  border-color: var(--negative);
+  color: var(--negative);
+  &:focus {
+    outline-color: var(--negative);
+  }
 }

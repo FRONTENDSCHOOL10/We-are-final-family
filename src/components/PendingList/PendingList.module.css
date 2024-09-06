@@ -1,7 +1,15 @@
 .component {
-  width: 20rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
+  h3 {
+    display: flex;
+    flex-flow: row nowrap;
+    color: var(--gray-900);
+    span {
+      padding-left: 0.5rem;
+      padding-inline-start: 0.5rem;
+      color: var(--primary);
+    }
+  }
 }

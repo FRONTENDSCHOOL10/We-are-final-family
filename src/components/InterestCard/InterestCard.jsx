@@ -23,33 +23,20 @@ function InterestCard({ children, category }) {
 
   const componentClass = state
     ? `${S.component} ${S.componentActive}`
-    : `${S.component} ${S.componentInactive}`;
-  const interestClass = state
-    ? `${S.interest} ${S.interestActive}`
-    : `${S.interest} ${S.interestInactive}`;
-  const categoryClass = state
-    ? `${S.category} ${S.categoryActive}`
-    : `${S.category} ${S.categoryInactive}`;
+    : `${S.component}`;
 
   return (
     <div className={componentClass} onClick={handleClick}>
       <div className={S.textContainer}>
-        <p className={interestClass}>{category}</p>
-        <p className={categoryClass}>{children}</p>
+        <span className="para-sm">{category}</span>
+        <p className="para-md">{children}</p>
       </div>
 
-      <div className={S.checked}>
-        <div className={`${S.checkedIcon} `}>
-          {state ? (
-            <span className="i_check"></span>
-          ) : (
-            <span
-              className="i_plus"
-              style={{ color: 'var(--gray-200)' }}
-            ></span>
-          )}
-        </div>
-      </div>
+      {state ? (
+        <span className={`${S.icon} i_check`}></span>
+      ) : (
+        <span className={`${S.icon} i_plus`}></span>
+      )}
     </div>
   );
 }

@@ -22,6 +22,7 @@ export default function Navigation() {
     <nav className={S.nav}>
       {NavigationData.map((option) => (
         <button
+          type="button"
           key={option.value}
           className={getButtonClass(option.value)}
           onClick={() => handleClick(option.value)}
@@ -33,7 +34,7 @@ export default function Navigation() {
               option.activeIcon
             )}
           />
-          <label>{option.label}</label>
+          <span className="para-sm">{option.label}</span>
         </button>
       ))}
     </nav>
