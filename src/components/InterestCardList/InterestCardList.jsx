@@ -1,5 +1,5 @@
 import InterestCard from './InterestCard';
-import { useSupabase } from '@/hooks/useSupabase';
+import { useSupabase } from '@/api/DataService';
 import S from './InterestCardList.module.css';
 
 function InterestCardList() {
