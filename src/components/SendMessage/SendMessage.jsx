@@ -5,7 +5,7 @@ import { UnifiedComponent } from 'stipop-react-sdk';
 import { useState } from 'react';
 import S from './SendMessage.module.css';
 
-export function SendMessage() {
+function SendMessage() {
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
@@ -43,3 +43,5 @@ export function SendMessage() {
     </div>
   );
 }
+
+export default SendMessage;
