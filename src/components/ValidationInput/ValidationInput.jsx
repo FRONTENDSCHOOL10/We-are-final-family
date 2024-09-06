@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import TextInput from './TextInput';
 import S from './ValidationInput.module.css';
+import {
+  validateId,
+  validatePassword,
+  validateEmail,
+} from '@/utils/validation';
 
-//  사용방법
-// <ValidationInput type="id" label="아이디" />
-// <ValidationInput type="pw" label="비밀번호" />
+// 사용방법
+// <ValidationInput type="id" label="아이디" info="아뒤입력"/>
+// <ValidationInput type="pw" label="비밀번호" info="비번입력"/>
+// <ValidationInput type="email" label="이메일" info="이메일@gmail.com" />
+// <ValidationInput type="normal" label="적는대로나오겠지?" info="안내 메시지" />
 
-/* eslint-disable react/prop-types */
-function ValidationInput({ type, label }) {
+function ValidationInput({ type, label, info = '' }) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
 
@@ -15,49 +21,31 @@ function ValidationInput({ type, label }) {
     const inputValue = e.target.value;
     setValue(inputValue);
 
+    if (type === 'normal') {
+      setError('');
+      return;
+    }
+
+    let validationError = '';
     if (type === 'id') {
-      validateId(inputValue);
+      validationError = validateId(inputValue);
     } else if (type === 'pw') {
-      validatePassword(inputValue);
+      validationError = validatePassword(inputValue);
+    } else if (type === 'email') {
+      validationError = validateEmail(inputValue);
     }
-  }
-
-  function validateId(id) {
-    if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(id)) {
-      setError('아이디는 영문자와 숫자만 사용 가능합니다.');
-    } else if (id.length < 4) {
-      setError('아이디는 4자 이상이어야 합니다.');
-    } else if (!/^[a-zA-Z0-9]+$/.test(id)) {
-      setError('아이디는 영문자와 숫자만 사용 가능합니다.');
-    } else if (!/[a-zA-Z]/.test(id)) {
-      setError('아이디는 최소 하나의 영문자를 포함해야 합니다.');
-    } else {
-      setError('');
-    }
-  }
-
-  function validatePassword(password) {
-    if (password.length < 8) {
-      setError('비밀번호는 8자 이상이어야 합니다.');
-    } else if (
-      !/[A-Z]/.test(password) ||
-      !/[a-z]/.test(password) ||
-      !/[0-9]/.test(password)
-    ) {
-      setError('비밀번호는 대문자, 소문자, 숫자를 모두 포함해야 합니다.');
-    } else {
-      setError('');
-    }
+    setError(validationError);
   }
 
   return (
     <div className={S.container}>
       <label className={`${S.label} lbl-md`}>{label}</label>
       <TextInput
-        type={type === 'pw' ? 'password' : 'text'}
+        type={type === 'pw' ? 'password' : type === 'email' ? 'email' : 'text'}
         value={value}
         onChange={handleChange}
         className={error ? S.inputError : ''}
+        placeholder={info}
       />
       {error && <p className={`${S.error} para-sm`}>{error}</p>}
     </div>
