@@ -1,15 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@/styles/main.css';
+import '@/styles/iconfonts.css';
 import App from './App';
 
-const domNode = document.getElementById('react-app');
+const container = document.getElementById('react-app');
 
-if (!domNode) {
+if (!container) {
   throw new Error('문서에 "#root" 요소가 존재하지 않습니다.');
 }
 
-createRoot(domNode).render(
+createRoot(container).render(
   <StrictMode>
     <App />
   </StrictMode>
