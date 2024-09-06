@@ -22,23 +22,19 @@ function CommentsList({ userName, time, comment }) {
   comment = data[0].comment;
 
   return (
-    <section className={S.component} aria-label="댓글 섹션">
-      <h2 id="commentsHeading" className="lbl-md">
-        댓글 <span style={{ color: 'var(--primary' }}>{commentCount}</span>
-      </h2>
+    <section className={S.component} aria-label="댓글">
+      <h1 id="commentsHeading" className="lbl-md">
+        댓글 <span>{commentCount}</span>
+      </h1>
       <ul aria-labelledby="commentsHeading">
-        <li className={S.listBox}>
-          <article>
-            <header>
-              <h3 style={{ display: 'flex', gap: '0.5rem' }}>
-                <span className={`${S.authorName} para-sm`}>{userName}</span>
-                <time className={S.time} dateTime={time}>
-                  {time}
-                </time>
-              </h3>
-            </header>
-            <p className="para-md">{comment}</p>
-          </article>
+        <li className={S.listItem}>
+          <div>
+            <span className={`${S.authorName} para-sm`}>{userName}</span>
+            <time className={`${S.time} para-util`} dateTime={time}>
+              {time}
+            </time>
+          </div>
+          <p className="para-md">{comment}</p>
         </li>
       </ul>
     </section>

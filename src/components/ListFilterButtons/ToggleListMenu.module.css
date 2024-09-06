@@ -1,46 +1,32 @@
 .contanier {
   display: flex;
-  flex-flow: column;
+  flex-flow: column nowrap;
   max-height: 60vh;
   overflow-y: auto;
 }
 
 .contanierBtn {
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  padding: 0.75rem 1rem;
+  gap: 0.75rem;
+  padding: 1rem;
   width: 100%;
-  border: 0.06rem solid var(--gray-100);
-  background-color: transparent;
-}
-
-.contanierBtn:hover {
-  background-color: var(--secondary);
-  cursor: pointer;
-}
-
-.btnImgName {
-  display: flex;
-  flex-flow: nowrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.btnimg {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-}
-
-.btnName {
   color: var(--gray-900);
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid var(--gray-100);
+  background-color: transparent;
+  cursor: pointer;
+  &:hover {
+    color: var(--secondary);
+  }
+  span.lable {
+    flex: 1;
+    text-align: left;
+  }
 }
 
 .join {
-  padding: 0 0.5rem;
-  align-items: center;
-  margin-left: auto;
   color: var(--primary);
 }

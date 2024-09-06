@@ -1,5 +1,5 @@
 import ListItem from '@/components/ListItem/ListItem';
-import { supabase } from '@/services/supabase';
+import { supabase } from '@/api/supabase';
 import { useState, useEffect } from 'react';
 import { string } from 'prop-types';
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../services/supabase';
+import { supabase } from '../api/supabase';
 
 export const useSupabase = () => {
   const [users, setUsers] = useState([]);

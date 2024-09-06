@@ -20,8 +20,8 @@ export function UserCard({ description = '연남동', userId, states }) {
         <div className={S.wrapper}>
           <ProfileImg></ProfileImg>
           <div className={S.component}>
-            <ProfileTitle name="고명한" className={'para-md'}>
-              <div className={S.agreeWrapper}>
+            <ProfileTitle name="고명한" className={'lbl-md'}>
+              <div className={S.actions}>
                 <button className={`${S.agree} lbl-sm`}>승인</button>
                 <button className={`${S.disagree} lbl-sm`}>거절</button>
               </div>
@@ -37,7 +37,7 @@ export function UserCard({ description = '연남동', userId, states }) {
           <div className={S.component}>
             <ProfileTitle name="고명한" className={'lbl-md'}>
               {userId === userId ? (
-                <div className={S.iconwrapper}>
+                <div className={`${S.cert} para-sm`}>
                   <span className="i_certificate" />
                   파티장
                 </div>
@@ -45,9 +45,7 @@ export function UserCard({ description = '연남동', userId, states }) {
                 ''
               )}
             </ProfileTitle>
-            <p className="para-sm" style={{ color: 'var(--gray-600)' }}>
-              {description}
-            </p>
+            <p className={`${S.desc} para-sm`}>{description}</p>
           </div>
         </div>
       );

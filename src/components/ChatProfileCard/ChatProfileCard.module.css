@@ -1,3 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--white);
+}
+
 .component {
   color: blue;
   display: flex;
@@ -7,17 +16,5 @@
 
   p {
     color: var(--gray-600);
-    /* Paragraph/Small */
-    font-size: 0.6875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 160%; /* 1.1rem */
   }
-}
-.wrapper {
-  padding: 0.5rem 1rem;
-  display: flex;
-  gap: 0.75rem;
-  border-bottom: 1px solid var(--white);
-  background: var(--white);
 }

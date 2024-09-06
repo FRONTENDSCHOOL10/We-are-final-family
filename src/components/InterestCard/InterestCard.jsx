@@ -14,7 +14,7 @@ InterestCard.propTypes = {
 // active 상태되면 색상변경 오른쪽 아이콘 색상도 변경됨
 // 기본값 false 로 되어있음 활성화 안된상태로 랜더링됨
 
-export function InterestCard({ children, category }) {
+function InterestCard({ children, category }) {
   const [state, setState] = useState(false);
 
   const handleClick = () => {
@@ -23,33 +23,22 @@ export function InterestCard({ children, category }) {
 
   const componentClass = state
     ? `${S.component} ${S.componentActive}`
-    : `${S.component} ${S.componentInactive}`;
-  const interestClass = state
-    ? `${S.interest} ${S.interestActive}`
-    : `${S.interest} ${S.interestInactive}`;
-  const categoryClass = state
-    ? `${S.category} ${S.categoryActive}`
-    : `${S.category} ${S.categoryInactive}`;
+    : `${S.component}`;
 
   return (
     <div className={componentClass} onClick={handleClick}>
       <div className={S.textContainer}>
-        <p className={interestClass}>{category}</p>
-        <p className={categoryClass}>{children}</p>
+        <span className="para-sm">{category}</span>
+        <p className="para-md">{children}</p>
       </div>
 
-      <div className={S.checked}>
-        <div className={`${S.checkedIcon} `}>
-          {state ? (
-            <span className="i_check"></span>
-          ) : (
-            <span
-              className="i_plus"
-              style={{ color: 'var(--gray-200)' }}
-            ></span>
-          )}
-        </div>
-      </div>
+      {state ? (
+        <span className={`${S.icon} i_check`}></span>
+      ) : (
+        <span className={`${S.icon} i_plus`}></span>
+      )}
     </div>
   );
 }
+
+export default InterestCard;

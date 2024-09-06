@@ -1,0 +1,13 @@
+.login {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1rem;
+}
+
+.body {
+  flex: 1;
+  h1 {
+    padding: 1rem 0 2rem;
+  }
+}

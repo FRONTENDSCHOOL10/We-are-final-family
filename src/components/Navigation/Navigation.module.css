@@ -1,37 +1,26 @@
-@import url('@/styles/iconfonts.css');
-
 .nav {
   display: flex;
-  flex-flow: nowrap;
-  padding: 0.5rem 1rem 1rem 1rem;
-  border: 0.06rem solid var(--gray-100);
-}
-
-.btnCon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 4.5rem;
-  height: 2.75rem;
-  border: 0;
-  background-color: transparent;
-  margin: auto;
-}
-
-.btnCon:hover {
-  transform: scale(1.2);
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.activeBtn {
-  color: var(--primary);
+  flex-flow: row nowrap;
+  padding: 0.5rem 1rem 1rem;
+  border-top: 1px solid var(--gray-100);
+  button {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--gray-600);
+    border: none;
+    background-color: var(--white);
+    cursor: pointer;
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+  .activeBtn {
+    color: var(--primary);
+    &:hover {
+      color: var(--primary);
+    }
+  }
 }
