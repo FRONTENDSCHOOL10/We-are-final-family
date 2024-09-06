@@ -1,7 +1,7 @@
 /* InterestCard.module.css */
 .component {
   display: flex;
-  flex-flow: row nowrap;
+
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
@@ -11,6 +11,7 @@
   border-radius: 0.5rem;
   background-color: var(--gray-100);
   cursor: pointer;
+
   .icon {
     padding: 0.125rem;
     font-size: 1rem;
@@ -36,4 +37,9 @@
     border-radius: 1.125rem;
     background-color: var(--white);
   }
+}
+
+.btn {
+  width: 6.75rem;
+  height: 2.56rem;
 }
