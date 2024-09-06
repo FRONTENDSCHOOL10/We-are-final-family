@@ -51,31 +51,29 @@ function CategoryModal({ isOpen, onClose }) {
       className={`${S.modalOverlay} ${animationClass}`}
       onClick={handleOverlayClick}
     >
-      <div className={S.modalContent}>
-        <div className={S.modalHeader}>
-          <div className={S.modalList}>
-            <div className={S.modalHeaderText}>
-              <h2 className={`${S.modalHeaderTitle} para-md`}>주제 목록</h2>
-              <span className={`${S.modalDetail} para-sm`}>
-                주제에 참여하고 관심있는 게시글을 둘러보세요.
-              </span>
-            </div>
-            <button className={S.closeButton} onClick={onClose}>
-              <span className={`${S.closeIcon} i_close`} />
-            </button>
+      <article className={S.modalContent}>
+        <header className={S.modalHeader}>
+          <div className={S.modalHeaderText}>
+            <h2 className={`${S.modalHeaderTitle} para-md`}>관심분야</h2>
+            <span className={`${S.modalDetail} para-sm`}>
+              관심있는 분야에 참여하고 관련된 게시글을 둘러보세요.
+            </span>
           </div>
-          <ToggleAllButton
-            validCategories={validCategories}
-            selectedCategories={selectedCategories}
-            onClick={toggleAll}
-          />
-          <ToggleListMenu
-            validCategories={validCategories}
-            selectedCategories={selectedCategories}
-            toggleCategory={toggleCategory}
-          />
-        </div>
-      </div>
+          <button className={S.closeButton} onClick={onClose}>
+            <span className={`${S.closeIcon} i_close`} />
+          </button>
+        </header>
+        <ToggleAllButton
+          validCategories={validCategories}
+          selectedCategories={selectedCategories}
+          onClick={toggleAll}
+        />
+        <ToggleListMenu
+          validCategories={validCategories}
+          selectedCategories={selectedCategories}
+          toggleCategory={toggleCategory}
+        />
+      </article>
     </div>
   );
 }

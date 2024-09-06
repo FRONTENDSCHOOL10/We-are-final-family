@@ -52,14 +52,14 @@ function ValidationInput({ type, label }) {
 
   return (
     <div className={S.container}>
-      <label className={S.label}>{label}</label>
+      <label className={`${S.label} lbl-md`}>{label}</label>
       <TextInput
         type={type === 'pw' ? 'password' : 'text'}
         value={value}
         onChange={handleChange}
         className={error ? S.inputError : ''}
       />
-      {error && <p className={S.error}>{error}</p>}
+      {error && <p className={`${S.error} para-sm`}>{error}</p>}
     </div>
   );
 }

@@ -1,47 +1,57 @@
-.component {
-  display: flex;
-  flex-flow: column;
-  width: 100%;
-  justify-content: space-between;
-  /* align-items: center; */
-}
 .wrapper {
-  padding: 0.5rem 1rem;
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   gap: 0.75rem;
-  border-bottom: 1px solid var(--white);
-  background: #f6f8fb;
+  padding: 0.5rem 1rem;
   border-radius: 0.25rem;
-}
-.agreeWrapper {
-  display: flex;
-  height: 1.5rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-.agree {
-  border: none;
-  outline: none;
-  color: var(--primary);
-  background-color: inherit;
-  cursor: pointer;
-}
-.disagree {
-  border: none;
-  outline: none;
-  color: var(--negative, #ff4500);
-  background-color: inherit;
-  cursor: pointer;
+  background-color: #f6f8fb;
 }
 
-.iconwrapper {
+.component {
+  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
+  flex-flow: column;
 }
-.iconwrapper > span {
-  color: var(--primary);
+
+.cert {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+  align-items: center;
+  color: var(--gray-600);
+  span {
+    color: var(--primary);
+    font-size: 0.875rem;
+  }
+}
+
+.desc {
+  color: var(--gray-600);
+}
+
+.actions {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+  button {
+    padding: 0.5rem;
+    border: transparent;
+    border-radius: 0.25rem;
+    background-color: transparent;
+
+    &:focus {
+      outline-offset: 0px;
+      outline: 2px solid var(--secondary);
+    }
+  }
+  .agree {
+    color: var(--primary);
+  }
+  .disagree {
+    color: var(--negative);
+    &:focus {
+      outline: 2px solid var(--negative);
+    }
+  }
 }
