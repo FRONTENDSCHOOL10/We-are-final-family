@@ -5,6 +5,7 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
   const [permissionStatus, setPermissionStatus] = useState('prompt');
   const [isLoading, setIsLoading] = useState(false);
   const [buttonText, setButtonText] = useState('현재 위치');
+  const [isLocationSet, setIsLocationSet] = useState(false);
 
   useEffect(() => {
     checkPermission();
@@ -45,6 +46,7 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
           const { latitude, longitude } = position.coords;
           const address = await getAddressFromCoords(latitude, longitude);
           setButtonText(address);
+          setIsLocationSet(true);
           if (onLocationUpdate) {
             onLocationUpdate(address);
           }
@@ -57,10 +59,12 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
             setButtonText('위치 권한 필요');
           }
           setIsLoading(false);
+          setIsLocationSet(false);
         }
       );
     } else {
       console.log('Geolocation is not supported by this browser.');
+      setIsLocationSet(false);
     }
   };
 
@@ -74,16 +78,16 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
   };
 
   return (
-    <div>
-      <button
-        onClick={handleClick}
-        className={standalone ? S.standaloneButton : S.button}
-        disabled={isLoading}
-      >
-        <span className="i_location_filled" />
-        {buttonText}
-      </button>
-    </div>
+    <button
+      onClick={handleClick}
+      className={standalone ? S.standaloneButton : S.button}
+      disabled={isLoading}
+    >
+      <span
+        className={isLocationSet ? 'i_location_filled' : 'i_location_line'}
+      />
+      {buttonText}
+    </button>
   );
 }
 
