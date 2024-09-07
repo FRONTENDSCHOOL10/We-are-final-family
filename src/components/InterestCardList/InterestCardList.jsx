@@ -1,9 +1,27 @@
 import InterestCard from './InterestCard';
 import S from './InterestCardList.module.css';
 import PropTypes from 'prop-types';
+import useInterestStore from '@/stores/InterestStore';
 
 function InterestCardList({ subCategories }) {
+  const { selectedInterests, addInterest, removeInterest } = useInterestStore();
+
   if (!subCategories.length) return <div>Loading...</div>;
+
+  const handleToggle = (subCategory) => {
+    const isSelected = selectedInterests.some(
+      (item) => item.id === subCategory.id
+    );
+    if (isSelected) {
+      removeInterest(subCategory.id);
+    } else {
+      addInterest({
+        id: subCategory.id,
+        name: subCategory.name,
+        category: subCategory.Category.name,
+      });
+    }
+  };
 
   return (
     <div className={S.container}>
@@ -12,6 +30,10 @@ function InterestCardList({ subCategories }) {
           key={subCategory.id}
           id={subCategory.id}
           interest={subCategory.Category.name}
+          isSelected={selectedInterests.some(
+            (item) => item.id === subCategory.id
+          )}
+          onToggle={() => handleToggle(subCategory)}
         >
           {subCategory.name}
         </InterestCard>

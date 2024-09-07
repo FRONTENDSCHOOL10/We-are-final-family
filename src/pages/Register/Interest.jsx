@@ -10,12 +10,12 @@ import { useNavigate } from 'react-router-dom';
 function Interest() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { interest, subCategory } = useSupabase();
+  const saveInterests = useInterestStore((state) => state.saveInterests);
   const selectedInterests = useInterestStore(
     (state) => state.selectedInterests
   );
   const navigate = useNavigate();
   const [selectedCount, setSelectedCount] = useState(0);
-
   useEffect(() => {
     setSelectedCount(selectedInterests.length);
   }, [selectedInterests]);
@@ -33,6 +33,7 @@ function Interest() {
     : subCategory;
 
   const handleSave = () => {
+    saveInterests();
     console.log('Saved interests:', selectedInterests);
     navigate('/register/2');
   };
