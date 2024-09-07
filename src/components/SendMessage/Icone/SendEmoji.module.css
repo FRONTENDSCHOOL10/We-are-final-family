@@ -1,0 +1,27 @@
+.emoji {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  border-radius: 2.5rem;
+  background-color: transparent;
+
+  &:focus {
+    outline-offset: 2px;
+    outline: 2px solid var(--secondary);
+  }
+
+  span {
+    color: var(--gray-900);
+  }
+}
+
+.none {
+  display: none;
+}
+.block {
+  display: block;
+}

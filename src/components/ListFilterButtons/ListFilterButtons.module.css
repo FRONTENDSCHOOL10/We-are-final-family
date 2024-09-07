@@ -2,6 +2,8 @@
   display: flex;
   flex-flow: row nowrap;
   gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .categoryButton,
@@ -19,7 +21,7 @@
   cursor: pointer;
   transition: all 0.3s ease; /* 애니매이션 */
 
-  span {
+  .icon {
     font-size: 1rem;
   }
 

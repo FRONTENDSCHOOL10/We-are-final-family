@@ -10,18 +10,18 @@ export function SendImg() {
   };
 
   return (
-    <div className={S.components}>
+    <div className={S.component}>
       <input
-        id="file"
+        id="fileUpload"
         type="file"
         className={S.fileInput}
         onChange={handleChange}
         accept="image/*"
       />
       <label
-        htmlFor="file"
-        className={`${S.component} i_plus`}
-        aria-label="파일첨부"
+        htmlFor="fileUpload"
+        className={`${S.button} i_plus`}
+        aria-label="파일 첨부"
       ></label>
     </div>
   );

@@ -9,7 +9,7 @@ ChatProfileCard.propTypes = {
 };
 
 export function ChatProfileCard({
-  children = 'ddd',
+  children = '00:00',
   description = '최신 채팅 내역',
 }) {
   return (

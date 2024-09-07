@@ -1,6 +1,5 @@
 .root {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: column nowrap; /* 필요없으면 제거 */
   height: 100vh;
-  justify-content: space-between;
 }

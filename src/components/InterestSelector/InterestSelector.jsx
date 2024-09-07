@@ -54,7 +54,7 @@ function InterestSelector({ onSelectInterest }) {
             ref={modalRef}
           >
             <div className={S.header}>
-              <h2>카테고리 선택</h2>
+              <h2 className="para-md">카테고리 선택</h2>
               <button onClick={handleClose} className={S.closeButton}>
                 <span className="i_close"></span>
               </button>
@@ -63,7 +63,7 @@ function InterestSelector({ onSelectInterest }) {
               {interest.map((interest) => (
                 <button
                   key={interest}
-                  className={S.interestButton}
+                  className={`${S.interestButton} para-md`}
                   onClick={() => handleInterestClick(interest)}
                 >
                   {interest.name}

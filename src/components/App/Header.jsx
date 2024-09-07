@@ -2,7 +2,7 @@ import { useState } from 'react';
 import S from './Header.module.css';
 import { string, bool, array } from 'prop-types';
 import IconButton from '@/components/IconButton/IconButton';
-import OptionPopup from '../OptionPopup/OptionPopup';
+import OptionPopup from '@/components/OptionPopup/OptionPopup';
 
 // 사용 방법
 // <Header back={true}></Header>

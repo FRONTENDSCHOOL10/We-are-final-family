@@ -1,3 +1,91 @@
 .profile {
   flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  overflow: auto;
+}
+
+.myMenu {
+  display: flex;
+  flex-flow: row nowrap;
+  color: var(--gray-800);
+  letter-spacing: var(--ls);
+  line-height: var(--lh-para);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  font-family: var(--base-font);
+  li {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0;
+  }
+}
+
+.settingMenu {
+  display: flex;
+  flex-flow: column nowrap;
+  li {
+    padding: 0.75rem 1rem;
+    color: var(--gray-900);
+    letter-spacing: var(--ls);
+    line-height: var(--lh-para);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-regular);
+    font-family: var(--base-font);
+    border-bottom: 1px solid var(--gray-100);
+  }
+}
+
+/* 나의 프로필 */
+.profileView {
+  gap: 0;
+}
+
+.viewTitle {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--gray-100);
+
+  button {
+    flex: 0;
+    padding: 0.5rem;
+    letter-spacing: var(--ls);
+    line-height: var(--lh-hdg);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    font-family: var(--base-font);
+  }
+}
+
+.myInfo {
+  display: flex;
+  flex-flow: column nowrap;
+  li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: var(--gray-900);
+    border-bottom: 1px solid var(--gray-100);
+  }
+}
+
+/* 프로필 수정 */
+.profileEdit {
+  ul {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    padding: 1rem;
+  }
 }

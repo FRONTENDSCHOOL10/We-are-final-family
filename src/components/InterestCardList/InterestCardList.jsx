@@ -11,8 +11,11 @@ function InterestCardList() {
   return (
     <div className={S.container}>
       {subCategory.map((subCategory) => (
-        <InterestCard key={subCategory.id} active={false}>
-          {subCategory.Category.name}
+        <InterestCard
+          key={subCategory.id}
+          active={false}
+          interest={subCategory.Category.name}
+        >
           {subCategory.name}
         </InterestCard>
       ))}

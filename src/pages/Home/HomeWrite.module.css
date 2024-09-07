@@ -1,8 +1,18 @@
-.home_write {
+.homeWrite {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
   gap: 1rem;
-  padding: 1rem;
+  overflow: hidden;
+
+  footer {
+    padding: 1rem;
+  }
+}
+
+.writeWrap {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: auto;
 }

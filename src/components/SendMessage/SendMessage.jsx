@@ -1,9 +1,13 @@
-import { SendButton } from './Icone/SendButton';
-import { SendEmoje } from './Icone/SendEmoje';
+// import { SendButton } from './Icone/SendButton';
+import { SendEmoji } from './Icone/SendEmoji';
 import { SendImg } from './Icone/SnedImg';
+
+// !! stipop-react-sdk 내부
+// defaultProps 경고
 import { UnifiedComponent } from 'stipop-react-sdk';
 import { useState } from 'react';
 import S from './SendMessage.module.css';
+import IconButton from '@/components/IconButton/IconButton';
 
 function SendMessage() {
   const [active, setActive] = useState(false);
@@ -13,15 +17,27 @@ function SendMessage() {
     console.log(active);
   };
 
+  const handleSendClick = () => {
+    console.log('click');
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div className={S.component}>
         <SendImg />
-        <div className={S.wrapper}>
-          <input className={S.input} placeholder="메시지 보내기"></input>
-          <SendEmoje onClick={handleClick} />
+        <div className={S.textInputWrap}>
+          <input
+            className={`${S.input} para-md`}
+            placeholder="메시지 보내기"
+          ></input>
+          <SendEmoji onClick={handleClick} />
         </div>
-        <SendButton />
+        <IconButton
+          title="메시지 보내기"
+          className="i_send"
+          onClick={handleSendClick}
+        />
+        {/* <SendButton /> */}
       </div>
       <div className={active ? S.block : S.none}>
         <UnifiedComponent

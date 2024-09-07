@@ -2,4 +2,13 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  overflow: auto;
+
+  ul {
+    display: flex;
+    flex-flow: column nowrap;
+    li {
+      border-bottom: 1px solid var(--gray-100);
+    }
+  }
 }
