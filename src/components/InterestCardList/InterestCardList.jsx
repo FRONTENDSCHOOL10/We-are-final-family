@@ -10,7 +10,7 @@ function InterestCardList({ subCategories }) {
       {subCategories.map((subCategory) => (
         <InterestCard
           key={subCategory.id}
-          active={false}
+          id={subCategory.id}
           interest={subCategory.Category.name}
         >
           {subCategory.name}

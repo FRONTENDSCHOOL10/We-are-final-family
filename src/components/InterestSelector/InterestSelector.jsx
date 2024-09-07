@@ -3,7 +3,7 @@ import Button from '../Button/Button';
 import S from './InterestSelector.module.css';
 import PropTypes from 'prop-types';
 
-function InterestSelector({ interests, onSelectInterest }) {
+function InterestSelector({ interests, onSelectInterest, onViewAll }) {
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
 
@@ -41,6 +41,11 @@ function InterestSelector({ interests, onSelectInterest }) {
     handleClose();
   };
 
+  const handleViewAll = () => {
+    onViewAll();
+    handleClose();
+  };
+
   return (
     <div>
       <Button color="white" onClick={handleOpenSelector}>
@@ -53,12 +58,17 @@ function InterestSelector({ interests, onSelectInterest }) {
             ref={modalRef}
           >
             <div className={S.header}>
-              <h2 className="para-md">카테고리 선택</h2>
+              <div className={S.headerAllButton}>
+                <h2 className="para-md">관심분야 선택</h2>
+              </div>
               <button onClick={handleClose} className={S.closeButton}>
                 <span className="i_close"></span>
               </button>
             </div>
             <div className={S.interestList}>
+              <button onClick={handleViewAll} className={S.viewAllButton}>
+                전체
+              </button>
               {interests.map((interest) => (
                 <button
                   key={interest.id}
@@ -84,6 +94,7 @@ InterestSelector.propTypes = {
     })
   ).isRequired,
   onSelectInterest: PropTypes.func.isRequired,
+  onViewAll: PropTypes.func.isRequired,
 };
 
 export default InterestSelector;
