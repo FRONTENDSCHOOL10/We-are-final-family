@@ -1,5 +1,17 @@
-.component {
+/* .component {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
+
+.button {
+  padding: 0.25rem;
+  color: var(--gray-900);
+  font-size: 1.25rem;
+  background-color: bisque;
+
+  &:focus {
+    outline-offset: 2px;
+    outline: 2px solid var(--secondary);
+  }
+} */

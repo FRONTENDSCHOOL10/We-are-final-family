@@ -4,7 +4,7 @@ export const NavigationData = [
     label: '파티모집',
     defaultIcon: 'i_home_line',
     activeIcon: 'i_home_filled',
-    path: '/party',
+    path: '/home',
   },
   {
     value: 'board',

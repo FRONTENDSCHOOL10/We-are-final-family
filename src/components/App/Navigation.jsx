@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import S from './Navigation.module.css';
-import '@/styles/iconfonts.css';
 import { NavigationData } from './data/NavigationData';
 
 function Navigation() {
@@ -34,8 +33,9 @@ function Navigation() {
               option.defaultIcon,
               option.activeIcon
             )}
+            aria-hidden="true"
           />
-          <label>{option.label}</label>
+          <span className="para-sm">{option.label}</span>
         </Link>
       ))}
     </nav>

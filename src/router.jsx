@@ -5,6 +5,7 @@ import {
   Login,
   Interest,
   Register,
+  Search,
   Home,
   HomeDetail,
   HomeWrite,
@@ -32,6 +33,10 @@ export const routes = [
           { path: '1', element: <Interest /> },
           { path: '2', element: <Register /> },
         ],
+      },
+      {
+        path: 'search',
+        element: <Search />,
       },
       {
         path: 'home',

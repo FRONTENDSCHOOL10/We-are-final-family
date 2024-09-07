@@ -2,6 +2,7 @@ export { default as Intro } from './Intro/Intro';
 export { default as Login } from './Login/Login';
 export { default as Interest } from './Register/Interest';
 export { default as Register } from './Register/Register';
+export { default as Search } from './Search/Search';
 export { default as Home } from './Home/Home';
 export { default as HomeDetail } from './Home/HomeDetail';
 export { default as HomeWrite } from './Home/HomeWrite';

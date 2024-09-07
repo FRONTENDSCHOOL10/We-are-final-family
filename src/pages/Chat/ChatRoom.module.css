@@ -1,4 +1,4 @@
-.chat_room {
+.chatRoom {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;

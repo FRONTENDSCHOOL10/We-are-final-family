@@ -1,7 +1,6 @@
-.board {
-  position: relative;
+.searchWrap {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  overflow: auto;
+  padding: 1rem;
 }

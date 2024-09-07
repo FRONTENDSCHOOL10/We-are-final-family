@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  height: 2.58rem;
   padding: 0.5rem 1rem;
   color: var(--gray-600);
   border-radius: 0.5rem;
@@ -37,9 +36,4 @@
     border-radius: 1.125rem;
     background-color: var(--white);
   }
-}
-
-.btn {
-  width: 6.75rem;
-  height: 2.56rem;
 }

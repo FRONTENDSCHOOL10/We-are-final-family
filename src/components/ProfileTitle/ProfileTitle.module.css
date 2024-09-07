@@ -3,4 +3,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
+  color: var(--gray-900);
+
+  span {
+    color: var(--gray-600);
+  }
 }

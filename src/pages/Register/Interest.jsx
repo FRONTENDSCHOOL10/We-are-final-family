@@ -13,12 +13,23 @@ function Interest() {
 
   return (
     <main className={S.interest}>
-      <InterestSelector onSelectInterest={handleSelectInterest} />
       <div className={S.body}>
+        <InterestSelector onSelectInterest={handleSelectInterest} />
         <InterestCardList interests={selectedInterests} />
       </div>
-      <Button color="black">이대로 저장할래요</Button>
-      <button type="button">나중에 할래요</button>
+      <footer>
+        <Button to="/register/2" color="black" aria-label="선택 항목 저장하기">
+          이대로 저장할래요
+        </Button>
+        <Button
+          to="/register/2"
+          className={`${S.lateBtn} para-sm`}
+          color="transparent"
+          aria-label="건너뛰기"
+        >
+          나중에 할래요
+        </Button>
+      </footer>
     </main>
   );
 }

@@ -1,12 +1,26 @@
-.home_detail {
+.homeDetail {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
+  overflow: hidden;
+
+  footer {
+    padding: 1rem;
+  }
+}
+
+.detailWrap {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: auto;
 }
 
 .post {
   flex: 1;
+  padding: 1rem;
+}
+
+.state {
+  padding: 1rem;
 }

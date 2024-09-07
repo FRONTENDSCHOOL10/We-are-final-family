@@ -1,7 +1,13 @@
 .container {
-  display: flex;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  overflow: auto;
+  grid-auto-rows: minmax(auto, max-content);
+  /* display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem 0;
-  justify-content: center;
+  justify-content: center; */
 }

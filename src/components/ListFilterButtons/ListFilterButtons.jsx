@@ -45,7 +45,7 @@ function ListFilterButtons({ filter }) {
           className={`${S.categoryButton} ${showModal ? S.active : ''}`}
           onClick={toggleModal}
         >
-          <span className="i_menu" />
+          <span className={`${S.icon} i_menu`} />
           <span className={`${S.categoryTitle} para-md`}>관심분야</span>
         </button>
       )}
@@ -57,7 +57,7 @@ function ListFilterButtons({ filter }) {
           }`}
           onClick={() => toggleFilter(key)}
         >
-          {activeFilters[key] && <span className="i_check" />}
+          {activeFilters[key] && <span className={`${S.icon} i_check`} />}
           {label}
         </button>
       ))}

@@ -44,7 +44,7 @@ function ValidationInput({ type, label, info = '' }) {
         type={type === 'pw' ? 'password' : type === 'email' ? 'email' : 'text'}
         value={value}
         onChange={handleChange}
-        className={error ? S.inputError : ''}
+        className={`${error ? S.inputError : ''} para-md`}
         placeholder={info}
       />
       {error && <p className={`${S.error} para-sm`}>{error}</p>}

@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0rem 1rem 0.5rem;
+  border-top: 1px solid var(--gray-100);
+}
+
+.btnCon {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: var(--gray-600);
+
+  &:hover {
+    color: var(--secondary);
+  }
+  &:active {
+    color: var(--primary);
+  }
+}
+
+.activeBtn {
+  color: var(--primary);
+  &:hover {
+    color: var(--primary);
+  }
+}
