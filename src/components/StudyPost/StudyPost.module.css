@@ -1,0 +1,14 @@
+.headerComponent {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.iconColor {
+  color: var(--gray-300);
+}
+.iconPosition {
+  display: flex;
+  align-items: center;
+}
