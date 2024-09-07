@@ -74,14 +74,16 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className={standalone ? S.standaloneButton : S.button}
-      disabled={isLoading}
-    >
-      <span className="i_location_filled" />
-      {buttonText}
-    </button>
+    <div>
+      <button
+        onClick={handleClick}
+        className={standalone ? S.standaloneButton : S.button}
+        disabled={isLoading}
+      >
+        <span className="i_location_filled" />
+        {buttonText}
+      </button>
+    </div>
   );
 }
 
