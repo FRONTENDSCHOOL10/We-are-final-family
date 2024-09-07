@@ -1,16 +1,13 @@
 import InterestCard from './InterestCard';
-import { useSupabase } from '@/api/DataService';
 import S from './InterestCardList.module.css';
+import PropTypes from 'prop-types';
 
-function InterestCardList() {
-  const { interest } = useSupabase();
-  const { subCategory } = useSupabase();
-
-  if (!interest.length) return <div>Loading...</div>;
+function InterestCardList({ subCategories }) {
+  if (!subCategories.length) return <div>Loading...</div>;
 
   return (
     <div className={S.container}>
-      {subCategory.map((subCategory) => (
+      {subCategories.map((subCategory) => (
         <InterestCard
           key={subCategory.id}
           active={false}
@@ -22,5 +19,17 @@ function InterestCardList() {
     </div>
   );
 }
+
+InterestCardList.propTypes = {
+  subCategories: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      Category: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+      }).isRequired,
+    })
+  ).isRequired,
+};
 
 export default InterestCardList;

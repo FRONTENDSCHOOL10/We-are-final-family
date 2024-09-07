@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import Button from '../Button/Button';
 import S from './InterestSelector.module.css';
-import { useSupabase } from '@/api/DataService';
+import PropTypes from 'prop-types';
 
-function InterestSelector({ onSelectInterest }) {
+function InterestSelector({ interests, onSelectInterest }) {
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
-  const { interest } = useSupabase();
 
   const handleOpenSelector = () => {
     setIsOpen(true);
@@ -60,9 +59,9 @@ function InterestSelector({ onSelectInterest }) {
               </button>
             </div>
             <div className={S.interestList}>
-              {interest.map((interest) => (
+              {interests.map((interest) => (
                 <button
-                  key={interest}
+                  key={interest.id}
                   className={`${S.interestButton} para-md`}
                   onClick={() => handleInterestClick(interest)}
                 >
@@ -76,5 +75,15 @@ function InterestSelector({ onSelectInterest }) {
     </div>
   );
 }
+
+InterestSelector.propTypes = {
+  interests: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onSelectInterest: PropTypes.func.isRequired,
+};
 
 export default InterestSelector;
