@@ -14,8 +14,15 @@ export const useSupabase = () => {
 
   const createUser = async (userData) => {
     const { data, error } = await supabase.from('users').insert([userData]);
-    if (error) console.error('Error creating user:', error);
-    else getUsers(); // Refresh the user list
+    console.log(data);
+
+    if (error) {
+      console.error('Error creating user:', error);
+      if (error.code === '23505') {
+        alert('동일한 이메일 또는 이름이 존재합니다.');
+        return;
+      } else getUsers(); // Refresh the user list
+    }
   };
 
   const getinterest = async () => {
@@ -44,5 +51,7 @@ export const useSupabase = () => {
     users,
     interest,
     subCategory,
+    createUser,
+    getUsers,
   };
 };

@@ -1,40 +1,45 @@
-import { useState } from 'react';
+import { string } from 'prop-types';
 import TextInput from './TextInput';
 import S from './ValidationInput.module.css';
-import {
-  validateId,
-  validatePassword,
-  validateEmail,
-} from '@/utils/validation';
+import useRegisterStore from './useRegisterStore';
 
-// 사용방법
-// <ValidationInput type="id" label="아이디" info="아뒤입력"/>
-// <ValidationInput type="pw" label="비밀번호" info="비번입력"/>
-// <ValidationInput type="email" label="이메일" info="이메일@gmail.com" />
-// <ValidationInput type="normal" label="적는대로나오겠지?" info="안내 메시지" />
+ValidationInput.propTypes = {
+  type: string,
+  label: string,
+  info: string,
+};
 
 function ValidationInput({ type, label, info = '' }) {
-  const [value, setValue] = useState('');
-  const [error, setError] = useState('');
+  const store = useRegisterStore();
+
+  let value, error, setValue;
+
+  switch (type) {
+    case 'id':
+      value = store.id;
+      error = store.idError;
+      setValue = store.setId;
+      break;
+    case 'pw':
+      value = store.password;
+      error = store.passwordError;
+      setValue = store.setPassword;
+      break;
+    case 'email':
+      value = store.email;
+      error = store.emailError;
+      setValue = store.setEmail;
+      break;
+    case 'normal':
+    default:
+      value = store.name;
+      error = store.nameError;
+      setValue = store.setName;
+  }
 
   function handleChange(e) {
     const inputValue = e.target.value;
     setValue(inputValue);
-
-    if (type === 'normal') {
-      setError('');
-      return;
-    }
-
-    let validationError = '';
-    if (type === 'id') {
-      validationError = validateId(inputValue);
-    } else if (type === 'pw') {
-      validationError = validatePassword(inputValue);
-    } else if (type === 'email') {
-      validationError = validateEmail(inputValue);
-    }
-    setError(validationError);
   }
 
   return (
