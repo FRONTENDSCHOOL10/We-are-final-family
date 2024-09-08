@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import S from './Navigation.module.css';
 import { NavigationData } from './data/NavigationData';
 
 function Navigation() {
-  const [activeButton, setActiveButton] = useState(null);
+  const location = useLocation();
 
-  const handleClick = (value) => {
-    setActiveButton(value);
+  const isActive = (path) => {
+    return location.pathname.startsWith(path);
   };
 
-  const getLinkClass = (value) => {
-    return `${S.btnCon} ${activeButton === value ? S.activeBtn : ''}`;
+  const getLinkClass = (path) => {
+    return `${S.btnCon} ${isActive(path) ? S.activeBtn : ''}`;
   };
 
-  const getIconClass = (value, defaultIcon, activeIcon) => {
-    return `${activeButton === value ? activeIcon : defaultIcon}`;
+  const getIconClass = (path, defaultIcon, activeIcon) => {
+    return `${isActive(path) ? activeIcon : defaultIcon}`;
   };
 
   return (
@@ -24,12 +24,11 @@ function Navigation() {
         <Link
           key={option.value}
           to={option.path}
-          className={getLinkClass(option.value)}
-          onClick={() => handleClick(option.value)}
+          className={getLinkClass(option.path)}
         >
           <span
             className={getIconClass(
-              option.value,
+              option.path,
               option.defaultIcon,
               option.activeIcon
             )}

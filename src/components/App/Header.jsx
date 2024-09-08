@@ -3,6 +3,7 @@ import S from './Header.module.css';
 import { string, bool, array } from 'prop-types';
 import IconButton from '@/components/IconButton/IconButton';
 import OptionPopup from '@/components/OptionPopup/OptionPopup';
+import CurrentLocationButton from './../WriteForm/LocationButton/CurrentLocationButton/CurrentLocationButton';
 
 // 사용 방법
 // <Header back={true}></Header>
@@ -89,8 +90,7 @@ function Header({
           className={S.location_btn}
           onClick={handleLocationClick}
         >
-          <span className={location}></span>
-          <span className="hdg-lg">신도림동</span>
+          <CurrentLocationButton />
         </button>
       )}
 
