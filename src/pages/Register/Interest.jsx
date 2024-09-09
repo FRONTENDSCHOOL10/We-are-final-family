@@ -11,9 +11,10 @@ function Interest() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [interest, setInterest] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   
-  const { saveInterests, selectedInterests } = useInterestStore();
+  const { saveInterests, selectedInterests, canAddMore } = useInterestStore();
   const selectedCount = selectedInterests.length;
 
   useEffect(() => {
@@ -40,7 +41,7 @@ function Interest() {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-        // 여기에 사용자에게 오류를 표시하는 로직을 추가할 수 있습니다.
+        setError('데이터를 불러오는 중 오류가 발생했습니다.');
       }
     };
 
@@ -60,10 +61,14 @@ function Interest() {
     : subCategory;
 
   const handleSave = useCallback(() => {
+    if (selectedCount === 0) {
+      setError('최소 1개의 관심사를 선택해주세요.');
+      return;
+    }
     saveInterests();
     console.log('Saved interests:', selectedInterests);
     navigate('/register/2');
-  }, [saveInterests, selectedInterests, navigate]);
+  }, [saveInterests, selectedInterests, navigate, selectedCount]);
 
   return (
     <main className={S.interest}>
@@ -77,14 +82,19 @@ function Interest() {
           subCategories={filteredSubCategories}
           selectedCategory={selectedCategory}
         />
+        {!canAddMore() && (
+          <p className={`${S.maxWarning} para-sm`}>최대 6개의 관심사를 선택할 수 있습니다.</p>
+        )}
+        {error && <p className={`${S.error} para-sm`}>{error}</p>}
       </div>
       <footer>
         <Button
           onClick={handleSave}
           color="black"
           aria-label="선택 항목 저장하기"
+          disabled={selectedCount === 0}
         >
-          이대로 저장할래요 ({selectedCount})
+          이대로 저장할래요 ({selectedCount}/6)
         </Button>
         <Button
           to="/register/2"
