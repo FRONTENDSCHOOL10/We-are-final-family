@@ -1,89 +1,62 @@
-import { useState, useEffect } from 'react';
 import { supabase } from './supabase';
 
-export const DataService = () => {
-  const [users, setUsers] = useState([]);
-  const [interest, setinterest] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
+/* ------- 수파베이스 데이터 가져오는 api ------- */
 
-  const getUsers = async () => {
-    const { data, error } = await supabase.from('users').select('*');
-    if (error) console.error('Error fetching users:', error);
-    else setUsers(data);
-  };
+export const getData = async (form, select, setstate) => {
+  const { data, error } = await supabase.from(form).select(select);
+  if (error) console.error('Error fetching interest:', error);
+  else setstate(data);
+};
+// Form = supabase 에 있는 필드이름
+// select = 필드에 에 있는 어트리뷰트(속성) 이름
+// setstate  해당값을 넣을 state
 
-  const signUp = async (email, password, username) => {
-    try {
-      console.log('Starting sign up process for email:', email);
+/* ---------------수파베이스 데이터 업데이트 api -------------- */
 
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
+export const updateData = async ({
+  table, // 테이블이름
+  updateColumn, // 변경할 컬럼 ex)users
+  updateValue, // 변경할값 새로 변경할값
+  conditionColumn, // 변경할 컬럼 updateColum 과 동일한값
+  conditionValue, // 기존에 있는 값 ex) username 에 들어있는값
+}) => {
+  const { data, error } = await supabase
+    .from(table) // 테이블 이름을 인수로 받음
+    .update({ [updateColumn]: updateValue }) // 업데이트할 컬럼과 값을 인수로 받음
+    .eq(conditionColumn, conditionValue) // 조건 컬럼과 값을 인수로 받음
+    .select(); // 업데이트 후 데이터를 반환
 
-      if (error) throw error;
+  if (error) {
+    console.error('Error updating row:', error);
+    return null; // 에러가 발생했을 때 null 반환
+  }
 
-      console.log('Auth signup successful, user data:', data);
+  return data; // 성공적으로 업데이트
+};
 
-      if (data.user && data.user.id) {
-        console.log(
-          'Attempting to insert user into public.users. User ID:',
-          data.user.id
-        );
+/* -----------------------------------------------*/
+/*     예시사용법 곰영한 => 고명한 으로 바꾸는 코드     */
+/* -----------------------------------------------*/
+// const handleClick = () => {
+//   updateData({
+//     table: 'users',
+//     updateColumn: 'username',
+//     updateValue: '고명한',
+//     conditionColumn: 'username',
+//     conditionValue: '곰영한',
+//   });
+// };
+/* -----------------------------------------------*/
 
-        const { data: userData, error: insertError } = await supabase
-          .from('users')
-          .insert({
-            id: data.user.id,
-            email: data.user.email,
-            username: username,
-          })
-          .select();
+/* -------- 수파베이스 데이터 지우는 api ------- */
 
-        if (insertError) {
-          console.error('Error inserting user into public.users:', insertError);
-          throw insertError;
-        }
-
-        console.log('User successfully inserted into public.users:', userData);
-      } else {
-        console.error('User data not available after sign up');
-        throw new Error('User data not available after sign up');
-      }
-
-      return data.user;
-    } catch (error) {
-      console.error('Error in signUp process:', error);
-      throw error;
-    }
-  };
-
-  const getinterest = async () => {
-    const { data, error } = await supabase.from('interest').select('*');
-    if (error) console.error('Error fetching interest:', error);
-    else setinterest(data);
-  };
-
-  const getSubCategory = async () => {
-    const { data, error } = await supabase.from('sub_category').select(`
-      id,
-      name,
-      Category:category_id (name)
-    `);
-    if (error) console.error('Error fetching sub_category:', error);
-    else setSubCategory(data);
-  };
-
-  useEffect(() => {
-    getUsers();
-    getinterest();
-    getSubCategory();
-  }, []);
-
-  return {
-    users,
-    interest,
-    subCategory,
-    getUsers,
-  };
+export const deleteData = async (delateColumn, delateValue) => {
+  const { error } = await supabase
+    .from('users')
+    .delete()
+    .eq(delateColumn, delateValue);
+  console.log('sucsses');
+  if (error) {
+    console.log(error);
+  }
 };
