@@ -2,12 +2,12 @@ import S from './Register.module.css';
 import ValidationInput from '@/components/ValidationInput/ValidationInput';
 import Button from '@/components/Button/Button';
 import useRegisterStore from '@/components/ValidationInput/useRegisterStore';
-import { useSupabase } from '@/api/DataService';
+import { DataService } from '@/api/DataService';
 
 function Register() {
   const { email, password, name, emailError, passwordError, nameError, reset } =
     useRegisterStore();
-  const { createUser } = useSupabase();
+  const { createUser } = DataService();
   const data = {
     email: email,
     password: password,

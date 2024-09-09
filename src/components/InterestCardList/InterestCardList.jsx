@@ -1,10 +1,10 @@
 import InterestCard from './InterestCard';
-import { useSupabase } from '@/api/DataService';
+import { DataService } from '@/api/DataService';
 import S from './InterestCardList.module.css';
 
 function InterestCardList() {
-  const { interest } = useSupabase();
-  const { subCategory } = useSupabase();
+  const { interest } = DataService();
+  const { subCategory } = DataService();
 
   if (!interest.length) return <div>Loading...</div>;
 

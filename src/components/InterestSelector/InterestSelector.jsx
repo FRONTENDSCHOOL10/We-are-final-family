@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import Button from '../Button/Button';
 import S from './InterestSelector.module.css';
-import { useSupabase } from '@/api/DataService';
+import { DataService } from '@/api/DataService';
 
 function InterestSelector({ onSelectInterest }) {
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
-  const { interest } = useSupabase();
+  const { interest } = DataService();
 
   const handleOpenSelector = () => {
     setIsOpen(true);
