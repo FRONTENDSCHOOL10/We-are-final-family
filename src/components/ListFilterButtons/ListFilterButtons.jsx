@@ -39,14 +39,14 @@ function ListFilterButtons({ filter }) {
   }
 
   return (
-    <div className={S.container}>
+    <div className={`${S.container} para-md`}>
       {filter && (
         <button
           className={`${S.categoryButton} ${showModal ? S.active : ''}`}
           onClick={toggleModal}
         >
           <span className={`${S.icon} i_menu`} />
-          <span className={`${S.categoryTitle} para-md`}>관심분야</span>
+          관심분야
         </button>
       )}
       {filterOptions.map(({ key, label }) => (
