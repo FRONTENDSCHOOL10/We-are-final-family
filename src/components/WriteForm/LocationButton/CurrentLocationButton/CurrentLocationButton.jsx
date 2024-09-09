@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import S from './CurrentLocationButton.module.css';
 
-function CurrentLocationButton({ onLocationUpdate }) {
+function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
   const [permissionStatus, setPermissionStatus] = useState('prompt');
   const [isLoading, setIsLoading] = useState(false);
+  const [buttonText, setButtonText] = useState('현재 위치');
+  const [isLocationSet, setIsLocationSet] = useState(false);
 
   useEffect(() => {
     checkPermission();
@@ -38,23 +40,31 @@ function CurrentLocationButton({ onLocationUpdate }) {
   const requestLocation = () => {
     if ('geolocation' in navigator) {
       setIsLoading(true);
+      setButtonText('로딩 중...');
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
           const address = await getAddressFromCoords(latitude, longitude);
-          onLocationUpdate(address);
+          setButtonText(address);
+          setIsLocationSet(true);
+          if (onLocationUpdate) {
+            onLocationUpdate(address);
+          }
           setIsLoading(false);
         },
         (error) => {
           console.error('Error getting location:', error);
           if (error.code === error.PERMISSION_DENIED) {
             setPermissionStatus('denied');
+            setButtonText('위치 권한 필요');
           }
           setIsLoading(false);
+          setIsLocationSet(false);
         }
       );
     } else {
       console.log('Geolocation is not supported by this browser.');
+      setIsLocationSet(false);
     }
   };
 
@@ -68,13 +78,15 @@ function CurrentLocationButton({ onLocationUpdate }) {
   };
 
   return (
-    <button onClick={handleClick} className={S.button} disabled={isLoading}>
-      <span className="i_location_filled" />
-      {isLoading
-        ? '로딩 중...'
-        : permissionStatus === 'denied'
-        ? '위치 권한 필요'
-        : '현재 위치'}
+    <button
+      onClick={handleClick}
+      className={standalone ? S.standaloneButton : S.button}
+      disabled={isLoading}
+    >
+      <span
+        className={isLocationSet ? 'i_location_filled' : 'i_location_line'}
+      />
+      {buttonText}
     </button>
   );
 }

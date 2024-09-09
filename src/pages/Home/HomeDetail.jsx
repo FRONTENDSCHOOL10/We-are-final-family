@@ -3,7 +3,7 @@ import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
 import Badge from '@/components/Badge/Badge';
 import { JoinPartyList } from '@/components/JoinPartyList/JoinPartyList';
-import { PendingList } from '@/components/PendingList/PendingLsit';
+import { PendingList } from '@/components/PendingList/PendingList';
 
 function HomeDetail() {
   return (

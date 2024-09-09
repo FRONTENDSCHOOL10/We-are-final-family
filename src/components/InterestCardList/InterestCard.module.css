@@ -37,3 +37,19 @@
     background-color: var(--white);
   }
 }
+
+.hiddenCheckbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}

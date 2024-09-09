@@ -4,18 +4,21 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--primary);
+  color: var(--gray-900);
   font-size: 0.875rem;
   transition: background-color 0.3s, opacity 0.3s;
   gap: 0.25rem;
-}
 
-.button:hover:not(:disabled) {
-  background-color: var(--gray-100);
-  border-radius: 0.25rem;
-}
+  &:hover {
+    color: var(--primary);
+  }
 
-.button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+  &:hover:not(:disabled) {
+    background-color: var(--gray-100);
+    border-radius: 0.25rem;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 }
