@@ -7,9 +7,9 @@ import {
 
 const useRegisterStore = create((set) => ({
   id: '',
-  password: 'R12345678',
-  email: '97power@naver.com',
-  name: '곰영한',
+  password: '',
+  email: '',
+  username: '',
   idError: '',
   passwordError: '',
   emailError: '',
@@ -33,9 +33,9 @@ const useRegisterStore = create((set) => ({
       emailError: validateEmail(email),
     }),
 
-  setName: (name) =>
+  setName: (username) =>
     set({
-      name,
+      username,
       nameError: '', // 이름에 대한 특별한 유효성 검사가 없다고 가정
     }),
 

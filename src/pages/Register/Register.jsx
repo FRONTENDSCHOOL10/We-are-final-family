@@ -1,33 +1,70 @@
 import S from './Register.module.css';
 import ValidationInput from '@/components/ValidationInput/ValidationInput';
 import Button from '@/components/Button/Button';
-import useRegisterStore from '@/components/ValidationInput/useRegisterStore';
-import { DataService } from '@/api/DataService';
+import { createData } from '@/api/DataService';
+import useRegisterStore from '@/stores/useRegisterStore';
+import { supabase } from '@/api/supabase';
+import { useNavigate } from 'react-router-dom';
+
+const signUp = async (email, password, username, navigate) => {
+  try {
+    console.log('Starting sign up process for email:', email);
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+    if (error) {
+      alert('동일한 이메일이 존재합니다');
+      return;
+    }
+    if (data.user && data.user.id) {
+      console.log(
+        'Attempting to insert user into public.users. User ID:',
+        data.user.id
+      );
+    }
+    createData({
+      from: 'users',
+      values: { email: email, username: username },
+    });
+    navigate('/login');
+  } catch (error) {
+    console.error('Error in signUp process:', error);
+    throw error;
+  }
+};
 
 function Register() {
-  const { email, password, name, emailError, passwordError, nameError, reset } =
-    useRegisterStore();
-  const { createUser } = DataService();
-  const data = {
-    email: email,
-    password: password,
-    username: name,
-  };
+  const {
+    email,
+    password,
+    username,
+    emailError,
+    passwordError,
+    nameError,
+    reset,
+  } = useRegisterStore();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     // 여기에서 회원가입 로직을 구현합니다.
     console.log('Email:', email);
     console.log('Password:', password);
     console.log('Name:', name);
-    // 회원가입 처리 후 상태 초기화
 
-    createUser(data);
+    signUp(email, password, username, navigate);
+    // 회원가입 처리 후 상태 초기화
 
     reset();
   };
-
   const isFormValid =
-    !emailError && !passwordError && !nameError && email && password && name;
+    !emailError &&
+    !passwordError &&
+    !nameError &&
+    email &&
+    password &&
+    username;
 
   return (
     <main className={S.register}>
