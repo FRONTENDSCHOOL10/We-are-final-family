@@ -1,0 +1,29 @@
+.boardDetail {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+
+  footer {
+    padding: 0rem;
+  }
+}
+
+.detailWrap {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  overflow: auto;
+  padding: 1rem;
+  header {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+}
+
+.state {
+  padding: 1rem;
+}
