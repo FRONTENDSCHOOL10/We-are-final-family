@@ -1,7 +1,7 @@
 import { string } from 'prop-types';
 import TextInput from './TextInput';
 import S from './ValidationInput.module.css';
-import useRegisterStore from './useRegisterStore';
+import useRegisterStore from '@/stores/useRegisterStore';
 
 ValidationInput.propTypes = {
   type: string,
@@ -32,7 +32,7 @@ function ValidationInput({ type, label, info = '' }) {
       break;
     case 'normal':
     default:
-      value = store.name;
+      value = store.username;
       error = store.nameError;
       setValue = store.setName;
   }
