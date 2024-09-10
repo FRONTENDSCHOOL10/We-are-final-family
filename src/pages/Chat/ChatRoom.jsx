@@ -1,5 +1,6 @@
 import S from './ChatRoom.module.css';
 import Header from '@/components/App/Header';
+import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
 import SendMessage from '@/components/SendMessage/SendMessage';
 
 function ChatRoom() {
@@ -15,7 +16,9 @@ function ChatRoom() {
         actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
       />
       <main className={S.chatRoom}>
-        <div style={{ flex: '1' }}>대화 내용</div>
+        <div style={{ flex: '1' }}>
+          <ChatSpeechbubble />
+        </div>
         <SendMessage />
       </main>
     </>
