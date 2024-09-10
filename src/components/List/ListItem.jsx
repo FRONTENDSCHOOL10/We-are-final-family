@@ -1,29 +1,10 @@
 import Badge from '@/components/Badge/Badge';
 import S from './ListItem.module.css';
 import { string, number } from 'prop-types';
-import { formatDate, formatTimeAgo } from '@/utils/formatDate';
-
-// 사용 방법
-// <ListItem
-//  key={index}
-//  state={
-//     type === 'party'
-//       ? item.state
-//         ? '모집중'
-//        : '모집마감'
-//      : undefined
-//  }
-//  category={item.category}
-//  title={item.title}
-//  currentPeopleCount={1}
-//  peopleCount={item.people}
-//  date={item.date || '날짜를 불러올 수 없습니다.'}
-//  place={item.place || '장소를 불러올 수 없습니다.'}
-//  writeDate={item.write}
-//  type={type}
-// />
+import { formatDateWithYear, formatTimeAgo } from '@/utils/formatDate';
 
 ListItem.propTypes = {
+  type: string.isRequired,
   state: string,
   category: string,
   title: string,
@@ -58,7 +39,7 @@ function ListItem({
         : 'end_category'
       : 'category';
 
-  const formattedDate = formatDate(date);
+  const formattedDate = formatDateWithYear(date);
   const timeSincePost = formatTimeAgo(writeDate);
   const viewCount = 0; // 수정 필요
 

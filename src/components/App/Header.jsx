@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import S from './Header.module.css';
-import { string, bool, array } from 'prop-types';
 import IconButton from '@/components/IconButton/IconButton';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { string, bool, array, func } from 'prop-types';
 
 // 사용 방법
 // <Header back={true}></Header>
@@ -21,6 +21,7 @@ Header.propTypes = {
   myLocation: bool, // myLocation={boolean}
   search: bool, // search={boolean}
   actions: array, // actions={[{icon: 'i_example', onClick: handleOnClick}, {icon: 'i_example', onClick: handleOnClick}]}
+  onLocationUpdate: func,
 };
 
 const iconButtonActions = [
@@ -38,7 +39,15 @@ function Header({
   myLocation = false,
   search = false,
   actions = [],
+  onLocationUpdate,
 }) {
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    console.log('뒤로가기 버튼 클릭');
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   // 내 위치 버튼
   const [location, setLocation] = useState(''); // 현재 위치 텍스트 (예: 구로구)
   const [isLocationActive, setIsLocationActive] = useState(false); // 위치 아이콘 상태
@@ -57,6 +66,7 @@ function Header({
         if (data.documents && data.documents.length > 0) {
           const regionName = data.documents[0].region_2depth_name; // 예: 구로구
           setLocation(regionName);
+          onLocationUpdate(regionName);
         } else {
           setLocation('Unable to fetch location name');
         }
@@ -90,13 +100,6 @@ function Header({
       (item) => item.className === className
     );
     return action ? action.title : '';
-  };
-
-  const navigate = useNavigate();
-
-  const handleBackButton = () => {
-    console.log('뒤로가기 버튼 클릭');
-    navigate(-1); // 이전 페이지로 이동
   };
 
   return (
