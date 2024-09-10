@@ -13,7 +13,7 @@ function Interest() {
   const [subCategory, setSubCategory] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  
+
   const { saveInterests, selectedInterests, canAddMore } = useInterestStore();
   const selectedCount = selectedInterests.length;
 
@@ -23,7 +23,7 @@ function Interest() {
         const interestResult = await getData({
           form: 'interest',
           select: '*',
-          setState: setInterest
+          setState: setInterest,
         });
 
         if (!interestResult.success) {
@@ -31,9 +31,9 @@ function Interest() {
         }
 
         const subCategoryResult = await getData({
-          form: 'sub_category',
+          form: 'interest_sub',
           select: 'id, name, Category:category_id (name)',
-          setState: setSubCategory
+          setState: setSubCategory,
         });
 
         if (!subCategoryResult.success) {
@@ -83,7 +83,9 @@ function Interest() {
           selectedCategory={selectedCategory}
         />
         {!canAddMore() && (
-          <p className={`${S.maxWarning} para-sm`}>최대 6개의 관심사를 선택할 수 있습니다.</p>
+          <p className={`${S.maxWarning} para-sm`}>
+            최대 6개의 관심사를 선택할 수 있습니다.
+          </p>
         )}
         {error && <p className={`${S.error} para-sm`}>{error}</p>}
       </div>

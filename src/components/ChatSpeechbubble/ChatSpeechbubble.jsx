@@ -13,8 +13,6 @@ export function ChatSpeechbubble({
   yourchatdata = '바보',
   userId,
 }) {
-  userId = 2;
-
   return userId === 2 ? (
     <div className={S.component}>
       <TimeNow /> <div className="para-md">{mychatdata}</div>

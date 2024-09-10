@@ -36,6 +36,28 @@ const signUp = async (email, password, username) => {
     throw error;
   }
 };
+const interested = async (userEmail) => {
+  const data = JSON.parse(localStorage.getItem('interest-storage'));
+
+  console.log(data.state.savedInterests[0].name);
+
+  const interests = data.state.savedInterests;
+
+  const obj = interests.reduce(
+    (acc, item, index) => {
+      acc.values[`interest_${index + 1}`] = item.name; // 동적으로 키 생성 및 값 할당
+      return acc;
+    },
+    { from: 'interest_selected', values: { email: userEmail } }
+  );
+
+  console.log(obj);
+
+  await createData(obj);
+};
+const clearLocalStorage = () => {
+  localStorage.clear();
+};
 
 function Register() {
   const { email, password, username, setEmail, reset, setPassword, setName } =
@@ -45,9 +67,10 @@ function Register() {
     try {
       // 회원가입 로직 실행
       await signUp(email, password, username);
-
+      await interested(email);
       // 회원가입 성공 시 상태 초기화 및 활성화
       reset();
+      clearLocalStorage();
       setActive(true);
     } catch (error) {
       // 오류가 발생하면 여기서 처리
