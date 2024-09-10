@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateEmail,
 } from '@/utils/validation';
+import { func } from 'prop-types';
 
 // 사용방법
 // <ValidationInput type="id" label="아이디" info="아뒤입력"/>
@@ -13,18 +14,27 @@ import {
 // <ValidationInput type="email" label="이메일" info="이메일@gmail.com" />
 // <ValidationInput type="normal" label="적는대로나오겠지?" info="안내 메시지" />
 
-function ValidationInput({ type = 'text', label, info = '', ...props }) {
+function ValidationInput({
+  type = 'text',
+  label,
+  info = '',
+  onChange,
+  ...props
+}) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
 
   function handleChange(e) {
     const inputValue = e.target.value;
     setValue(inputValue);
+    onChange?.(inputValue);
 
     if (type === 'normal') {
       setError('');
       return;
     }
+
+    console.log(inputValue);
 
     let validationError = '';
     if (type === 'id') {
@@ -42,7 +52,7 @@ function ValidationInput({ type = 'text', label, info = '', ...props }) {
       {label && <label className={`${S.label} lbl-md`}>{label}</label>}
       <input
         type={type === 'pw' ? 'password' : type === 'email' ? 'email' : 'text'}
-        value={value}
+        defaultValue={value}
         onChange={handleChange}
         className={`${S.input} ${error ? S.inputError : ''} para-md`}
         placeholder={info}
@@ -57,6 +67,7 @@ ValidationInput.propTypes = {
   type: PropTypes.oneOf(['id', 'pw', 'email', 'normal', 'text']).isRequired,
   label: PropTypes.string,
   info: PropTypes.string,
+  onChange: func,
 };
 
 export default ValidationInput;

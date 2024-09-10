@@ -25,10 +25,11 @@ function Login() {
 
     try {
       console.log('Attempting to sign in with:', email);
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data: authData, error: authError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
       if (authError) {
         console.error('Supabase auth error:', authError);
@@ -48,12 +49,14 @@ function Login() {
       console.log('Sign in successful, fetching user data');
 
       // getData 함수를 사용하여 특정 사용자 정보만 가져오기
-      getData({ 
-        form: 'users', 
+      getData({
+        form: 'users',
         select: '*',
         setState: (userData) => {
           console.log('User data received:', userData);
-          const currentUser = userData.find(user => user.id === authData.user.id);
+          const currentUser = userData.find(
+            (user) => user.id === authData.user.id
+          );
           if (currentUser) {
             console.log('Current user found:', currentUser);
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -61,9 +64,11 @@ function Login() {
             navigate('/home');
           } else {
             console.error('User not found in the users table');
-            setError('사용자 정보를 찾을 수 없습니다. 관리자에게 문의해주세요.');
+            setError(
+              '사용자 정보를 찾을 수 없습니다. 관리자에게 문의해주세요.'
+            );
           }
-        }
+        },
       });
     } catch (error) {
       console.error('Login error:', error);
@@ -84,21 +89,24 @@ function Login() {
         <ValidationInput
           type="email"
           label="이메일"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={setEmail}
           required
         />
         <ValidationInput
           type="pw"
           label="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
           required
         />
         {error && <p className={`${S.error} para-sm`}>{error}</p>}
       </form>
       <footer>
-        <Button type="submit" color="black" aria-label="로그인" onClick={handleLogin}>
+        <Button
+          type="submit"
+          color="black"
+          aria-label="로그인"
+          onClick={handleLogin}
+        >
           로그인
         </Button>
       </footer>

@@ -4,7 +4,7 @@ import { SendImg } from './Icone/SnedImg';
 
 // !! stipop-react-sdk 내부
 // defaultProps 경고
-import { UnifiedComponent } from 'stipop-react-sdk';
+// import { UnifiedComponent } from 'stipop-react-sdk';
 import { useState } from 'react';
 import S from './SendMessage.module.css';
 import IconButton from '@/components/IconButton/IconButton';
@@ -17,9 +17,9 @@ function SendMessage() {
     console.log(active);
   };
 
-  const handleSendClick = () => {
+  function handleSendClick() {
     console.log('click');
-  };
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -40,7 +40,7 @@ function SendMessage() {
         {/* <SendButton /> */}
       </div>
       <div className={active ? S.block : S.none}>
-        <UnifiedComponent
+        {/* <UnifiedComponent
           stickerClick={(url) => {
             console.log(url);
           }}
@@ -54,7 +54,7 @@ function SendMessage() {
           size={{
             width: '100%',
           }}
-        />
+        /> */}
       </div>
     </div>
   );

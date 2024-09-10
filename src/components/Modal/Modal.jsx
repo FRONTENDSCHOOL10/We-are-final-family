@@ -89,10 +89,10 @@ function Modal({
 
         {/* 설명, 부가 설명 */}
         {(desc || subDesc) && (
-          <div role="group" id="modalDescription" className={S.content_wrap}>
+          <pre role="group" id="modalDescription" className={S.content_wrap}>
             {desc && <p className={`${S.content} para-md`}>{desc}</p>}
             {subDesc && <p className={`${S.content_sub} para-sm`}>{subDesc}</p>}
-          </div>
+          </pre>
         )}
 
         {/* 버튼 */}
