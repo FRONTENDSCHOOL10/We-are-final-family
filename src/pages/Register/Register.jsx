@@ -7,6 +7,8 @@ import { supabase } from '@/api/supabase';
 import Modal from '@/components/Modal/Modal';
 import { validateEmail, validatePassword } from '@/utils/validation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const signUp = async (email, password, username) => {
   try {
@@ -17,7 +19,7 @@ const signUp = async (email, password, username) => {
       password: password,
     });
     if (error) {
-      alert('동일한 이메일이 존재합니다');
+      toast.error('동일한 이메일이 존재합니다.');
       throw new Error();
     } else if (data.user && data.user.id) {
       console.log(
@@ -61,6 +63,9 @@ function Register() {
 
   return (
     <main className={S.register}>
+      <div>
+        <Toaster />
+      </div>
       <header>
         <h1 className="hdg-lg">
           안녕하세요.
