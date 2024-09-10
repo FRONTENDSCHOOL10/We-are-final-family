@@ -4,6 +4,7 @@ import Navigation from '@/components/App/Navigation';
 import PartyCategory from '@/components/List/PartyCategory';
 import FilterButton from '@/components/List/FilterButton';
 import List from '@/components/List/List';
+import FloatingButton from '@/components/FloatingButton/FloatingButton';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +13,10 @@ function Home() {
 
   const handleSearchButton = () => {
     navigate('/search');
+  };
+
+  const handleFloatButton = () => {
+    console.log('파티모집 글 작성하기 버튼 클릭');
   };
 
   // 상태 관리
@@ -91,6 +96,8 @@ function Home() {
           sortByLatest={isSortedByLatest}
           showRecruiting={showRecruiting}
         />
+
+        <FloatingButton onClick={handleFloatButton} />
       </main>
       <Navigation />
     </>

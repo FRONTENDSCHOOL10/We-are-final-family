@@ -63,6 +63,12 @@ function List({ type, category, location, sortByLatest, showRecruiting }) {
             );
           }
 
+          if (type === 'party') {
+            filteredData = filteredData.filter(
+              (item) => item.state !== undefined
+            );
+          }
+
           setData(filteredData);
         } else {
           console.warn('데이터가 없습니다.');
