@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import S from './Home.module.css';
 import Header from '@/components/App/Header';
 import Navigation from '@/components/App/Navigation';
@@ -7,15 +8,26 @@ import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
 
 function Home() {
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
   const handleSearchButton = () => {
-    console.log('검색 버튼 클릭');
+    setIsSearchVisible(true);
   };
+
+  const handleCloseSearch = () => {
+    setIsSearchVisible(false);
+  };
+
+  const headerActions = isSearchVisible
+    ? [{ icon: 'i_close', onClick: handleCloseSearch }]
+    : [{ icon: 'i_search', onClick: handleSearchButton }];
 
   return (
     <>
       <Header
-        myLocation={true}
-        actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
+        myLocation={!isSearchVisible}
+        search={isSearchVisible}
+        actions={headerActions}
       />
       <main className={S.home}>
         <PartyCategory />
