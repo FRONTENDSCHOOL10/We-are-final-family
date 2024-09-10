@@ -4,9 +4,11 @@ import Button from '@/components/Button/Button';
 import { createData } from '@/api/DataService';
 import useRegisterStore from '@/stores/useRegisterStore';
 import { supabase } from '@/api/supabase';
-import { useNavigate } from 'react-router-dom';
+import Modal from '@/components/Modal/Modal';
+import { validateEmail, validatePassword } from '@/utils/validation';
+import { useState } from 'react';
 
-const signUp = async (email, password, username, navigate) => {
+const signUp = async (email, password, username) => {
   try {
     console.log('Starting sign up process for email:', email);
 
@@ -16,9 +18,8 @@ const signUp = async (email, password, username, navigate) => {
     });
     if (error) {
       alert('동일한 이메일이 존재합니다');
-      return;
-    }
-    if (data.user && data.user.id) {
+      throw new Error();
+    } else if (data.user && data.user.id) {
       console.log(
         'Attempting to insert user into public.users. User ID:',
         data.user.id
@@ -28,7 +29,6 @@ const signUp = async (email, password, username, navigate) => {
       from: 'users',
       values: { email: email, username: username },
     });
-    navigate('/login');
   } catch (error) {
     console.error('Error in signUp process:', error);
     throw error;
@@ -36,35 +36,28 @@ const signUp = async (email, password, username, navigate) => {
 };
 
 function Register() {
-  const {
-    email,
-    password,
-    username,
-    emailError,
-    passwordError,
-    nameError,
-    reset,
-  } = useRegisterStore();
-  const navigate = useNavigate();
+  const { email, password, username, setEmail, reset, setPassword, setName } =
+    useRegisterStore();
+  const [active, setActive] = useState('');
+  const handleSubmit = async () => {
+    try {
+      // 회원가입 로직 실행
+      await signUp(email, password, username);
 
-  const handleSubmit = () => {
-    // 여기에서 회원가입 로직을 구현합니다.
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Name:', name);
-
-    signUp(email, password, username, navigate);
-    // 회원가입 처리 후 상태 초기화
-
-    reset();
+      // 회원가입 성공 시 상태 초기화 및 활성화
+      reset();
+      setActive(true);
+    } catch (error) {
+      // 오류가 발생하면 여기서 처리
+      console.error('회원가입 중 오류가 발생했습니다:', error);
+      // 오류 처리 로직 (필요하다면 사용자에게 알림을 줄 수 있음)
+    }
   };
   const isFormValid =
-    !emailError &&
-    !passwordError &&
-    !nameError &&
-    email &&
-    password &&
+    validateEmail(email) === '' &&
+    validatePassword(password) === '' &&
     username;
+  console.log(isFormValid);
 
   return (
     <main className={S.register}>
@@ -81,13 +74,20 @@ function Register() {
           type="email"
           label="이메일"
           info="이메일을 입력해주세요"
+          onChange={setEmail}
         />
         <ValidationInput
           type="pw"
           label="비밀번호"
           info="비밀번호를 입력해주세요"
+          onChange={setPassword}
         />
-        <ValidationInput type="normal" label="이름" info="와추얼네임" />
+        <ValidationInput
+          type="normal"
+          label="이름"
+          info="와추얼네임"
+          onChange={setName}
+        />
       </form>
       <footer>
         <Button
@@ -98,6 +98,25 @@ function Register() {
         >
           회원가입
         </Button>
+        <div
+          style={{
+            display: active ? 'block' : 'none',
+          }}
+        >
+          <Modal
+            title="인증 메일 발송"
+            desc={`인증메일이 발송되었습니다.\n 입력하신 메일로 돌아가 \n인증을 완료해주세요`}
+            buttons={[
+              {
+                type: 'submit',
+                to: '/login',
+                color: 'black',
+                label: '확인',
+                action: 'confirm',
+              },
+            ]}
+          />
+        </div>
       </footer>
     </main>
   );

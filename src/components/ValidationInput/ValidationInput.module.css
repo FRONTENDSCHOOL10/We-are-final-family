@@ -10,6 +10,7 @@
 
 .error {
   color: var(--negative);
+  padding-top: 4px;
 }
 
 .input {
