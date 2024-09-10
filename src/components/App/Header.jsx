@@ -2,13 +2,12 @@ import { useState } from 'react';
 import S from './Header.module.css';
 import { string, bool, array } from 'prop-types';
 import IconButton from '@/components/IconButton/IconButton';
-import OptionPopup from '@/components/OptionPopup/OptionPopup';
-import CurrentLocationButton from './../WriteForm/LocationButton/CurrentLocationButton/CurrentLocationButton';
+import { useNavigate } from 'react-router-dom';
 
 // 사용 방법
 // <Header back={true}></Header>
-// <Header back={true} actions={['i_search']}></Header>
-// <Header back={true} actions={['i_like_line', 'i_export', 'i_option']} />
+// <Header back={true} actions={{icon: 'i_search', onClick: handleSearchButton}}></Header>
+// <Header back={true} actions={[{icon: isLiked ? 'i_like_filled' : 'i_like_line', onClick: handleLikeButton}, { icon: 'i_export', onClick: handleExportButton }, { icon: 'i_option', onClick: handleOptionButton }]} />
 // <Header myLocation={true} actions={['i_search']}></Header>
 // <Header back={true} search={true} actions={['i_search']}></Header>
 // <Header title="프로필 수정" actions={['i_close']}></Header>
@@ -21,7 +20,7 @@ Header.propTypes = {
   back: bool, // back={boolean}
   myLocation: bool, // myLocation={boolean}
   search: bool, // search={boolean}
-  actions: array, // actions={['i_example']}
+  actions: array, // actions={[{icon: 'i_example', onClick: handleOnClick}, {icon: 'i_example', onClick: handleOnClick}]}
 };
 
 const iconButtonActions = [
@@ -40,24 +39,50 @@ function Header({
   search = false,
   actions = [],
 }) {
-  const menuOptions = [
-    { label: '모집완료', onClick: () => console.log('모집완료 클릭!') },
-    { label: '수정하기', onClick: () => console.log('수정하기 클릭!') },
-    { label: '삭제하기', onClick: () => console.log('삭제하기 클릭!') },
-  ];
+  // 내 위치 버튼
+  const [location, setLocation] = useState(''); // 현재 위치 텍스트 (예: 구로구)
+  const [isLocationActive, setIsLocationActive] = useState(false); // 위치 아이콘 상태
 
-  const [location, setLocation] = useState('i_location_line');
-  const [isOptionPopupActive, setIsOptionPopupActive] = useState(false);
+  const getRegionName = (latitude, longitude) => {
+    const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
+    const url = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${longitude}&y=${latitude}`;
 
-  const handleLocationClick = () => {
-    setLocation((prevClass) =>
-      prevClass === 'i_location_line' ? 'i_location_filled' : 'i_location_line'
-    );
+    fetch(url, {
+      headers: {
+        Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.documents && data.documents.length > 0) {
+          const regionName = data.documents[0].region_2depth_name; // 예: 구로구
+          setLocation(regionName);
+        } else {
+          setLocation('Unable to fetch location name');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching location name:', error);
+        setLocation('Error fetching location name');
+      });
   };
 
-  // OptionPopup 토글
-  const isToggleOption = () => {
-    setIsOptionPopupActive((prevState) => !prevState);
+  const handleLocationClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          getRegionName(latitude, longitude); // 좌표를 사용하여 지역명 가져오기
+          setIsLocationActive((prevState) => !prevState); // 아이콘 클래스 토글
+        },
+        (error) => {
+          console.error('Error fetching location:', error);
+          setLocation('Unable to fetch location');
+        }
+      );
+    } else {
+      setLocation('Geolocation is not supported by this browser.');
+    }
   };
 
   const getTitle = (className) => {
@@ -65,6 +90,13 @@ function Header({
       (item) => item.className === className
     );
     return action ? action.title : '';
+  };
+
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    console.log('뒤로가기 버튼 클릭');
+    navigate(-1); // 이전 페이지로 이동
   };
 
   return (
@@ -77,20 +109,25 @@ function Header({
         <IconButton
           title="뒤로 가기"
           className="i_direction_left"
-          onClick={() => console.log('뒤로 가기 클릭')}
+          onClick={handleBackButton}
         />
       )}
 
       {/* 위치 변경 버튼 */}
       {myLocation && (
         <button
-          title="내 위치"
-          aria-label="내 위치"
-          aria-pressed={location === 'i_location_filled'}
-          className={S.location_btn}
+          title={isLocationActive ? location : '내 위치'}
+          aria-label={isLocationActive ? location : '내 위치'}
+          aria-pressed={isLocationActive}
+          className={`${S.locationBtn} hdg-lg`}
           onClick={handleLocationClick}
         >
-          <CurrentLocationButton />
+          <span
+            className={
+              isLocationActive ? 'i_location_filled' : 'i_location_line'
+            }
+          ></span>
+          {isLocationActive ? location : '내 위치'}
         </button>
       )}
 
@@ -107,28 +144,16 @@ function Header({
         />
       )}
 
-      {/* 우측 아이콘 버튼이 1개일 경우 */}
-      {actions.length === 1 && (
-        <IconButton
-          className={actions[0]}
-          onClick={actions[0] === 'i_option' ? isToggleOption : undefined}
-          title={getTitle(actions[0])}
-        />
-      )}
-
-      {/* 우측 아이콘 버튼이 2개 이상일 경우 */}
-      {actions.length > 1 && (
+      {/* 우측 아이콘 버튼 */}
+      {actions && (
         <ul role="group" aria-label="옵션 버튼 그룹">
           {actions.map((action, index) => (
             <li key={index}>
               <IconButton
                 title={getTitle(action)}
-                className={action}
-                onClick={action === 'i_option' ? isToggleOption : undefined}
+                className={action.icon}
+                onClick={action.onClick}
               />
-              {isOptionPopupActive && action === 'i_option' && (
-                <OptionPopup options={menuOptions} />
-              )}
             </li>
           ))}
         </ul>

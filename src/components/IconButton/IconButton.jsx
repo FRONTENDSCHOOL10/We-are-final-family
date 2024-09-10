@@ -3,7 +3,7 @@ import S from './IconButton.module.css';
 import { string, func } from 'prop-types';
 
 // 사용 방법
-// <IconButton title="검색" className="i_search" />
+// <IconButton title="검색" className="i_search" onClick={함수명} />
 
 IconButton.propTypes = {
   title: string.isRequired, // title="" (문자열로 사용)
@@ -17,14 +17,10 @@ function IconButton({ title, className, onClick }) {
   const handleClick = () => {
     setActive(!active);
 
-    if (className === 'i_option' && onClick) {
+    if (onClick) {
       onClick();
     }
   };
-
-  const updateClassName = className.endsWith('_line')
-    ? `${className.replace('_line', '_filled')}`
-    : className;
 
   return (
     <button
@@ -34,7 +30,7 @@ function IconButton({ title, className, onClick }) {
       className={S.icon_btn}
       onClick={handleClick}
     >
-      <span className={active ? updateClassName : className}></span>
+      <span className={className}></span>
     </button>
   );
 }

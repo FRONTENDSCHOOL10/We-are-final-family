@@ -5,9 +5,16 @@ import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
 
 function Board() {
+  const handleSearchButton = () => {
+    console.log('검색 버튼 클릭');
+  };
+
   return (
     <>
-      <Header back={true} actions={['i_search']} />
+      <Header
+        back={true}
+        actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
+      />
       <main className={S.board}>
         <List type="board"></List>
         <FloatingButton />

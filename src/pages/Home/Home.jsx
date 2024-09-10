@@ -7,9 +7,16 @@ import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
 
 function Home() {
+  const handleSearchButton = () => {
+    console.log('검색 버튼 클릭');
+  };
+
   return (
     <>
-      <Header myLocation={true} actions={['i_search']} />
+      <Header
+        myLocation={true}
+        actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
+      />
       <main className={S.home}>
         <PartyCategory />
         <ListFilterButtons filter={true} />
