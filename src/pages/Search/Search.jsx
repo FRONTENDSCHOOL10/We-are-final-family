@@ -220,7 +220,7 @@ function Search() {
                 </span>
               ))
             ) : (
-              <p>최근 검색어가 없습니다.</p>
+              <p></p>
             )}
           </div>
         </section>
