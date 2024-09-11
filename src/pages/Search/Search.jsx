@@ -159,6 +159,13 @@ function Search() {
     }
   };
 
+  const handleSearchClick = async (term) => {
+    setSearchTerm(term);
+    await updateSearchPopular(term);
+    await addRecentSearch(term);
+    navigate(`/search/board?q=${encodeURIComponent(term)}`);
+  };
+
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -179,31 +186,43 @@ function Search() {
         onKeyPress={handleKeyPress}
       />
       <div className={S.searchWrap}>
-        <section>
+        <section className={S.searchContainer}>
           <h2 className="hdg-md">인기 검색어</h2>
-          {loading ? (
-            <p>로딩 중...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
-            popularSearches.map((item, index) => (
-              <span key={index} className={S.popularSearch}>
-                {item.title}
-              </span>
-            ))
-          )}
+          <div className={S.popularSearchesContainer}>
+            {loading ? (
+              <p>로딩 중...</p>
+            ) : error ? (
+              <p>{error}</p>
+            ) : (
+              popularSearches.map((item, index) => (
+                <span
+                  key={index}
+                  className={`${S.popularSearch} para-md`}
+                  onClick={() => handleSearchClick(item.title)}
+                >
+                  {item.title}
+                </span>
+              ))
+            )}
+          </div>
         </section>
-        <section>
+        <section className={S.searchContainer}>
           <h2 className="hdg-md">최근 검색어</h2>
-          {recentSearches.length > 0 ? (
-            recentSearches.map((item, index) => (
-              <span key={index} className={S.recentSearch}>
-                {item}
-              </span>
-            ))
-          ) : (
-            <p>최근 검색어가 없습니다.</p>
-          )}
+          <div className={S.recentSearchesContainer}>
+            {recentSearches.length > 0 ? (
+              recentSearches.map((item, index) => (
+                <span
+                  key={index}
+                  className={`${S.recentSearch} para-md`}
+                  onClick={() => handleSearchClick(item)}
+                >
+                  {item}
+                </span>
+              ))
+            ) : (
+              <p>최근 검색어가 없습니다.</p>
+            )}
+          </div>
         </section>
       </div>
     </>
