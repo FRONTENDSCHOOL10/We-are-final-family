@@ -17,7 +17,7 @@ List.propTypes = {
   showRecruiting: bool,
 };
 
-function List({ type, category, location, sortByLatest, showRecruiting }) {
+function List({ type, id, category, location, sortByLatest, showRecruiting }) {
   const [data, setData] = useState([]); // 상태
   const [error, setError] = useState(null); // 에러 상태
 
@@ -82,7 +82,7 @@ function List({ type, category, location, sortByLatest, showRecruiting }) {
     };
 
     fetchData();
-  }, [type, category, location, showRecruiting, sortByLatest]); // type이 변경될 때마다 데이터 새로 불러오기
+  }, [type, id, category, location, showRecruiting, sortByLatest]); // type이 변경될 때마다 데이터 새로 불러오기
 
   if (error) return <Error />;
   if (data.length === 0) return <p>데이터가 없습니다.</p>;
@@ -91,11 +91,12 @@ function List({ type, category, location, sortByLatest, showRecruiting }) {
     <>
       <ul role="group">
         {/* 데이터 리스트 렌더링 */}
-        {data.map((item, index) => {
+        {data.map((item) => {
           return (
             <ListItem
-              key={index}
+              key={item.id}
               type={type}
+              id={item.id}
               state={
                 type === 'party'
                   ? item.state
@@ -105,11 +106,11 @@ function List({ type, category, location, sortByLatest, showRecruiting }) {
               }
               category={item.category}
               title={item.title}
-              currentPeopleCount={1}
+              currentPeopleCount={item.people}
               peopleCount={item.people}
               date={item.meet_date || '날짜를 불러올 수 없습니다.'}
               place={item.place || '장소를 불러올 수 없습니다.'}
-              writeDate={item.write}
+              createDate={item.create_at}
             />
           );
         })}

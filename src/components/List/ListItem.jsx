@@ -1,9 +1,11 @@
 import Badge from '@/components/Badge/Badge';
 import S from './ListItem.module.css';
-import { string, number } from 'prop-types';
+import { string, number, func } from 'prop-types';
 import { formatDateWithYear, formatTimeAgo } from '@/utils/formatDate';
+import { Link } from 'react-router-dom';
 
 ListItem.propTypes = {
+  id: string,
   type: string.isRequired,
   state: string,
   category: string,
@@ -12,10 +14,12 @@ ListItem.propTypes = {
   peopleCount: number,
   date: string,
   place: string,
-  writeDate: string,
+  createDate: string,
+  onClick: func,
 };
 
 function ListItem({
+  id,
   type,
   state,
   category,
@@ -24,7 +28,8 @@ function ListItem({
   peopleCount,
   date,
   place,
-  writeDate,
+  createDate,
+  onClick,
 }) {
   const badgePartyVariant =
     type === 'party'
@@ -40,42 +45,47 @@ function ListItem({
       : 'category';
 
   const formattedDate = formatDateWithYear(date);
-  const timeSincePost = formatTimeAgo(writeDate);
+
+  console.log(formattedDate);
+
+  const timeSincePost = formatTimeAgo(createDate);
   const viewCount = 0; // 수정 필요
 
   if (type === 'party') {
     // Party 타입에 대한 렌더링
     return (
-      <li role="listitem" className={S.list_item}>
-        <ul aria-label="카테고리" className={S.category}>
-          {state && (
+      <li role="listitem" className={S.listItem} onClick={onClick}>
+        <Link to={`/home/detail/${id}`}>
+          <ul aria-label="카테고리" className={S.category}>
+            {state && (
+              <li>
+                <Badge text={state} variant={badgePartyVariant} />
+              </li>
+            )}
             <li>
-              <Badge text={state} variant={badgePartyVariant} />
+              <Badge text={category} variant={badgeCateVariant} />
             </li>
-          )}
-          <li>
-            <Badge text={category} variant={badgeCateVariant} />
-          </li>
-        </ul>
+          </ul>
 
-        <h2 className="para-md">{title}</h2>
+          <h2 className="para-md">{title}</h2>
 
-        <div className={`${S.info} para-sm`}>
-          <p>
-            <time dateTime={date}>{formattedDate}</time>
-          </p>
-          <span>&middot;</span>
-          <p>{place}</p>
-        </div>
+          <div className={`${S.info} para-sm`}>
+            <p>
+              <time dateTime={date}>{formattedDate}</time>
+            </p>
+            <span>&middot;</span>
+            <p>{place}</p>
+          </div>
 
-        <div className={S.info_sub}>
-          <p className={`${S.people_count} para-sm`}>
-            <span className={`i_people_line`} aria-hidden="true"></span>
-            <span className={`${S.current}`}>{currentPeopleCount}</span>
-            <span aria-hidden="true">&#47;</span>
-            <span>{peopleCount}</span>
-          </p>
-        </div>
+          <div className={S.info_sub}>
+            <p className={`${S.people_count} para-sm`}>
+              <span className={`i_people_line`} aria-hidden="true"></span>
+              <span className={`${S.current}`}>{currentPeopleCount}</span>
+              <span aria-hidden="true">&#47;</span>
+              <span>{peopleCount}</span>
+            </p>
+          </div>
+        </Link>
       </li>
     );
   }
@@ -83,30 +93,36 @@ function ListItem({
   if (type === 'board') {
     // Board 타입에 대한 렌더링
     return (
-      <li role="listitem" className={`${S.list_item} ${S.board_item}`}>
-        <div className={S.content}>
-          <ul aria-label="카테고리" className={S.category}>
-            <li>
-              <Badge text={category} variant="category" />
-            </li>
-          </ul>
+      <li
+        role="listitem"
+        className={`${S.listItem} ${S.boardItem}`}
+        onClick={onClick}
+      >
+        <Link to={`board/detail/${id}`}>
+          <div className={S.content}>
+            <ul aria-label="카테고리" className={S.category}>
+              <li>
+                <Badge text={category} variant="category" />
+              </li>
+            </ul>
 
-          <h2 className="para-md">{title}</h2>
+            <h2 className="para-md">{title}</h2>
 
-          <div className={S.info_sub}>
-            <p className={`${S.people_count} para-sm`}>
-              <span>{timeSincePost}</span>
-              <span aria-hidden="true">&middot;</span>
-              <span>조회 {viewCount}</span>
-            </p>
+            <div className={S.info_sub}>
+              <p className={`${S.people_count} para-sm`}>
+                <span>{timeSincePost}</span>
+                <span aria-hidden="true">&middot;</span>
+                <span>조회 {viewCount}</span>
+              </p>
+            </div>
           </div>
-        </div>
-        <div className={S.thumbnail}>
-          <img
-            src="/src/assets/testImg/bonobobono.jpeg"
-            alt="보노보노 이미지"
-          />
-        </div>
+          <div className={S.thumbnail}>
+            <img
+              src="/src/assets/testImg/bonobobono.jpeg"
+              alt="보노보노 이미지"
+            />
+          </div>
+        </Link>
       </li>
     );
   }

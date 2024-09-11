@@ -5,8 +5,9 @@ import PartyCategory from '@/components/List/PartyCategory';
 import FilterButton from '@/components/List/FilterButton';
 import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/api/supabase';
 
 function Home() {
   const navigate = useNavigate();
@@ -29,6 +30,25 @@ function Home() {
     성별: false,
     연령: false,
   });
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUser(user);
+      }
+    };
+
+    fetchUser();
+
+    const savedLocation = localStorage.getItem('userLocation');
+    if (savedLocation) {
+      setUserLocation(savedLocation);
+    }
+  }, []);
 
   // 카테고리
   const handleCategoryClick = (label) => {
@@ -37,8 +57,26 @@ function Home() {
   };
 
   // 내 위치
-  const handleLocationUpdate = (location) => {
-    setUserLocation(location); // 사용자 위치 업데이트
+  const handleLocationUpdate = async (location) => {
+    setUserLocation(location);
+
+    // 로그인한 사용자 위치 정보
+    if (currentUser) {
+      try {
+        const { error } = await supabase
+          .from('users')
+          .update({ location })
+          .eq('id', currentUser.id);
+
+        if (error) throw error;
+        console.log(`위치 업데이트 성공: ${location}`);
+        localStorage.setItem('userLocation', location); // 로컬 스토리지 저장
+      } catch (error) {
+        console.error('위치 업데이트 실패:', error.message);
+      }
+    } else {
+      console.log('로그인된 사용자가 아님.');
+    }
   };
 
   // 필터 버튼 클릭 핸들러
