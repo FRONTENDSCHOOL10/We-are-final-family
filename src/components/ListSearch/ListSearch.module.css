@@ -1,0 +1,31 @@
+.listSearchItem {
+  padding: .5rem 1rem;
+  border-bottom: 0.06rem solid var(--gray-100);
+}
+
+.listSearchItemContent {
+  display: flex;
+  flex-flow: column;
+  gap: 0.25rem;
+
+}
+
+.listSearchBadge {
+  padding: 0.25rem 0.375rem;
+  letter-spacing: var(--ls);
+  line-height: var(--lh-para);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  font-family: var(--base-font);
+  color: var(--white);
+  border-radius: 0.25rem;
+  background-color: var(--badge-background-color, --primary);
+}
+
+.listSearchTitle {
+  padding-top: .25rem;
+}
+
+.listSearchDate {
+  color: var(--gray-600)
+}

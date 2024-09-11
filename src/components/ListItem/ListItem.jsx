@@ -65,7 +65,13 @@ function ListItem({
   if (type === 'party') {
     // Party 타입에 대한 렌더링
     return (
-      <li role="listitem" className={S.list_item}>
+      <li
+        role="listitem"
+        className={S.list_item}
+        onClick={() => {
+          console.log(title);
+        }}
+      >
         <ul aria-label="카테고리" className={S.category}>
           {state && (
             <li>

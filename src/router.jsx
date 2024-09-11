@@ -21,6 +21,7 @@ import {
 } from '@/pages';
 
 import Test from '@/Test'; // 테스트 완료 시 제거
+import SearchBoard from './pages/Search/SearchBoard';
 
 export const routes = [
   {
@@ -42,7 +43,10 @@ export const routes = [
       {
         path: 'search',
         text: '검색',
-        element: <Search />,
+        children: [
+          { index: true, element: <Search /> },
+          { path: 'board', element: <SearchBoard /> },
+        ],
       },
       {
         path: 'home',

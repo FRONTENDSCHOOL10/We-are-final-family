@@ -19,7 +19,7 @@ function List({ type }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tableName = type === 'party' ? 'Party' : 'Board';
+        const tableName = type === 'party' ? 'party' : 'board';
         const { data: fetchedData, error } = await supabase
           .from(tableName)
           .select('*');

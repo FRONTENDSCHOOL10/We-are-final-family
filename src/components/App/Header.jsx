@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import S from './Header.module.css';
-import { string, bool, array } from 'prop-types';
+import { string, bool, array, func } from 'prop-types';
 import IconButton from '@/components/IconButton/IconButton';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,8 @@ Header.propTypes = {
   myLocation: bool, // myLocation={boolean}
   search: bool, // search={boolean}
   actions: array, // actions={[{icon: 'i_example', onClick: handleOnClick}, {icon: 'i_example', onClick: handleOnClick}]}
+  onInputChange: func,
+  onKeyPress: func,
 };
 
 const iconButtonActions = [
@@ -38,6 +40,8 @@ function Header({
   myLocation = false,
   search = false,
   actions = [],
+  onInputChange,
+  onKeyPress,
 }) {
   // 내 위치 버튼
   const [location, setLocation] = useState(''); // 현재 위치 텍스트 (예: 구로구)
@@ -141,6 +145,8 @@ function Header({
           className={`${S.inputField} para-md`}
           placeholder="검색어를 입력해주세요"
           aria-label="검색어를 입력해주세요"
+          onChange={onInputChange}
+          onKeyPress={onKeyPress}
         />
       )}
 

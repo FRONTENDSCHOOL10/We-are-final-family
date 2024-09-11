@@ -3,10 +3,13 @@ import Header from '@/components/App/Header';
 import Navigation from '@/components/App/Navigation';
 import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
+import { useNavigate } from 'react-router-dom';
 
 function Board() {
+  const navigate = useNavigate();
+
   const handleSearchButton = () => {
-    console.log('검색 버튼 클릭');
+    navigate('/search');
   };
 
   return (
