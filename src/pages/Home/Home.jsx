@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import S from './Home.module.css';
 import Header from '@/components/App/Header';
 import Navigation from '@/components/App/Navigation';
@@ -7,27 +6,19 @@ import ListFilterButtons from '@/components/ListFilterButtons/ListFilterButtons'
 import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
 
+import { useNavigate } from 'react-router-dom';
+
 function Home() {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearchButton = () => {
-    setIsSearchVisible(true);
+    navigate('/search');
   };
-
-  const handleCloseSearch = () => {
-    setIsSearchVisible(false);
-  };
-
-  const headerActions = isSearchVisible
-    ? [{ icon: 'i_close', onClick: handleCloseSearch }]
-    : [{ icon: 'i_search', onClick: handleSearchButton }];
-
   return (
     <>
       <Header
-        myLocation={!isSearchVisible}
-        search={isSearchVisible}
-        actions={headerActions}
+        myLocation={true}
+        actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
       />
       <main className={S.home}>
         <PartyCategory />
