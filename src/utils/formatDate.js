@@ -20,6 +20,19 @@ export function formatDate(dateString) {
   }${day} ${ampm} ${hour12}시 ${minutes < 10 ? '0' : ''}${minutes}분`;
 }
 
+export function formatDateWithYear(dateString) {
+  const date = new Date(dateString);
+  const koreanDate = formatKrTime(date);
+
+  const year = String(koreanDate.getUTCFullYear()).slice(2); // 년도 추출 (마지막 두 자리)
+  const month = koreanDate.getUTCMonth() + 1; // 월은 0부터 시작
+  const day = koreanDate.getUTCDate();
+
+  return `${year}.${month < 10 ? '0' : ''}${month}.${
+    day < 10 ? '0' : ''
+  }${day}`; // 'YY.MM.DD' 형식으로 반환
+}
+
 export function formatTimeAgo(dateString) {
   const now = new Date();
   const koreanNow = formatKrTime(now);

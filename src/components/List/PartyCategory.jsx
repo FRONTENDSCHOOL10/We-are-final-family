@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import S from './PartyCategory.module.css';
+import { string, func } from 'prop-types';
 
-// 사용 방법
-// <PartyCategory />
+PartyCategory.propTypes = {
+  isActive: string,
+  onClick: func.isRequired,
+};
 
-function PartyCategory() {
-  const [activeCategory, setActiveCategory] = useState('전체');
-
+function PartyCategory({ isActive, onClick }) {
   const categories = [
     { icon: '🙌', label: '전체' },
     { icon: '📝', label: '스터디' },
@@ -15,22 +15,19 @@ function PartyCategory() {
     { icon: '🏆', label: '공모전' },
   ];
 
-  const handleCategoryClick = (label) => {
-    setActiveCategory(label);
-  };
-
   return (
     <ul className={S.party_category}>
       {categories.map((category) => (
         <li key={category.label} className={S.list_item}>
-          {' '}
           <button
             type="button"
             className={`${S.button} ${
-              activeCategory === category.label ? S.active : ''
+              isActive === category.label ? S.active : ''
             }`}
-            aria-pressed={activeCategory === category.label}
-            onClick={() => handleCategoryClick(category.label)}
+            aria-pressed={isActive === category.label}
+            onClick={() => {
+              onClick(category.label);
+            }}
             aria-label={category.label}
           >
             <span className={S.icon_circle} aria-hidden="true">
