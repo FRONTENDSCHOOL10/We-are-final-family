@@ -6,12 +6,30 @@ import FilterButton from '@/components/List/FilterButton';
 import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
 import FilterModal from '@/components/List/FilterModal';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/api/supabase';
 import useHomeStore from '@/stores/useHomeStore';
 
 function Home() {
+  // 상태 관리
+  const {
+    activeCategory,
+    setActiveCategory,
+    activeFilter,
+    updateFilter,
+    isFilterModalOpen,
+    setIsFilterModalOpen,
+    // currentFilterType,
+    setCurrentFilterType,
+    filterValues,
+    setFilterValues,
+    currentUser,
+    setCurrentUser,
+    userLocation,
+    setUserLocation,
+  } = useHomeStore();
+
   // navigate
   const navigate = useNavigate();
 
@@ -24,19 +42,6 @@ function Home() {
   const handleFloatButton = () => {
     navigate('/home/write');
   };
-
-  // 상태 관리
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userLocation, setUserLocation] = useState('');
-
-  // TODO Zustand 상태 및 함수 가져오기
-  // 카테고리
-  const { activeCategory, setActiveCategory, activeFilter, updateFilter } =
-    useHomeStore();
-
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState('');
-  const [currentFilterType, setCurrentFilterType] = useState('');
-  const [filterValues, setFilterValues] = useState({}); // 선택된 필터 값을 저장하는 상태
 
   // 로그인 유저 정보
   useEffect(() => {
@@ -55,7 +60,7 @@ function Home() {
     if (savedLocation) {
       setUserLocation(savedLocation);
     }
-  }, []);
+  }, [setCurrentUser, setUserLocation]);
 
   // 내 위치
   const handleLocationUpdate = async (location) => {
@@ -86,9 +91,7 @@ function Home() {
     console.log(`카테고리 선택 : ${label}`);
   };
 
-  // TODO
-  // 필터 & 모달
-  // Filter options
+  // 필터링 버튼 모달 옵션
   const filterOptions = {
     성별: [
       { value: '누구나', label: '누구나' },
@@ -121,10 +124,10 @@ function Home() {
   const handleApplyFilter = (filterType, value) => {
     if (filterType === '관심분야') {
       updateFilter(filterType, value);
-      setFilterValues((prev) => ({ ...prev, [filterType]: value })); // 관심분야 값 업데이트
+      setFilterValues((prev) => ({ ...prev, [filterType]: value }));
     } else {
       updateFilter(filterType, value);
-      setFilterValues((prev) => ({ ...prev, [filterType]: value })); // 성별 또는 연령 값 업데이트
+      setFilterValues((prev) => ({ ...prev, [filterType]: value }));
     }
     closeFilterModal();
   };

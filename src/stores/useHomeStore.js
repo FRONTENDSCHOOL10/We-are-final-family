@@ -19,6 +19,26 @@ const useHomeStore = create((set) => ({
       activeFilter: { ...state.activeFilter, [filterKey]: value },
     }));
   },
+
+  // 필터 모달 상태
+  isFilterModalOpen: '',
+  setIsFilterModalOpen: (filterType) => set({ isFilterModalOpen: filterType }),
+
+  // 현재 필터 타입
+  currentFilterType: '',
+  setCurrentFilterType: (filterType) => set({ currentFilterType: filterType }),
+
+  // 필터 값
+  filterValues: {},
+  setFilterValues: (values) => set({ filterValues: values }),
+
+  // 현재 사용자
+  currentUser: null,
+  setCurrentUser: (user) => set({ currentUser: user }),
+
+  // 사용자 위치
+  userLocation: '',
+  setUserLocation: (location) => set({ userLocation: location }),
 }));
 
 export default useHomeStore;
