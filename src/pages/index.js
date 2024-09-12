@@ -10,6 +10,7 @@ export { default as Register } from './Register/Register';
 
 // Search (검색)
 export { default as Search } from './Search/Search';
+export { default as SearchBoard } from './Search/SearchBoard';
 
 // Home (파티모집)
 export const Home = lazy(() => import('./Home/Home'));
