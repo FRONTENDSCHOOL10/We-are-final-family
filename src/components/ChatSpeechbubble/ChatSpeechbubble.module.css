@@ -1,5 +1,14 @@
 .component {
-  display: inline-flex;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  padding: 0.4375rem 1rem; /* align-items: center; */
+  align-items: center;
+  gap: 0.625rem;
+}
+.othercomponent {
+  display: flex;
+  justify-content: flex-start;
   flex-direction: row;
   padding: 0.4375rem 1rem; /* align-items: center; */
   align-items: center;
@@ -8,6 +17,12 @@
 
 .component > div {
   display: block;
+  border-radius: 2.25rem;
+  background: var(--secondary);
+  color: var(--white);
+  padding: 0.4375rem 1rem;
+}
+.othercomponent > div {
   border-radius: 2.25rem;
   background: var(--secondary);
   color: var(--white);

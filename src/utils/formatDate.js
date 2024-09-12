@@ -7,17 +7,15 @@ export function formatDate(dateString) {
   const date = new Date(dateString);
   const koreanDate = formatKrTime(date);
 
-  const month = koreanDate.getUTCMonth() + 1; // 월은 0부터 시작
-  const day = koreanDate.getUTCDate();
+  // const month = koreanDate.getUTCMonth() + 1; // 월은 0부터 시작
+  // const day = koreanDate.getUTCDate();
   const hours = koreanDate.getUTCHours();
   const minutes = koreanDate.getUTCMinutes();
 
   const ampm = hours >= 12 ? '오후' : '오전';
   const hour12 = hours % 12 || 12; // 0시를 12시로 변환
 
-  return `${month < 10 ? '0' : ''}${month}.${
-    day < 10 ? '0' : ''
-  }${day} ${ampm} ${hour12}시 ${minutes < 10 ? '0' : ''}${minutes}분`;
+  return `${ampm} ${hour12}:${minutes < 10 ? '0' : ''}${minutes}`;
 }
 
 export function formatDateWithYear(dateString) {
