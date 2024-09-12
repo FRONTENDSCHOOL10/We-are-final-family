@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/api/supabase';
 import useHomeStore from '@/stores/useHomeStore';
+import { useState } from 'react';
 
 function Home() {
   // 상태 관리
@@ -29,6 +30,8 @@ function Home() {
     userLocation,
     setUserLocation,
   } = useHomeStore();
+  const [selectedGender, setSelectedGender] = useState('');
+  const [selectedAge, setSelectedAge] = useState('');
 
   // navigate
   const navigate = useNavigate();
@@ -122,13 +125,19 @@ function Home() {
   };
 
   const handleApplyFilter = (filterType, value) => {
-    if (filterType === '관심분야') {
-      updateFilter(filterType, value);
-      setFilterValues((prev) => ({ ...prev, [filterType]: value }));
-    } else {
-      updateFilter(filterType, value);
-      setFilterValues((prev) => ({ ...prev, [filterType]: value }));
+    updateFilter(filterType, value);
+    setFilterValues((prev) => {
+      return { ...prev, [filterType]: value };
+    });
+
+    if (filterType === '성별') {
+      setSelectedGender(value);
     }
+
+    if (filterType === '연령') {
+      setSelectedAge(value);
+    }
+
     closeFilterModal();
   };
 
@@ -178,6 +187,8 @@ function Home() {
           location={userLocation}
           sortByLatest={isSortedByLatest}
           sortByRecruiting={sortByRecruiting}
+          gender={selectedGender}
+          age={selectedAge}
         />
 
         <FloatingButton onClick={handleFloatButton} />

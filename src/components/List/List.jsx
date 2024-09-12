@@ -15,9 +15,19 @@ List.propTypes = {
   location: string,
   sortByLatest: bool,
   sortByRecruiting: bool,
+  gender: string,
+  age: string,
 };
 
-function List({ type, category, location, sortByLatest, sortByRecruiting }) {
+function List({
+  type,
+  category,
+  location,
+  sortByLatest,
+  sortByRecruiting,
+  gender,
+  age,
+}) {
   const [data, setData] = useState([]); // 상태
   const [error, setError] = useState(null); // 에러 상태
 
@@ -63,6 +73,18 @@ function List({ type, category, location, sortByLatest, sortByRecruiting }) {
             filteredData = filteredData.filter((item) => item.state === true);
           }
 
+          // 성별 필터링
+          if (gender && type === 'party') {
+            filteredData = filteredData.filter(
+              (item) => item.gender === gender
+            );
+          }
+
+          // 연령 필터링
+          if (age && type === 'party') {
+            filteredData = filteredData.filter((item) => item.age === age);
+          }
+
           if (type === 'party') {
             filteredData = filteredData.filter(
               (item) => item.state !== undefined
@@ -82,7 +104,7 @@ function List({ type, category, location, sortByLatest, sortByRecruiting }) {
     };
 
     fetchData();
-  }, [type, category, location, sortByLatest, sortByRecruiting]); // type이 변경될 때마다 데이터 새로 불러오기
+  }, [type, category, location, sortByLatest, sortByRecruiting, gender, age]); // type이 변경될 때마다 데이터 새로 불러오기
 
   if (error) return <Error />;
   if (data.length === 0) return <p>데이터가 없습니다.</p>;

@@ -29,8 +29,10 @@ const useHomeStore = create((set) => ({
   setCurrentFilterType: (filterType) => set({ currentFilterType: filterType }),
 
   // 필터 값
-  filterValues: {},
-  setFilterValues: (values) => set({ filterValues: values }),
+  filterValues: {}, // 초기 상태
+  setFilterValues: (values) => {
+    set({ filterValues: values });
+  },
 
   // 현재 사용자
   currentUser: null,
