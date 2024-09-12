@@ -13,6 +13,8 @@ Header.propTypes = {
   search: bool,
   actions: array,
   onLocationUpdate: func,
+  onInputChange: func,
+  onKeyPress: func,
 };
 
 const iconButtonActions = [
@@ -31,6 +33,8 @@ function Header({
   search = false,
   actions = [],
   onLocationUpdate,
+  onInputChange,
+  onKeyPress,
 }) {
   const navigate = useNavigate();
 
@@ -181,6 +185,8 @@ function Header({
           className={`${S.inputField} para-md`}
           placeholder="검색어를 입력해주세요"
           aria-label="검색어를 입력해주세요"
+          onChange={onInputChange}
+          onKeyPress={onKeyPress}
         />
       )}
 
