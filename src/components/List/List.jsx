@@ -14,10 +14,10 @@ List.propTypes = {
   category: string,
   location: string,
   sortByLatest: bool,
-  showRecruiting: bool,
+  sortByRecruiting: bool,
 };
 
-function List({ type, id, category, location, sortByLatest, showRecruiting }) {
+function List({ type, category, location, sortByLatest, sortByRecruiting }) {
   const [data, setData] = useState([]); // 상태
   const [error, setError] = useState(null); // 에러 상태
 
@@ -51,16 +51,16 @@ function List({ type, id, category, location, sortByLatest, showRecruiting }) {
             );
           }
 
-          // 모집중 필터
-          if (showRecruiting) {
-            filteredData = filteredData.filter((item) => item.state === true);
-          }
-
           // 최신순 정렬
           if (sortByLatest) {
             filteredData = filteredData.sort(
               (a, b) => new Date(b.meet_date) - new Date(a.meet_date)
             );
+          }
+
+          // 모집중 정렬
+          if (sortByRecruiting) {
+            filteredData = filteredData.filter((item) => item.state === true);
           }
 
           if (type === 'party') {
@@ -82,7 +82,7 @@ function List({ type, id, category, location, sortByLatest, showRecruiting }) {
     };
 
     fetchData();
-  }, [type, id, category, location, showRecruiting, sortByLatest]); // type이 변경될 때마다 데이터 새로 불러오기
+  }, [type, category, location, sortByLatest, sortByRecruiting]); // type이 변경될 때마다 데이터 새로 불러오기
 
   if (error) return <Error />;
   if (data.length === 0) return <p>데이터가 없습니다.</p>;

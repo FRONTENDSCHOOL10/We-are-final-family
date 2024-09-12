@@ -5,33 +5,40 @@ import PartyCategory from '@/components/List/PartyCategory';
 import FilterButton from '@/components/List/FilterButton';
 import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
+import FilterModal from '@/components/List/FilterModal';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/api/supabase';
+import useHomeStore from '@/stores/useHomeStore';
 
 function Home() {
+  // navigate
   const navigate = useNavigate();
 
+  // 검색 버튼
   const handleSearchButton = () => {
     navigate('/search');
   };
 
+  // 작성 버튼
   const handleFloatButton = () => {
-    console.log('파티모집 글 작성하기 버튼 클릭');
+    navigate('/home/write');
   };
 
   // 상태 관리
-  const [activeCategory, setActiveCategory] = useState('전체');
-  const [userLocation, setUserLocation] = useState('');
-  const [activeFilters, setActiveFilters] = useState({
-    관심분야: false,
-    최신순: true,
-    모집중: true,
-    성별: false,
-    연령: false,
-  });
   const [currentUser, setCurrentUser] = useState(null);
+  const [userLocation, setUserLocation] = useState('');
 
+  // TODO Zustand 상태 및 함수 가져오기
+  // 카테고리
+  const { activeCategory, setActiveCategory, activeFilter, updateFilter } =
+    useHomeStore();
+
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState('');
+  const [currentFilterType, setCurrentFilterType] = useState('');
+  const [filterValues, setFilterValues] = useState({}); // 선택된 필터 값을 저장하는 상태
+
+  // 로그인 유저 정보
   useEffect(() => {
     const fetchUser = async () => {
       const {
@@ -49,12 +56,6 @@ function Home() {
       setUserLocation(savedLocation);
     }
   }, []);
-
-  // 카테고리
-  const handleCategoryClick = (label) => {
-    setActiveCategory(label);
-    console.log(`카테고리 선택 : ${label}`);
-  };
 
   // 내 위치
   const handleLocationUpdate = async (location) => {
@@ -79,21 +80,68 @@ function Home() {
     }
   };
 
-  // 필터 버튼 클릭 핸들러
-  const handleFilterButtonClick = (filterType) => {
-    setActiveFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterType]: !prevFilters[filterType],
-    }));
-
-    console.log(`필터 선택 : ${filterType}`);
+  // 카테고리
+  const handleCategoryClick = (label) => {
+    setActiveCategory(label);
+    console.log(`카테고리 선택 : ${label}`);
   };
 
-  // 모집중
-  const showRecruiting = activeFilters['모집중'];
+  // TODO
+  // 필터 & 모달
+  // Filter options
+  const filterOptions = {
+    성별: [
+      { value: '누구나', label: '누구나' },
+      { value: '남성', label: '남성' },
+      { value: '여성', label: '여성' },
+    ],
+    연령: [
+      { value: '누구나', label: '누구나' },
+      { value: '10대', label: '10대' },
+      { value: '20대', label: '20대' },
+      { value: '30대', label: '30대' },
+      { value: '40대', label: '40대' },
+      { value: '50대 이상', label: '50대 이상' },
+    ],
+    관심분야: [
+      { value: '관심1', label: '관심1' },
+      { value: '관심2', label: '관심2' },
+    ],
+  };
+
+  const handleFilterChange = (filterKey) => {
+    if (filterKey === '성별' || filterKey === '연령') {
+      setCurrentFilterType(filterKey);
+      setIsFilterModalOpen(filterKey);
+    } else {
+      updateFilter(filterKey, !activeFilter[filterKey]);
+    }
+  };
+
+  const handleApplyFilter = (filterType, value) => {
+    if (filterType === '관심분야') {
+      updateFilter(filterType, value);
+      setFilterValues((prev) => ({ ...prev, [filterType]: value })); // 관심분야 값 업데이트
+    } else {
+      updateFilter(filterType, value);
+      setFilterValues((prev) => ({ ...prev, [filterType]: value })); // 성별 또는 연령 값 업데이트
+    }
+    closeFilterModal();
+  };
+
+  const closeFilterModal = () => {
+    setIsFilterModalOpen('');
+  };
+
+  const getFilterLabel = (key) => {
+    return filterValues[key] || key;
+  };
 
   // 최신순
-  const isSortedByLatest = activeFilters['최신순'];
+  const isSortedByLatest = activeFilter['최신순'];
+
+  // 모집중
+  const sortByRecruiting = activeFilter['모집중'];
 
   return (
     <>
@@ -110,19 +158,13 @@ function Home() {
 
         {/* FilterButton */}
         <div className={S.filters}>
-          {['관심분야', '최신순', '모집중', '성별', '연령'].map((filter) => (
+          {Object.keys(activeFilter).map((item) => (
             <FilterButton
-              key={filter}
-              label={filter}
-              isActive={activeFilters[filter]}
-              onClick={() => handleFilterButtonClick(filter)}
-              iconType={
-                filter === '관심분야'
-                  ? 'i_menu'
-                  : activeFilters[filter]
-                  ? 'i_check'
-                  : ''
-              }
+              key={item}
+              label={getFilterLabel(item)} // 선택된 값 또는 기본값을 label로 설정
+              onClick={() => handleFilterChange(item)}
+              isActive={!!activeFilter[item]} // Ensure isActive is a boolean
+              iconType={item === '관심분야' ? 'i_menu' : ''}
             />
           ))}
         </div>
@@ -132,12 +174,21 @@ function Home() {
           category={activeCategory}
           location={userLocation}
           sortByLatest={isSortedByLatest}
-          showRecruiting={showRecruiting}
+          sortByRecruiting={sortByRecruiting}
         />
 
         <FloatingButton onClick={handleFloatButton} />
       </main>
       <Navigation />
+
+      {isFilterModalOpen && (
+        <FilterModal
+          title={isFilterModalOpen}
+          onClose={closeFilterModal}
+          filterOptions={filterOptions}
+          onApply={(filterType, value) => handleApplyFilter(filterType, value)}
+        />
+      )}
     </>
   );
 }
