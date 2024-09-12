@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import S from './ValidationInput.module.css';
 import {
@@ -6,21 +6,11 @@ import {
   validatePassword,
   validateEmail,
 } from '@/utils/validation';
-import { func } from 'prop-types';
 
-// 사용방법
-// <ValidationInput type="id" label="아이디" info="아뒤입력"/>
-// <ValidationInput type="pw" label="비밀번호" info="비번입력"/>
-// <ValidationInput type="email" label="이메일" info="이메일@gmail.com" />
-// <ValidationInput type="normal" label="적는대로나오겠지?" info="안내 메시지" />
-
-function ValidationInput({
-  type = 'text',
-  label,
-  info = '',
-  onChange,
-  ...props
-}) {
+const ValidationInput = React.forwardRef(function ValidationInput(
+  { type = 'text', label, info = '', onChange, onKeyDown, ...props },
+  ref
+) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
 
@@ -47,13 +37,19 @@ function ValidationInput({
     setError(validationError);
   }
 
+  function handleKeyDown(e) {
+    onKeyDown?.(e);
+  }
+
   return (
     <div className={S.container}>
       {label && <label className={`${S.label} lbl-md`}>{label}</label>}
       <input
+        ref={ref}
         type={type === 'pw' ? 'password' : type === 'email' ? 'email' : 'text'}
         defaultValue={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         className={`${S.input} ${error ? S.inputError : ''} para-md`}
         placeholder={info}
         {...props}
@@ -61,13 +57,14 @@ function ValidationInput({
       {error && <p className={`${S.error} para-sm`}>{error}</p>}
     </div>
   );
-}
+});
 
 ValidationInput.propTypes = {
   type: PropTypes.oneOf(['id', 'pw', 'email', 'normal', 'text']).isRequired,
   label: PropTypes.string,
   info: PropTypes.string,
-  onChange: func,
+  onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
 };
 
 export default ValidationInput;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import S from './Login.module.css';
 import Button from '@/components/Button/Button';
@@ -13,6 +13,7 @@ function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { clearInterests } = useInterestStore();
+  const passwordInputRef = useRef(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -48,7 +49,6 @@ function Login() {
 
       console.log('Sign in successful, fetching user data');
 
-      // getData 함수를 사용하여 특정 사용자 정보만 가져오기
       getData({
         form: 'users',
         select: '*',
@@ -76,6 +76,17 @@ function Login() {
     }
   };
 
+  const handleKeyDown = (e, inputType) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (inputType === 'email') {
+        passwordInputRef.current.focus();
+      } else if (inputType === 'password') {
+        handleLogin(e);
+      }
+    }
+  };
+
   return (
     <main className={S.login}>
       <header>
@@ -90,12 +101,15 @@ function Login() {
           type="email"
           label="이메일"
           onChange={setEmail}
+          onKeyDown={(e) => handleKeyDown(e, 'email')}
           required
         />
         <ValidationInput
           type="pw"
           label="비밀번호"
           onChange={setPassword}
+          onKeyDown={(e) => handleKeyDown(e, 'password')}
+          ref={passwordInputRef}
           required
         />
         {error && <p className={`${S.error} para-sm`}>{error}</p>}
