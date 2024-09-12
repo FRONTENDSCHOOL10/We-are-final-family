@@ -1,6 +1,7 @@
 import S from './ChatRoom.module.css';
 import Header from '@/components/App/Header';
 import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
+import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
 import SendMessage from '@/components/SendMessage/SendMessage';
 import { useStore } from '@/stores/chatStore';
 import { formatDate } from '@/utils/formatDate';

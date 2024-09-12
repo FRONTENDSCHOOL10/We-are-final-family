@@ -1,0 +1,59 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.filterModal {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  min-height: 50%;
+  max-height: 75%;
+  overflow: hidden;
+  padding: 1rem 0;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  background-color: var(--white);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+
+  header {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
+
+  ul {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    overflow: auto;
+  }
+}
+
+.button {
+  padding: 0.25rem 0.75rem;
+  white-space: nowrap;
+  color: var(--gray-900);
+  border: 1px solid var(--gray-100);
+  border-radius: 2.5rem;
+  background-color: var(--white);
+
+  &.active {
+    color: var(--white);
+    border: 1px solid var(--gray-900);
+    background-color: var(--gray-900);
+  }
+}

@@ -5,3 +5,11 @@
   flex-flow: column nowrap;
   overflow: auto;
 }
+
+.filters {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--gray-100);
+}

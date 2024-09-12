@@ -1,26 +1,18 @@
-import { useState } from 'react';
 import S from './Header.module.css';
-import { string, bool, array } from 'prop-types';
 import IconButton from '@/components/IconButton/IconButton';
+import { string, bool, array, func } from 'prop-types';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// 사용 방법
-// <Header back={true}></Header>
-// <Header back={true} actions={{icon: 'i_search', onClick: handleSearchButton}}></Header>
-// <Header back={true} actions={[{icon: isLiked ? 'i_like_filled' : 'i_like_line', onClick: handleLikeButton}, { icon: 'i_export', onClick: handleExportButton }, { icon: 'i_option', onClick: handleOptionButton }]} />
-// <Header myLocation={true} actions={['i_search']}></Header>
-// <Header back={true} search={true} actions={['i_search']}></Header>
-// <Header title="프로필 수정" actions={['i_close']}></Header>
-// <Header title="채팅" actions={['i_search']}></Header>
-// <Header back={true} contactName="김멋사" actions={['i_menu']}></Header>
+import { supabase } from '@/api/supabase';
 
 Header.propTypes = {
-  title: string, // title=""
-  contactName: string, // contactName=""
-  back: bool, // back={boolean}
-  myLocation: bool, // myLocation={boolean}
-  search: bool, // search={boolean}
-  actions: array, // actions={[{icon: 'i_example', onClick: handleOnClick}, {icon: 'i_example', onClick: handleOnClick}]}
+  title: string,
+  contactName: string,
+  back: bool,
+  myLocation: bool,
+  search: bool,
+  actions: array,
+  onLocationUpdate: func,
 };
 
 const iconButtonActions = [
@@ -38,10 +30,63 @@ function Header({
   myLocation = false,
   search = false,
   actions = [],
+  onLocationUpdate,
 }) {
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    console.log('뒤로가기 버튼 클릭');
+    navigate(-1); // 이전 페이지로 이동
+  };
+
   // 내 위치 버튼
-  const [location, setLocation] = useState(''); // 현재 위치 텍스트 (예: 구로구)
+  const [location, setLocation] = useState('내 위치'); // 현재 위치 텍스트 (예: 구로구)
   const [isLocationActive, setIsLocationActive] = useState(false); // 위치 아이콘 상태
+
+  useEffect(() => {
+    if (myLocation) {
+      const fetchUserLocation = async () => {
+        const {
+          data: { user },
+          error,
+        } = await supabase.auth.getUser(); // 현재 로그인한 사용자 가져오기
+
+        if (error) {
+          console.error('사용자 정보를 가져오는 중 오류 발생:', error);
+          return;
+        }
+
+        if (!user) {
+          console.error('사용자를 찾을 수 없음');
+          return;
+        }
+
+        const { data, error: fetchError } = await supabase
+          .from('users')
+          .select('location')
+          .eq('email', user.email) // 이메일을 기준으로 사용자 조회
+          .single(); // 단일 사용자만 조회
+
+        if (fetchError) {
+          console.error('사용자 위치를 가져오는 중 오류 발생:', fetchError);
+        } else {
+          const userLocation = data?.location;
+          if (userLocation) {
+            setLocation(userLocation);
+            setIsLocationActive(true);
+          } else {
+            const storedLocation = localStorage.getItem('location');
+            if (storedLocation) {
+              setLocation(storedLocation);
+              setIsLocationActive(true);
+            }
+          }
+        }
+      };
+
+      fetchUserLocation();
+    }
+  }, [myLocation]);
 
   const getRegionName = (latitude, longitude) => {
     const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
@@ -57,13 +102,15 @@ function Header({
         if (data.documents && data.documents.length > 0) {
           const regionName = data.documents[0].region_2depth_name; // 예: 구로구
           setLocation(regionName);
+          localStorage.setItem('location', regionName);
+          onLocationUpdate(regionName);
         } else {
-          setLocation('Unable to fetch location name');
+          setLocation('위치 이름을 가져올 수 없음');
         }
       })
       .catch((error) => {
-        console.error('Error fetching location name:', error);
-        setLocation('Error fetching location name');
+        console.error('위치 이름을 가져오는 중 오류 발생:', error);
+        setLocation('위치 이름을 가져오는 중 오류 발생');
       });
   };
 
@@ -73,15 +120,15 @@ function Header({
         (position) => {
           const { latitude, longitude } = position.coords;
           getRegionName(latitude, longitude); // 좌표를 사용하여 지역명 가져오기
-          setIsLocationActive((prevState) => !prevState); // 아이콘 클래스 토글
+          setIsLocationActive(true);
         },
         (error) => {
-          console.error('Error fetching location:', error);
-          setLocation('Unable to fetch location');
+          console.error('위치 정보를 가져오는 중 오류 발생:', error);
+          setLocation('위치 정보를 가져올 수 없음');
         }
       );
     } else {
-      setLocation('Geolocation is not supported by this browser.');
+      setLocation('이 브라우저는 Geolocation을 지원하지 않습니다.');
     }
   };
 
@@ -90,13 +137,6 @@ function Header({
       (item) => item.className === className
     );
     return action ? action.title : '';
-  };
-
-  const navigate = useNavigate();
-
-  const handleBackButton = () => {
-    console.log('뒤로가기 버튼 클릭');
-    navigate(-1); // 이전 페이지로 이동
   };
 
   return (
@@ -116,8 +156,8 @@ function Header({
       {/* 위치 변경 버튼 */}
       {myLocation && (
         <button
-          title={isLocationActive ? location : '내 위치'}
-          aria-label={isLocationActive ? location : '내 위치'}
+          title={location}
+          aria-label={location}
           aria-pressed={isLocationActive}
           className={`${S.locationBtn} hdg-lg`}
           onClick={handleLocationClick}
