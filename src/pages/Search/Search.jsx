@@ -27,11 +27,16 @@ function Search() {
 
       if (error) throw error;
 
-      setPopularSearches(data);
+      if (data && data.length > 0) {
+        setPopularSearches(data);
+      } else {
+        setPopularSearches([]); // 데이터가 없을 경우 빈 배열 설정
+      }
       setLoading(false);
     } catch (error) {
       console.error('Error fetching popular searches:', error);
       setError('인기 검색어를 불러오는 데 실패했습니다.');
+      setPopularSearches([]); // 오류 발생 시 빈 배열 설정
       setLoading(false);
     }
   }
@@ -58,33 +63,55 @@ function Search() {
       setRecentSearches(recentSearches);
     } catch (error) {
       console.error('Error fetching recent searches:', error);
+      setRecentSearches([]); // 오류 발생 시 빈 배열 설정
     }
   }
 
   async function updateSearchPopular(term) {
     try {
+      console.log('Updating search popular for term:', term);
       const { data, error } = await supabase
         .from('search_popular')
-        .select('count')
+        .select('*')
         .eq('title', term)
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
+      console.log('Query result:', data, error);
+
+      if (error) {
         throw error;
       }
 
-      if (data) {
-        await supabase
+      if (!data) {
+        // 결과가 없으면 새 항목 삽입
+        console.log('Inserting new search term');
+        const { data: insertData, error: insertError } = await supabase
+          .from('search_popular')
+          .insert({ title: term, count: 1 })
+          .select()
+          .single();
+
+        console.log('Insert result:', insertData, insertError);
+
+        if (insertError) throw insertError;
+      } else {
+        // 결과가 있으면 카운트 증가
+        console.log('Updating existing search term');
+        const { data: updateData, error: updateError } = await supabase
           .from('search_popular')
           .update({ count: data.count + 1 })
-          .eq('title', term);
-      } else {
-        await supabase.from('search_popular').insert({ title: term, count: 1 });
+          .eq('title', term)
+          .select()
+          .single();
+
+        console.log('Update result:', updateData, updateError);
+
+        if (updateError) throw updateError;
       }
 
-      fetchPopularSearches();
+      await fetchPopularSearches();
     } catch (error) {
-      console.error('Error updating search popular:', error);
+      console.error('Error in updateSearchPopular:', error);
     }
   }
 
@@ -96,7 +123,6 @@ function Search() {
         return;
       }
 
-      // 현재 사용자의 최근 검색어 가져오기
       const { data, error } = await supabase
         .from('search_recent')
         .select(
@@ -107,19 +133,16 @@ function Search() {
 
       if (error && error.code !== 'PGRST116') throw error;
 
-      // 새로운 검색어 목록 생성
       let newRecentSearches = [term];
       if (data) {
-        // 기존 데이터에서 중복 제거 및 새 검색어 추가
         const existingSearches = Object.values(data).filter(Boolean);
         newRecentSearches = [
           term,
           ...existingSearches.filter((search) => search !== term),
         ];
       }
-      newRecentSearches = newRecentSearches.slice(0, 10); // 최대 10개만 유지
+      newRecentSearches = newRecentSearches.slice(0, 10);
 
-      // Supabase에 업데이트할 데이터 준비
       const updateData = {
         userid: currentUser.id,
       };
@@ -128,7 +151,6 @@ function Search() {
       });
 
       if (data) {
-        // 기존 데이터가 있으면 업데이트
         const { error: updateError } = await supabase
           .from('search_recent')
           .update(updateData)
@@ -136,7 +158,6 @@ function Search() {
 
         if (updateError) throw updateError;
       } else {
-        // 기존 데이터가 없으면 새로 삽입
         const { error: insertError } = await supabase
           .from('search_recent')
           .insert([updateData]);
@@ -144,7 +165,6 @@ function Search() {
         if (insertError) throw insertError;
       }
 
-      // 최근 검색어 목록 다시 불러오기
       fetchRecentSearches();
     } catch (error) {
       console.error('Error adding recent search:', error);
@@ -153,17 +173,27 @@ function Search() {
 
   const handleSearch = async () => {
     if (searchTerm.trim()) {
-      await updateSearchPopular(searchTerm.trim());
-      await addRecentSearch(searchTerm.trim());
-      navigate(`/search/searchboard?q=${encodeURIComponent(searchTerm)}`);
+      try {
+        await updateSearchPopular(searchTerm.trim());
+        await addRecentSearch(searchTerm.trim());
+        navigate(`/search/searchboard?q=${encodeURIComponent(searchTerm)}`);
+      } catch (error) {
+        console.error('Search error:', error);
+        setError('검색 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
   const handleSearchClick = async (term) => {
     setSearchTerm(term);
-    await updateSearchPopular(term);
-    await addRecentSearch(term);
-    navigate(`/search/searchboard?q=${encodeURIComponent(term)}`);
+    try {
+      await updateSearchPopular(term);
+      await addRecentSearch(term);
+      navigate(`/search/searchboard?q=${encodeURIComponent(term)}`);
+    } catch (error) {
+      console.error('Search click error:', error);
+      setError('검색 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   const handleInputChange = (e) => {
