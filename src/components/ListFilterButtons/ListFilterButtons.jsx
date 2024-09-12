@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
 import S from './ListFilterButtons.module.css';
 import ListModal from './ListModal';
-import { filterOptions } from './data/ListFilterButtonsData';
+import {
+  filterOptions,
+  searchFilterOptions,
+} from './data/ListFilterButtonsData';
+import PropTypes from 'prop-types';
 
-// 사용방법
-// <ListFilterButtons filter={true} />
-// <ListFilterButtons filter={false} />
+function ListFilterButtons({
+  filter,
+  optionsType = 'filterOptions',
 
-function ListFilterButtons({ filter }) {
+  onChange,
+  activeFilter,
+}) {
   const [showModal, setShowModal] = useState(false);
-  const [activeFilters, setActiveFilters] = useState({
-    latest: false,
-    recruiting: false,
-    anyone: false,
-  });
 
   useEffect(() => {
     if (showModal) {
@@ -28,15 +29,17 @@ function ListFilterButtons({ filter }) {
   }, [showModal]);
 
   function toggleFilter(filterKey) {
-    setActiveFilters((prev) => ({
-      ...prev,
-      [filterKey]: !prev[filterKey],
-    }));
+    if (onChange) {
+      onChange(filterKey);
+    }
   }
 
   function toggleModal() {
     setShowModal((prev) => !prev);
   }
+
+  const options =
+    optionsType === 'filterOptions' ? filterOptions : searchFilterOptions;
 
   return (
     <div className={`${S.container} para-md`}>
@@ -49,15 +52,15 @@ function ListFilterButtons({ filter }) {
           관심분야
         </button>
       )}
-      {filterOptions.map(({ key, label }) => (
+      {options.map(({ key, label }) => (
         <button
           key={key}
           className={`${S.filterButton} para-md ${
-            activeFilters[key] ? S.active : ''
+            activeFilter === key ? S.active : ''
           }`}
           onClick={() => toggleFilter(key)}
         >
-          {activeFilters[key] && <span className={`${S.icon} i_check`} />}
+          {activeFilter === key && <span className={`${S.icon} i_check`} />}
           {label}
         </button>
       ))}
@@ -65,5 +68,13 @@ function ListFilterButtons({ filter }) {
     </div>
   );
 }
+
+ListFilterButtons.propTypes = {
+  filter: PropTypes.bool,
+  optionsType: PropTypes.oneOf(['filterOptions', 'searchFilterOptions']),
+  singleSelect: PropTypes.bool,
+  onChange: PropTypes.func,
+  activeFilter: PropTypes.string,
+};
 
 export default ListFilterButtons;
