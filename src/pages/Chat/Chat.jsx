@@ -5,10 +5,12 @@ import Navigation from '@/components/App/Navigation';
 import { ChatProfileCard } from '@/components/ChatProfileCard/ChatProfileCard';
 import { useState, useEffect } from 'react';
 import { useStore } from '@/stores/chatStore';
+import { useNavigate } from 'react-router-dom';
 
 function Chat() {
   const [chatRoomIds, setChatRoomIds] = useState([]);
   const store = useStore();
+  const navigate = useNavigate();
 
   const handleSearchButton = () => {
     console.log('검색 버튼 클릭');
@@ -68,8 +70,12 @@ function Chat() {
     }
   }, [store.chatRooms]); // chatRooms가 업데이트될 때마다 호출
 
-  function handleClick(roomid) {
-    console.log(roomid);
+  function handleClick(selectedUser) {
+    store.setSelectedUser(selectedUser);
+    console.log(store.selectedUser);
+
+    store.fetchChatRooms();
+    navigate('/chat/room');
   }
   return (
     <>
@@ -85,9 +91,9 @@ function Chat() {
                 <ChatProfileCard
                   user={room.otherUser}
                   onClick={() => {
-                    handleClick(room.id);
+                    handleClick(room.otherUser.id);
                   }}
-                  id={room.id}
+                  id={room.otherUser}
                 />
               </li>
             ))

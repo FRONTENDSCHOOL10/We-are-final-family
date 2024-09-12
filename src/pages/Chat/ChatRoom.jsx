@@ -1,7 +1,6 @@
 import S from './ChatRoom.module.css';
 import Header from '@/components/App/Header';
 import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
-import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
 import SendMessage from '@/components/SendMessage/SendMessage';
 import { useStore } from '@/stores/chatStore';
 import { formatDate } from '@/utils/formatDate';
@@ -13,11 +12,11 @@ function ChatRoom() {
     console.log('검색 버튼 클릭');
   };
   useEffect(() => {
-    if (store.currentRoom) store.fetchMessages(store.currentRoom);
+    store.fetchMessages(store.currentRoom);
 
     const unsubscribe = store.subscribeToMessages(store.currentRoom);
     return unsubscribe;
-  }, [store.currentRoom]);
+  }, []);
 
   console.log(store.currentRoom);
   console.log(store.messages);

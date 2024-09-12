@@ -1,10 +1,11 @@
 import { supabase } from '@/api/supabase';
+import { produce } from 'immer';
 import { create } from 'zustand';
 
 export const useStore = create((set, get) => ({
-  chatRooms: [],
+  chatRooms: [], // 이머사용해야됨
   currentRoom: null,
-  messages: [],
+  messages: [], // 이머사용해야됨
   newMessage: '',
   currentUser: null, // 현재 사용자 정보
   selectedUser: null, // 선택된 상대방 사용자 정보
@@ -12,6 +13,35 @@ export const useStore = create((set, get) => ({
   setCurrentUser: (user) => set({ currentUser: user }),
   setSelectedUser: (user) => set({ selectedUser: user }),
   setNewMessage: (message) => set({ newMessage: message }),
+  setCurrentRoom: (room) => {
+    set(
+      produce((draft) => {
+        draft.newCurrentRoom = room;
+      })
+    );
+  },
+
+  //두사용자 간의 채팅방 찾기
+
+  fetchChatRoom: async () => {
+    const { currentUser, selectedUser } = get();
+    if (!currentUser || !selectedUser) {
+      console.error('currentUser 또는 selectedUser가 없습니다');
+      return null;
+    }
+
+    const { data: existingRoom } = await supabase
+      .from('chat_rooms')
+      .select('*')
+      .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+      .or(`user1_id.eq.${selectedUser.id},user2_id.eq.${selectedUser.id}`)
+      .limit(1);
+
+    if (existingRoom && existingRoom.length > 0) {
+      set({ currentRoom: existingRoom[0] });
+      return existingRoom[0];
+    }
+  },
 
   fetchOrCreateChatRoom: async () => {
     const { currentUser, selectedUser } = get();
@@ -20,7 +50,6 @@ export const useStore = create((set, get) => ({
       return null;
     }
 
-    // 두 사용자 간의 기존 채팅방 찾기
     const { data: existingRoom } = await supabase
       .from('chat_rooms')
       .select('*')
