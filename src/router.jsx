@@ -6,6 +6,7 @@ import {
   Interest,
   Register,
   Search,
+  SearchBoard,
   Home,
   HomeDetail,
   HomeWrite,
@@ -42,7 +43,10 @@ export const routes = [
       {
         path: 'search',
         text: '검색',
-        element: <Search />,
+        children: [
+          { index: true, element: <Search /> },
+          { path: 'searchboard', element: <SearchBoard /> },
+        ],
       },
       {
         path: 'home',
