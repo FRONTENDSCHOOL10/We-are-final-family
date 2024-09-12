@@ -3,7 +3,7 @@ export const ProfileAgeData = [
   { id: 'twenties', label: '20대' },
   { id: 'thirties', label: '30대' },
   { id: 'forties', label: '40대' },
-  { id: 'over', label: '딸피' },
+  { id: 'over', label: '50대 이상' },
 ];
 
 export const ProfileGenderData = [
