@@ -1,6 +1,23 @@
-.searchWrap {
-  flex: 1;
-  display: flex;
-  flex-flow: column nowrap;
+.searchContainer {
   padding: 1rem;
+}
+
+.recentSearchesContainer,
+.popularSearchesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.recentSearch,
+.popularSearch {
+  padding: 0.31rem 0.75rem;
+  border: 0.06rem solid var(--gray-100);
+  border-radius: 2.25rem;
+}
+
+.recentSearch:hover,
+.popularSearch:hover {
+  cursor: pointer;
+  background-color: var(--gray-100);
 }
