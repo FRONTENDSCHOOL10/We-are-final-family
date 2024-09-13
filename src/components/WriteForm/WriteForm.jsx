@@ -1,6 +1,10 @@
 import ButtonSelector from './ButtonSelector/ButtonSelector';
 import { AgeData } from './ButtonSelector/data/AgeDate';
 import { GenderData } from './ButtonSelector/data/GenderData';
+import {
+  ProfileAgeData,
+  ProfileGenderData,
+} from './ButtonSelector/data/ProfileData';
 import { Toggle } from './ButtonSelector/Toggle/Toggle';
 import DateSelector from './DateSelector/DateSelector';
 import LocationButton from './LocationButton/LocationButton';
@@ -15,8 +19,10 @@ import TimeSelector from './TimeSelector/TimeSelector';
 // <WriteForm label="성별" title="on" toggleName="전체 공개" toggle="on" />
 // <WriteForm label="연령" title="on" toggleName="전체 공개" toggle="on" />
 // <WriteForm label="토글" toggleName="승인 후 참여" toggle="on" />
+// <WriteForm label="연령" title="on" toggleName="전체 공개" toggle="on" type="profile" />
+// <WriteForm label="성별" title="on" toggleName="전체 공개" toggle="on" type="profile" />
 
-function WriteForm({ label, title, toggle, toggleName }) {
+function WriteForm({ label, title, toggle, toggleName, type = 'default' }) {
   switch (label) {
     case '인원':
       return <PersonnelCounter label={label} />;
@@ -31,7 +37,7 @@ function WriteForm({ label, title, toggle, toggleName }) {
     case '성별':
       return (
         <ButtonSelector
-          data={GenderData}
+          data={type === 'profile' ? ProfileGenderData : GenderData}
           label={label}
           title={title}
           toggle={toggle}
@@ -41,14 +47,13 @@ function WriteForm({ label, title, toggle, toggleName }) {
     case '연령':
       return (
         <ButtonSelector
-          data={AgeData}
+          data={type === 'profile' ? ProfileAgeData : AgeData}
           label={label}
           title={title}
           toggle={toggle}
           toggleName={toggleName}
         />
       );
-
     default:
       return null;
   }
