@@ -22,7 +22,21 @@ import TimeSelector from './TimeSelector/TimeSelector';
 // <WriteForm label="연령" title="on" toggleName="전체 공개" toggle="on" type="profile" />
 // <WriteForm label="성별" title="on" toggleName="전체 공개" toggle="on" type="profile" />
 
-function WriteForm({ label, title, toggle, toggleName, type = 'default' }) {
+function WriteForm({
+  label,
+  title,
+  toggle,
+  toggleName,
+  type = 'default',
+  value,
+  onChange,
+}) {
+  const handleChange = (newValue) => {
+    if (onChange) {
+      onChange(newValue);
+    }
+  };
+
   switch (label) {
     case '인원':
       return <PersonnelCounter label={label} />;
@@ -42,6 +56,8 @@ function WriteForm({ label, title, toggle, toggleName, type = 'default' }) {
           title={title}
           toggle={toggle}
           toggleName={toggleName}
+          value={value}
+          onChange={handleChange}
         />
       );
     case '연령':
@@ -52,6 +68,8 @@ function WriteForm({ label, title, toggle, toggleName, type = 'default' }) {
           title={title}
           toggle={toggle}
           toggleName={toggleName}
+          value={value}
+          onChange={handleChange}
         />
       );
     default:

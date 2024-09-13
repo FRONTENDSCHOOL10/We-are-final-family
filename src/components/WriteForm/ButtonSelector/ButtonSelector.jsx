@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import S from './ButtonSelector.module.css';
 import { Toggle } from './Toggle/Toggle';
 
@@ -8,11 +8,25 @@ function ButtonSelector({
   title = 'off',
   toggle = 'off',
   toggleName,
+  value,
+  onChange,
 }) {
   const [selectedOption, setSelectedOption] = useState(data[0]);
 
+  useEffect(() => {
+    if (value) {
+      const option = data.find((item) => item.label === value);
+      if (option) {
+        setSelectedOption(option);
+      }
+    }
+  }, [value, data]);
+
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    if (onChange) {
+      onChange(option.label);
+    }
   };
 
   const getGuidanceText = () => {
