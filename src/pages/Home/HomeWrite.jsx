@@ -1,6 +1,11 @@
 import S from './HomeWrite.module.css';
 import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
+import ListSelect from './../../components/ListSelect/ListSelect';
+import PeopleCounter from '@/components/WriteForm/PeopleCounter/PeopleCounter';
+import DateSelector from './../../components/WriteForm/DateSelector/DateSelector';
+import TimeSelector from './../../components/WriteForm/TimeSelector/TimeSelector';
+import LocationButton from './../../components/WriteForm/LocationButton/LocationButton';
 
 function HomeWrite() {
   const handlePictureClick = () => {
@@ -14,7 +19,33 @@ function HomeWrite() {
         actions={[{ icon: 'i_picture_line', onClick: handlePictureClick }]}
       />
       <main className={S.homeWrite}>
-        <div className={S.writeWrap}>컴포넌트 넣기</div>
+        <div className={S.writeWrap}>
+          <div role="group" className={S.inputTitle}>
+            <label htmlFor="" className="sr-only">
+              글 제목 입력
+            </label>
+            <input
+              type="text"
+              className="hdg-lg"
+              placeholder="글 제목을 입력해주세요."
+            />
+          </div>
+
+          <ListSelect title="관심분야를 선택해주세요." />
+          <ListSelect />
+          <textarea
+            name=""
+            id=""
+            placeholder="활동 내용을 입력해주세요."
+            className="para-md"
+          ></textarea>
+          <div className="imgBox"></div>
+
+          <PeopleCounter label="인원" />
+          <DateSelector label="날짜" />
+          <TimeSelector label="시간" />
+          <LocationButton label="장소" />
+        </div>
         <footer>
           <Button color="black">다음</Button>
         </footer>

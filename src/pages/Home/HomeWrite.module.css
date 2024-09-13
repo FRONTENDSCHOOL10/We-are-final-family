@@ -15,4 +15,47 @@
   display: flex;
   flex-flow: column nowrap;
   overflow: auto;
+
+  textarea {
+    box-sizing: border-box;
+    height: 24vh;
+    margin: 0.125rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    &:focus {
+      outline-color: var(--secondary);
+    }
+  }
+}
+
+.inputTitle {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0.125rem;
+
+  input {
+    box-sizing: border-box;
+    padding: 1rem 1rem;
+    border: none;
+    &:focus {
+      outline-color: var(--secondary);
+    }
+  }
+}
+
+.selectOptions {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+
+    span {
+      color: var(--gray-900);
+    }
+  }
 }
