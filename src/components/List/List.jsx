@@ -1,7 +1,7 @@
 import ListItem from '@/components/List/ListItem';
 import { supabase } from '@/api/supabase';
 import { useState, useEffect } from 'react';
-import { string, bool } from 'prop-types';
+import { string, bool, arrayOf } from 'prop-types';
 import Error from '@/pages/Error';
 import Fallback from '@/pages/Fallback';
 
@@ -10,9 +10,10 @@ import Fallback from '@/pages/Fallback';
 // <List type="board" />
 
 List.propTypes = {
-  type: string, // type=""
+  type: string,
   category: string,
   location: string,
+  sortByInterest: arrayOf(string),
   sortByLatest: bool,
   sortByRecruiting: bool,
   gender: string,
@@ -23,6 +24,7 @@ function List({
   type,
   category,
   location,
+  sortByInterest,
   sortByLatest,
   sortByRecruiting,
   gender,
@@ -58,6 +60,12 @@ function List({
           if (location) {
             filteredData = filteredData.filter((item) =>
               item.place.includes(location)
+            );
+          }
+
+          if (Array.isArray(sortByInterest) && sortByInterest.length > 0) {
+            filteredData = filteredData.filter((item) =>
+              sortByInterest.includes(item.interest)
             );
           }
 
@@ -104,7 +112,16 @@ function List({
     };
 
     fetchData();
-  }, [type, category, location, sortByLatest, sortByRecruiting, gender, age]); // type이 변경될 때마다 데이터 새로 불러오기
+  }, [
+    type,
+    category,
+    location,
+    sortByInterest,
+    sortByLatest,
+    sortByRecruiting,
+    gender,
+    age,
+  ]); // type이 변경될 때마다 데이터 새로 불러오기
 
   if (error) return <Error />;
   if (data.length === 0) return <p>데이터가 없습니다.</p>;

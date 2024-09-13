@@ -28,6 +28,15 @@ function FilterModal({ title, onClose, filterOptions, onApply }) {
     }
   };
 
+  const handleInterestClick = () => {
+    if (title === '관심분야') {
+      onApply(title, selectedOptions); // 옵션들을 전달
+    } else {
+      onApply(title, selectedOptions[0]); // 성별 또는 연령의 경우 단일 값 전달
+    }
+    onClose();
+  };
+
   return (
     <div className={S.overlay}>
       <section className={S.filterModal}>
@@ -59,7 +68,7 @@ function FilterModal({ title, onClose, filterOptions, onApply }) {
 
         {/* 확인 버튼 */}
         {title === '관심분야' && (
-          <Button color="black" onClick={onClose}>
+          <Button color="black" onClick={handleInterestClick}>
             적용하기
           </Button>
         )}

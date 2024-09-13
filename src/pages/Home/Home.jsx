@@ -11,6 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/api/supabase';
 import useHomeStore from '@/stores/useHomeStore';
 import { useState } from 'react';
+import { getData } from '@/api/DataService';
+import Fallback from '@/pages/Fallback';
+import Error from '@/pages/Error';
 
 function Home() {
   // 상태 관리
@@ -32,6 +35,9 @@ function Home() {
   } = useHomeStore();
   const [selectedGender, setSelectedGender] = useState('');
   const [selectedAge, setSelectedAge] = useState('');
+  const [interestOptions, setInterestOptions] = useState([]);
+  const [loadingInterests, setLoadingInterests] = useState(true);
+  const [error, setError] = useState(null);
 
   // navigate
   const navigate = useNavigate();
@@ -94,6 +100,31 @@ function Home() {
     console.log(`카테고리 선택 : ${label}`);
   };
 
+  useEffect(() => {
+    const loadInterests = async () => {
+      setLoadingInterests(true);
+      const response = await getData({
+        form: 'interest_sub',
+        select: 'name',
+        setState: (data) => {
+          const formattedData = data.map((item) => ({
+            value: item.name,
+            label: item.name,
+          }));
+          setInterestOptions(formattedData);
+        },
+      });
+
+      if (!response.success) {
+        setError(response.error);
+      }
+
+      setLoadingInterests(false);
+    };
+
+    loadInterests();
+  }, []);
+
   // 필터링 버튼 모달 옵션
   const filterOptions = {
     성별: [
@@ -109,14 +140,15 @@ function Home() {
       { value: '40대', label: '40대' },
       { value: '50대 이상', label: '50대 이상' },
     ],
-    관심분야: [
-      { value: '관심1', label: '관심1' },
-      { value: '관심2', label: '관심2' },
-    ],
+    관심분야: interestOptions,
   };
 
   const handleFilterChange = (filterKey) => {
-    if (filterKey === '성별' || filterKey === '연령') {
+    if (
+      filterKey === '관심분야' ||
+      filterKey === '성별' ||
+      filterKey === '연령'
+    ) {
       setCurrentFilterType(filterKey);
       setIsFilterModalOpen(filterKey);
     } else {
@@ -125,10 +157,20 @@ function Home() {
   };
 
   const handleApplyFilter = (filterType, value) => {
-    updateFilter(filterType, value);
-    setFilterValues((prev) => {
-      return { ...prev, [filterType]: value };
-    });
+    if (filterType === '관심분야') {
+      const selectedValues = value; // 배열
+      setFilterValues((prev) => ({
+        ...prev,
+        [filterType]: selectedValues,
+      }));
+      updateFilter(filterType, selectedValues); // 필터 적용
+    } else {
+      updateFilter(filterType, value); // 단일 선택
+      setFilterValues((prev) => ({
+        ...prev,
+        [filterType]: value,
+      }));
+    }
 
     if (filterType === '성별') {
       setSelectedGender(value);
@@ -148,6 +190,11 @@ function Home() {
   const getFilterLabel = (key) => {
     return filterValues[key] || key;
   };
+
+  // 관심분야
+  const sortByInterest = Array.isArray(activeFilter['관심분야'])
+    ? activeFilter['관심분야']
+    : []; // 기본값으로 빈 배열 제공
 
   // 최신순
   const isSortedByLatest = activeFilter['최신순'];
@@ -181,15 +228,32 @@ function Home() {
           ))}
         </div>
 
-        <List
+        {/* <List
           type="party"
           category={activeCategory}
           location={userLocation}
+          sortByInterest={sortByInterest}
           sortByLatest={isSortedByLatest}
           sortByRecruiting={sortByRecruiting}
           gender={selectedGender}
           age={selectedAge}
-        />
+        /> */}
+        {error ? (
+          <Error />
+        ) : loadingInterests ? (
+          <Fallback />
+        ) : (
+          <List
+            type="party"
+            category={activeCategory}
+            location={userLocation}
+            sortByInterest={sortByInterest}
+            sortByLatest={isSortedByLatest}
+            sortByRecruiting={sortByRecruiting}
+            gender={selectedGender}
+            age={selectedAge}
+          />
+        )}
 
         <FloatingButton onClick={handleFloatButton} />
       </main>
