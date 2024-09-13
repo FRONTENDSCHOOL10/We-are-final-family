@@ -3,7 +3,7 @@
   flex-flow: nowrap;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
 }
 
 .timeSelector {
@@ -42,19 +42,27 @@
 }
 
 .timeSelect {
-  padding: 0.5rem;
-  border: 0.0625rem solid var(--secondary);
+  box-sizing: border-box;
+  padding: 0.625rem;
+  color: var(--gray-900);
   border-radius: 0.25rem;
-  appearance: none;
+  border: 0.0625rem solid var(--gray-100);
   background-color: var(--white);
   cursor: pointer;
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }
 
 .ampmToggle {
+  box-sizing: border-box;
   padding: 0.5rem;
-  border: 0.0625rem solid var(--secondary);
+  color: var(--gray-900);
   border-radius: 0.25rem;
-  appearance: none;
+  border: 1px solid var(--gray-100);
   background-color: var(--white);
   cursor: pointer;
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }

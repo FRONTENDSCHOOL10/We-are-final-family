@@ -82,7 +82,10 @@ function TimeSelector({ label }) {
       <span className={`${S.label} para-md`}>{label}</span>
       <div className={S.timeSelector}>
         {/* 선택된 시간을 표시하고, 클릭 시 모달 열기 */}
-        <span className={S.selectedTime} onClick={toggleTimePicker}>
+        <span
+          className={`${S.selectedTime} para-md`}
+          onClick={toggleTimePicker}
+        >
           {formatTime()}
         </span>
       </div>
