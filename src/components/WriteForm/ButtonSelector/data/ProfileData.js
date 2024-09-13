@@ -7,6 +7,6 @@ export const ProfileAgeData = [
 ];
 
 export const ProfileGenderData = [
-  { id: 'female', label: '여자만' },
-  { id: 'male', label: '남자만' },
+  { id: 'female', label: '여자' },
+  { id: 'male', label: '남자' },
 ];

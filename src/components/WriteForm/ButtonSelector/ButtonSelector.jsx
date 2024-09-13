@@ -27,7 +27,7 @@ function ButtonSelector({
   return (
     <div>
       <div className={S.container}>
-        <div className={S.labelContainer}>
+        <div className={`${S.labelContainer} lbl-md`}>
           <span className="para-md">{label}</span>
           {title === 'on' && (
             <span className="para-md">{selectedOption.label}</span>

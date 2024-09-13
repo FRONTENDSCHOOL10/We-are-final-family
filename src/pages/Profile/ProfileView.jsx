@@ -10,6 +10,7 @@ function ProfileView() {
     username: '',
     email: '',
     keyword: '',
+    job: '',
     company: '',
     school: '',
     gender: '',
@@ -35,7 +36,7 @@ function ProfileView() {
 
         const { data: profileData, error: profileError } = await supabase
           .from('users_profile')
-          .select('keyword, company, school, gender, age')
+          .select('keyword, job, company, school, gender, age')
           .eq('user_id', user.id)
           .single();
 
@@ -47,6 +48,7 @@ function ProfileView() {
           username: userData.username || '미입력',
           email: userData.email || '미입력',
           keyword: profileData?.keyword || '미입력',
+          job: profileData?.job || '미입력',
           company: profileData?.company || '미입력',
           school: profileData?.school || '미입력',
           gender: profileData?.gender || '미입력',
@@ -78,6 +80,10 @@ function ProfileView() {
           <li>
             <span className={S.lbl}>프로필 키워드</span>
             <span className={`${S.val} lbl-sm`}>{profileData.keyword}</span>
+          </li>
+          <li>
+            <span className={S.lbl}>하는 일</span>
+            <span className={`${S.val} lbl-sm`}>{profileData.job}</span>
           </li>
           <li>
             <span className={S.lbl}>회사</span>

@@ -21,6 +21,7 @@ function AgreementForm({ agreements }) {
 
   return (
     <div className={S.agreementForm}>
+      <h2 className={S.agreementFormTitle}>이용약관 동의</h2>
       <div className={S.checkboxContainer}>
         <input
           type="checkbox"
