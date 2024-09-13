@@ -10,16 +10,14 @@ function ButtonSelector({
   toggleName,
   value,
   onChange,
+  onToggleChange,
+  isToggleOn,
 }) {
   const [selectedOption, setSelectedOption] = useState(data[0]);
 
   useEffect(() => {
-    if (value) {
-      const option = data.find((item) => item.label === value);
-      if (option) {
-        setSelectedOption(option);
-      }
-    }
+    const option = data.find((item) => item.label === value) || data[0];
+    setSelectedOption(option);
   }, [value, data]);
 
   const handleOptionClick = (option) => {
@@ -70,7 +68,12 @@ function ButtonSelector({
       </div>
       <div>
         {toggle === 'on' && (
-          <Toggle className={S.toggle} toggleName={toggleName} />
+          <Toggle
+            className={S.toggle}
+            toggleName={toggleName}
+            onChange={onToggleChange}
+            isOn={isToggleOn}
+          />
         )}
       </div>
     </div>

@@ -24,6 +24,8 @@ function ProfileEdit() {
   });
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', desc: '' });
+  const [isGenderPublic, setIsGenderPublic] = useState(true);
+  const [isAgePublic, setIsAgePublic] = useState(true);
 
   useEffect(() => {
     fetchProfileData();
@@ -59,9 +61,12 @@ function ProfileEdit() {
           job: profileData?.job || '',
           company: profileData?.company || '',
           school: profileData?.school || '',
-          gender: profileData?.gender || '',
-          age: profileData?.age || '',
+          gender: profileData?.gender?.replace('(비공개)', '') || '',
+          age: profileData?.age?.replace('(비공개)', '') || '',
         });
+
+        setIsGenderPublic(!profileData?.gender?.includes('(비공개)'));
+        setIsAgePublic(!profileData?.age?.includes('(비공개)'));
       }
     } catch (error) {
       console.error('프로필 데이터를 불러오는 중 오류 발생:', error);
@@ -70,6 +75,14 @@ function ProfileEdit() {
 
   const handleInputChange = (field) => (value) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleToggleChange = (field) => (isPublic) => {
+    if (field === 'gender') {
+      setIsGenderPublic(isPublic);
+    } else if (field === 'age') {
+      setIsAgePublic(isPublic);
+    }
   };
 
   const handleSave = async () => {
@@ -82,12 +95,20 @@ function ProfileEdit() {
         throw new Error('사용자를 찾을 수 없습니다.');
       }
 
+      const updatedProfileData = {
+        ...profileData,
+        gender: isGenderPublic
+          ? profileData.gender
+          : `${profileData.gender}(비공개)`,
+        age: isAgePublic ? profileData.age : `${profileData.age}(비공개)`,
+      };
+
       // Update users table
       const { error: userError } = await supabase
         .from('users')
         .update({
-          username: profileData.username || '미입력',
-          email: profileData.email || '미입력',
+          username: updatedProfileData.username || '미입력',
+          email: updatedProfileData.email || '미입력',
         })
         .eq('id', user.id);
 
@@ -110,12 +131,12 @@ function ProfileEdit() {
         const { error } = await supabase
           .from('users_profile')
           .update({
-            keyword: profileData.keyword || '미입력',
-            job: profileData.job || '미입력',
-            company: profileData.company || '미입력',
-            school: profileData.school || '미입력',
-            gender: profileData.gender || '미입력',
-            age: profileData.age || '미입력',
+            keyword: updatedProfileData.keyword || '미입력',
+            job: updatedProfileData.job || '미입력',
+            company: updatedProfileData.company || '미입력',
+            school: updatedProfileData.school || '미입력',
+            gender: updatedProfileData.gender || '미입력',
+            age: updatedProfileData.age || '미입력',
           })
           .eq('user_id', user.id);
         profileError = error;
@@ -123,12 +144,12 @@ function ProfileEdit() {
         // Insert new profile
         const { error } = await supabase.from('users_profile').insert({
           user_id: user.id,
-          keyword: profileData.keyword || '미입력',
-          job: profileData.job || '미입력',
-          company: profileData.company || '미입력',
-          school: profileData.school || '미입력',
-          gender: profileData.gender || '미입력',
-          age: profileData.age || '미입력',
+          keyword: updatedProfileData.keyword || '미입력',
+          job: updatedProfileData.job || '미입력',
+          company: updatedProfileData.company || '미입력',
+          school: updatedProfileData.school || '미입력',
+          gender: updatedProfileData.gender || '미입력',
+          age: updatedProfileData.age || '미입력',
         });
         profileError = error;
       }
@@ -229,6 +250,8 @@ function ProfileEdit() {
               type="profile"
               value={profileData.gender}
               onChange={handleInputChange('gender')}
+              onToggleChange={handleToggleChange('gender')}
+              isToggleOn={isGenderPublic}
             />
           </li>
           <li>
@@ -239,6 +262,8 @@ function ProfileEdit() {
               type="profile"
               value={profileData.age}
               onChange={handleInputChange('age')}
+              onToggleChange={handleToggleChange('age')}
+              isToggleOn={isAgePublic}
             />
           </li>
         </ul>

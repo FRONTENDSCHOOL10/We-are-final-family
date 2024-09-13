@@ -11,17 +11,6 @@ import LocationButton from './LocationButton/LocationButton';
 import PersonnelCounter from './PersonnelCounter/PersonnelCounter';
 import TimeSelector from './TimeSelector/TimeSelector';
 
-// 사용방법
-// <WriteForm label="장소" />
-// <WriteForm label="인원" />
-// <WriteForm label="날짜" />
-// <WriteForm label="시간" />
-// <WriteForm label="성별" title="on" toggleName="전체 공개" toggle="on" />
-// <WriteForm label="연령" title="on" toggleName="전체 공개" toggle="on" />
-// <WriteForm label="토글" toggleName="승인 후 참여" toggle="on" />
-// <WriteForm label="연령" title="on" toggleName="전체 공개" toggle="on" type="profile" />
-// <WriteForm label="성별" title="on" toggleName="전체 공개" toggle="on" type="profile" />
-
 function WriteForm({
   label,
   title,
@@ -30,12 +19,10 @@ function WriteForm({
   type = 'default',
   value,
   onChange,
+  onToggleChange,
+  isToggleOn,
 }) {
-  const handleChange = (newValue) => {
-    if (onChange) {
-      onChange(newValue);
-    }
-  };
+  const renderValue = isToggleOn ? value : '비공개';
 
   switch (label) {
     case '인원':
@@ -47,7 +34,13 @@ function WriteForm({
     case '시간':
       return <TimeSelector label={label} />;
     case '토글':
-      return <Toggle toggleName={toggleName} />;
+      return (
+        <Toggle
+          toggleName={toggleName}
+          onChange={onToggleChange}
+          isOn={isToggleOn}
+        />
+      );
     case '성별':
       return (
         <ButtonSelector
@@ -56,8 +49,10 @@ function WriteForm({
           title={title}
           toggle={toggle}
           toggleName={toggleName}
-          value={value}
-          onChange={handleChange}
+          value={renderValue}
+          onChange={onChange}
+          onToggleChange={onToggleChange}
+          isToggleOn={isToggleOn}
         />
       );
     case '연령':
@@ -68,8 +63,10 @@ function WriteForm({
           title={title}
           toggle={toggle}
           toggleName={toggleName}
-          value={value}
-          onChange={handleChange}
+          value={renderValue}
+          onChange={onChange}
+          onToggleChange={onToggleChange}
+          isToggleOn={isToggleOn}
         />
       );
     default:

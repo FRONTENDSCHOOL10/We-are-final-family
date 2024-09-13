@@ -52,12 +52,16 @@ function ProfileView() {
           company: profileData?.company || '미입력',
           school: profileData?.school || '미입력',
           gender: profileData?.gender || '미입력',
-          age: profileData?.age ? profileData.age.toString() : '미입력',
+          age: profileData?.age || '미입력',
         });
       }
     } catch (error) {
       console.error('프로필 데이터를 불러오는 중 오류 발생:', error);
     }
+  };
+
+  const renderPrivateInfo = (info) => {
+    return info.includes('(비공개)') ? '비공개' : info;
   };
 
   return (
@@ -95,11 +99,15 @@ function ProfileView() {
           </li>
           <li>
             <span className={S.lbl}>성별</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.gender}</span>
+            <span className={`${S.val} lbl-sm`}>
+              {renderPrivateInfo(profileData.gender)}
+            </span>
           </li>
           <li>
             <span className={S.lbl}>연령</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.age}</span>
+            <span className={`${S.val} lbl-sm`}>
+              {renderPrivateInfo(profileData.age)}
+            </span>
           </li>
         </ul>
       </main>
