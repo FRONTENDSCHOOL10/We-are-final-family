@@ -53,7 +53,16 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
         <div className={S.overlay} onClick={() => setIsOpen(false)}></div>
       )}
       <div className={`${S.con} para-md`} ref={selectRef}>
-        <div className={S.selectWrapper} onClick={toggleDropdown}>
+        <div
+          className={S.selectWrapper}
+          onClick={toggleDropdown}
+          tabIndex="0"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              toggleDropdown();
+            }
+          }}
+        >
           <div className={S.selectedOption}>
             {selectedOption
               ? options.find((opt) => opt.value === selectedOption)?.label
@@ -65,7 +74,6 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
             }`}
           ></span>
         </div>
-
         {isOpen && (
           <div className={S.optionListWrapper}>
             <div className={S.closeButtonWrapper}>
@@ -82,7 +90,13 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
                 <li
                   key={option.value}
                   className={S.optionItem}
+                  tabIndex="0"
                   onClick={() => handleChange(option.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleChange(option.value);
+                    }
+                  }}
                 >
                   {option.label}
                 </li>
