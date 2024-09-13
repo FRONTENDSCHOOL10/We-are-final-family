@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import S from './Calender.module.css';
+import IconButton from '@/components/IconButton/IconButton';
 
 function Calendar({ selectedDate, onChange, onClose, isOpen }) {
   const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate));
@@ -42,8 +43,9 @@ function Calendar({ selectedDate, onChange, onClose, isOpen }) {
       );
       const isPastDate = date < today;
       days.push(
-        <div
+        <button
           key={i}
+          type="button"
           className={`${S.day} ${
             date.toDateString() === selectedDate.toDateString()
               ? S.selected
@@ -57,7 +59,7 @@ function Calendar({ selectedDate, onChange, onClose, isOpen }) {
           }}
         >
           {i}
-        </div>
+        </button>
       );
     }
 
@@ -86,33 +88,39 @@ function Calendar({ selectedDate, onChange, onClose, isOpen }) {
       onClick={handleWrapperClick}
     >
       <div className={`${S.calendar} ${isOpen ? S.calendarOpen : ''}`}>
-        <div className={S.closeButtonWrapper}>
-          <button onClick={onClose} className={S.closeButton}>
-            <span className={`${S.closeBtn} i_close`} />
-          </button>
+        <div className={S.closeBtn}>
+          {/* <IconButton
+            title="캘린더 닫기"
+            className="i_close"
+            onClick={onClose}
+          /> */}
         </div>
         <div className={S.header}>
-          <button onClick={() => changeMonth(-1)}>
-            <span className={`${S.arrow} i_direction_left`} />
-          </button>
-          <span className="para-xl">
+          <IconButton
+            title="이전 달"
+            className="i_direction_left"
+            onClick={() => changeMonth(-1)}
+          />
+          <span className="lbl-lg">
             {currentMonth.toLocaleString('default', {
               month: 'long',
               year: 'numeric',
             })}
           </span>
-          <button onClick={() => changeMonth(1)}>
-            <span className={`${S.arrow} i_direction_right`} />
-          </button>
+          <IconButton
+            title="다음 달"
+            className="i_direction_right"
+            onClick={() => changeMonth(1)}
+          />
         </div>
-        <div className={`${S.weekdays} para-lg`}>
+        <div className={`${S.weekdays} lbl-md`}>
           {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
-            <div key={day} className={S.weekday}>
+            <span key={day} className={S.weekday}>
               {day}
-            </div>
+            </span>
           ))}
         </div>
-        <div className={`${S.days} para-lg`}>{renderDays()}</div>
+        <div className={`${S.days} para-md`}>{renderDays()}</div>
       </div>
     </div>
   );

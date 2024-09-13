@@ -1,5 +1,5 @@
 .con {
-  position: relative;
+  /* position: relative; */
 }
 
 .selectWrapper {
@@ -28,11 +28,11 @@
   position: fixed;
   left: 0;
   right: 0;
+  z-index: 1;
   bottom: 0;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
-  /* z-index: 1000; */
 }
 
 .optionListWrapper::before {
