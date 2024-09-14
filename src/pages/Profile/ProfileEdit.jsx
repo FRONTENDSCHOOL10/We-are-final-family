@@ -79,7 +79,7 @@ function ProfileEdit() {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleToggleChange = (field) => async (isPublic) => {
+  const handleGenderToggleChange = async (isPublic) => {
     try {
       const {
         data: { user },
@@ -91,18 +91,37 @@ function ProfileEdit() {
 
       const { error } = await supabase
         .from('users_profile')
-        .update({ [`${field}_open`]: isPublic })
+        .update({ gender_open: isPublic })
         .eq('user_id', user.id);
 
       if (error) throw error;
 
-      if (field === 'gender') {
-        setIsGenderPublic(isPublic);
-      } else if (field === 'age') {
-        setIsAgePublic(isPublic);
-      }
+      setIsGenderPublic(isPublic);
     } catch (error) {
-      console.error(`${field} 공개 설정 업데이트 중 오류 발생:`, error);
+      console.error('성별 공개 설정 업데이트 중 오류 발생:', error);
+    }
+  };
+
+  const handleAgeToggleChange = async (isPublic) => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error('사용자를 찾을 수 없습니다.');
+      }
+
+      const { error } = await supabase
+        .from('users_profile')
+        .update({ age_open: isPublic })
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setIsAgePublic(isPublic);
+    } catch (error) {
+      console.error('연령 공개 설정 업데이트 중 오류 발생:', error);
     }
   };
 
@@ -267,7 +286,7 @@ function ProfileEdit() {
               type="profile"
               value={profileData.gender}
               onChange={handleInputChange('gender')}
-              onToggleChange={handleToggleChange('gender')}
+              onToggleChange={handleGenderToggleChange}
               isToggleOn={isGenderPublic}
             />
           </li>
@@ -279,7 +298,7 @@ function ProfileEdit() {
               type="profile"
               value={profileData.age}
               onChange={handleInputChange('age')}
-              onToggleChange={handleToggleChange('age')}
+              onToggleChange={handleAgeToggleChange}
               isToggleOn={isAgePublic}
             />
           </li>
