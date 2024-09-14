@@ -14,7 +14,6 @@ function ButtonSelector({
   isToggleOn,
 }) {
   const [selectedOption, setSelectedOption] = useState(data[0]);
-  console.log(btnValue);
 
   useEffect(() => {
     const option = data.find((item) => item.label === btnValue);

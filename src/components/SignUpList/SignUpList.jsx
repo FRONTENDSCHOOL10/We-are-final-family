@@ -1,6 +1,6 @@
 import AgreementForm from './AgreementForm';
 
-function SignUpList() {
+function SignUpList({ sendDataToParent }) {
   const agreements = [
     {
       title: '[필수] 개인정보 수집 및 이용 동의',
@@ -35,7 +35,10 @@ function SignUpList() {
 
   return (
     <div>
-      <AgreementForm agreements={agreements} />
+      <AgreementForm
+        agreements={agreements}
+        sendDataToParent={sendDataToParent}
+      />
     </div>
   );
 }

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import S from './AgreementForm.module.css';
 import CheckboxList from './CheckboxList';
 
-function AgreementForm({ agreements }) {
+function AgreementForm({ agreements, sendDataToParent }) {
   const [checkedItems, setCheckedItems] = useState(
     new Array(agreements.length + 1).fill(false)
   );
@@ -12,12 +12,17 @@ function AgreementForm({ agreements }) {
     setCheckedItems(new Array(agreements.length + 1).fill(checked));
   };
 
+  useEffect(() => {
+    sendDataToParent(checkedItems);
+  }, [checkedItems]);
+
   const handleSingleCheck = (index, checked) => {
     const newCheckedItems = [...checkedItems];
     newCheckedItems[index + 1] = checked;
     newCheckedItems[0] = newCheckedItems.slice(1).every(Boolean);
     setCheckedItems(newCheckedItems);
   };
+  // console.log('🚀 ~ AgreementForm ~ checkedItems:', checkedItems);
 
   return (
     <div className={S.agreementForm}>

@@ -26,8 +26,13 @@ function ProfileEdit() {
   const [modalContent, setModalContent] = useState({ title: '', desc: '' });
   const [isGenderPublic, setIsGenderPublic] = useState();
   const [isAgePublic, setIsAgePublic] = useState();
+  const [childData, setChildData] = useState('');
+  console.log('🚀 ~ ProfileEdit ~ childData:', childData);
+
   // console.log('gender: ' + isGenderPublic);
   // console.log('age: ' + isAgePublic);
+
+  const isAllTrue = Array.isArray(childData) && childData.every((data) => data);
 
   useEffect(() => {
     fetchProfileData();
@@ -198,6 +203,10 @@ function ProfileEdit() {
     }
   };
 
+  const handleDataFromChild = (data) => {
+    setChildData(data);
+  };
+
   return (
     <>
       <Header
@@ -290,7 +299,7 @@ function ProfileEdit() {
           </li>
         </ul>
         <div className={S.SignUspList}>
-          <SignUpList />
+          <SignUpList sendDataToParent={handleDataFromChild} />
         </div>
         <div className={S.buttonForm}>
           <Button
@@ -300,7 +309,12 @@ function ProfileEdit() {
           >
             취소
           </Button>
-          <Button color="primary" type="button" onClick={handleSave}>
+          <Button
+            color="primary"
+            type="button"
+            onClick={handleSave}
+            disabled={!isAllTrue}
+          >
             저장
           </Button>
         </div>
