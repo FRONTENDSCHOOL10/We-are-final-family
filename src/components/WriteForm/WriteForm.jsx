@@ -18,12 +18,11 @@ function WriteForm({
   toggleName,
   type = 'default',
   value,
+  btnValue,
   onChange,
   onToggleChange,
   isToggleOn,
 }) {
-  const renderValue = isToggleOn ? value : '비공개';
-
   switch (label) {
     case '인원':
       return <PersonnelCounter label={label} />;
@@ -49,7 +48,8 @@ function WriteForm({
           title={title}
           toggle={toggle}
           toggleName={toggleName}
-          value={renderValue}
+          value={value}
+          btnValue={btnValue}
           onChange={onChange}
           onToggleChange={onToggleChange}
           isToggleOn={isToggleOn}
@@ -63,7 +63,8 @@ function WriteForm({
           title={title}
           toggle={toggle}
           toggleName={toggleName}
-          value={renderValue}
+          value={value}
+          btnValue={btnValue}
           onChange={onChange}
           onToggleChange={onToggleChange}
           isToggleOn={isToggleOn}

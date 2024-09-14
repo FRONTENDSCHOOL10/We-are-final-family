@@ -8,17 +8,18 @@ function ButtonSelector({
   title = 'off',
   toggle = 'off',
   toggleName,
-  value,
+  btnValue,
   onChange,
   onToggleChange,
   isToggleOn,
 }) {
   const [selectedOption, setSelectedOption] = useState(data[0]);
+  console.log(btnValue);
 
   useEffect(() => {
-    const option = data.find((item) => item.label === value) || data[0];
+    const option = data.find((item) => item.label === btnValue);
     setSelectedOption(option);
-  }, [value, data]);
+  }, [btnValue, data]);
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);

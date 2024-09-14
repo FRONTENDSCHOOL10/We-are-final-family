@@ -3,17 +3,17 @@ import S from './Toggle.module.css';
 import { bool, func } from 'prop-types';
 
 Toggle.propTypes = {
-  initialState: bool,
+  isOn: bool,
   onChange: func,
 };
 
-export function Toggle({ initialState = false, onChange, toggleName }) {
-  const [isActive, setIsActive] = useState(initialState);
+export function Toggle({ toggleName, onChange, isOn = false }) {
+  const [isActive, setIsActive] = useState(isOn);
   const id = useId();
 
   useEffect(() => {
-    setIsActive(initialState);
-  }, [initialState]);
+    setIsActive(isOn);
+  }, [isOn]);
 
   const handleChange = (e) => {
     const newState = e.target.checked;

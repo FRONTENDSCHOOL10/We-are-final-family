@@ -24,8 +24,10 @@ function ProfileEdit() {
   });
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', desc: '' });
-  const [isGenderPublic, setIsGenderPublic] = useState(true);
-  const [isAgePublic, setIsAgePublic] = useState(true);
+  const [isGenderPublic, setIsGenderPublic] = useState();
+  const [isAgePublic, setIsAgePublic] = useState();
+  // console.log('gender: ' + isGenderPublic);
+  // console.log('age: ' + isAgePublic);
 
   useEffect(() => {
     fetchProfileData();
@@ -67,8 +69,8 @@ function ProfileEdit() {
           age: profileData?.age || '',
         });
 
-        setIsGenderPublic(profileData?.gender_open ?? true);
-        setIsAgePublic(profileData?.age_open ?? true);
+        setIsGenderPublic(profileData?.gender_open || false);
+        setIsAgePublic(profileData?.age_open || false);
       }
     } catch (error) {
       console.error('프로필 데이터를 불러오는 중 오류 발생:', error);
@@ -89,13 +91,6 @@ function ProfileEdit() {
         throw new Error('사용자를 찾을 수 없습니다.');
       }
 
-      const { error } = await supabase
-        .from('users_profile')
-        .update({ gender_open: isPublic })
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-
       setIsGenderPublic(isPublic);
     } catch (error) {
       console.error('성별 공개 설정 업데이트 중 오류 발생:', error);
@@ -111,13 +106,6 @@ function ProfileEdit() {
       if (!user) {
         throw new Error('사용자를 찾을 수 없습니다.');
       }
-
-      const { error } = await supabase
-        .from('users_profile')
-        .update({ age_open: isPublic })
-        .eq('user_id', user.id);
-
-      if (error) throw error;
 
       setIsAgePublic(isPublic);
     } catch (error) {
@@ -135,7 +123,6 @@ function ProfileEdit() {
         throw new Error('사용자를 찾을 수 없습니다.');
       }
 
-      // Update users table
       const { error: userError } = await supabase
         .from('users')
         .update({
@@ -146,7 +133,6 @@ function ProfileEdit() {
 
       if (userError) throw userError;
 
-      // Check if profile exists
       const { data: existingProfile, error: checkError } = await supabase
         .from('users_profile')
         .select('user_id')
@@ -159,7 +145,6 @@ function ProfileEdit() {
 
       let profileError;
       if (existingProfile) {
-        // Update existing profile
         const { error } = await supabase
           .from('users_profile')
           .update({
@@ -175,7 +160,6 @@ function ProfileEdit() {
           .eq('user_id', user.id);
         profileError = error;
       } else {
-        // Insert new profile
         const { error } = await supabase.from('users_profile').insert({
           user_id: user.id,
           keyword: profileData.keyword || '미입력',
@@ -284,7 +268,8 @@ function ProfileEdit() {
               toggleName="전체 공개"
               toggle="on"
               type="profile"
-              value={profileData.gender}
+              value={isGenderPublic}
+              btnValue={profileData.gender}
               onChange={handleInputChange('gender')}
               onToggleChange={handleGenderToggleChange}
               isToggleOn={isGenderPublic}
@@ -296,7 +281,8 @@ function ProfileEdit() {
               toggleName="전체 공개"
               toggle="on"
               type="profile"
-              value={profileData.age}
+              value={isAgePublic}
+              btnValue={profileData.age}
               onChange={handleInputChange('age')}
               onToggleChange={handleAgeToggleChange}
               isToggleOn={isAgePublic}
