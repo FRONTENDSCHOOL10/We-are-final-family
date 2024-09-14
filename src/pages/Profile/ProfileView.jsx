@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import S from './Profile.module.css';
 import Header from '@/components/App/Header';
 import Navigation from '@/components/App/Navigation';
@@ -6,6 +7,7 @@ import Button from '@/components/Button/Button';
 import { supabase } from '@/api/supabase';
 
 function ProfileView() {
+  const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
     username: '',
     email: '',
@@ -64,13 +66,20 @@ function ProfileView() {
     return info.includes('(비공개)') ? '비공개' : info;
   };
 
+  // 수정하기 버튼 클릭 핸들러 추가
+  const handleEditClick = () => {
+    navigate('/profile/edit');
+  };
+
   return (
     <>
       <Header title="나의 프로필" actions={['i_close']} />
       <main className={`${S.profile} ${S.profileView}`}>
         <h2 className={`${S.viewTitle} lbl-md`}>
           기본 정보
-          <Button color="white">수정하기</Button>
+          <Button color="white" onClick={handleEditClick}>
+            수정하기
+          </Button>
         </h2>
         <ul className={`${S.myInfo} para-md`}>
           <li>
