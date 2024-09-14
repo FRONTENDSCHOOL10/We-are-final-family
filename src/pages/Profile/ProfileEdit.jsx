@@ -46,7 +46,9 @@ function ProfileEdit() {
 
         const { data: profileData, error: profileError } = await supabase
           .from('users_profile')
-          .select('keyword, job, company, school, gender, age')
+          .select(
+            'keyword, job, company, school, gender, age, gender_open, age_open'
+          )
           .eq('user_id', user.id)
           .single();
 
@@ -61,12 +63,12 @@ function ProfileEdit() {
           job: profileData?.job || '',
           company: profileData?.company || '',
           school: profileData?.school || '',
-          gender: profileData?.gender?.replace('(비공개)', '') || '',
-          age: profileData?.age?.replace('(비공개)', '') || '',
+          gender: profileData?.gender || '',
+          age: profileData?.age || '',
         });
 
-        setIsGenderPublic(!profileData?.gender?.includes('(비공개)'));
-        setIsAgePublic(!profileData?.age?.includes('(비공개)'));
+        setIsGenderPublic(profileData?.gender_open ?? true);
+        setIsAgePublic(profileData?.age_open ?? true);
       }
     } catch (error) {
       console.error('프로필 데이터를 불러오는 중 오류 발생:', error);
@@ -77,11 +79,30 @@ function ProfileEdit() {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleToggleChange = (field) => (isPublic) => {
-    if (field === 'gender') {
-      setIsGenderPublic(isPublic);
-    } else if (field === 'age') {
-      setIsAgePublic(isPublic);
+  const handleToggleChange = (field) => async (isPublic) => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        throw new Error('사용자를 찾을 수 없습니다.');
+      }
+
+      const { error } = await supabase
+        .from('users_profile')
+        .update({ [`${field}_open`]: isPublic })
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      if (field === 'gender') {
+        setIsGenderPublic(isPublic);
+      } else if (field === 'age') {
+        setIsAgePublic(isPublic);
+      }
+    } catch (error) {
+      console.error(`${field} 공개 설정 업데이트 중 오류 발생:`, error);
     }
   };
 
@@ -95,20 +116,12 @@ function ProfileEdit() {
         throw new Error('사용자를 찾을 수 없습니다.');
       }
 
-      const updatedProfileData = {
-        ...profileData,
-        gender: isGenderPublic
-          ? profileData.gender
-          : `${profileData.gender}(비공개)`,
-        age: isAgePublic ? profileData.age : `${profileData.age}(비공개)`,
-      };
-
       // Update users table
       const { error: userError } = await supabase
         .from('users')
         .update({
-          username: updatedProfileData.username || '미입력',
-          email: updatedProfileData.email || '미입력',
+          username: profileData.username || '미입력',
+          email: profileData.email || '미입력',
         })
         .eq('id', user.id);
 
@@ -131,12 +144,14 @@ function ProfileEdit() {
         const { error } = await supabase
           .from('users_profile')
           .update({
-            keyword: updatedProfileData.keyword || '미입력',
-            job: updatedProfileData.job || '미입력',
-            company: updatedProfileData.company || '미입력',
-            school: updatedProfileData.school || '미입력',
-            gender: updatedProfileData.gender || '미입력',
-            age: updatedProfileData.age || '미입력',
+            keyword: profileData.keyword || '미입력',
+            job: profileData.job || '미입력',
+            company: profileData.company || '미입력',
+            school: profileData.school || '미입력',
+            gender: profileData.gender || '미입력',
+            age: profileData.age || '미입력',
+            gender_open: isGenderPublic,
+            age_open: isAgePublic,
           })
           .eq('user_id', user.id);
         profileError = error;
@@ -144,12 +159,14 @@ function ProfileEdit() {
         // Insert new profile
         const { error } = await supabase.from('users_profile').insert({
           user_id: user.id,
-          keyword: updatedProfileData.keyword || '미입력',
-          job: updatedProfileData.job || '미입력',
-          company: updatedProfileData.company || '미입력',
-          school: updatedProfileData.school || '미입력',
-          gender: updatedProfileData.gender || '미입력',
-          age: updatedProfileData.age || '미입력',
+          keyword: profileData.keyword || '미입력',
+          job: profileData.job || '미입력',
+          company: profileData.company || '미입력',
+          school: profileData.school || '미입력',
+          gender: profileData.gender || '미입력',
+          age: profileData.age || '미입력',
+          gender_open: isGenderPublic,
+          age_open: isAgePublic,
         });
         profileError = error;
       }
