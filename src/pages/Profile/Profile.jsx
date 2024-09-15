@@ -4,17 +4,43 @@ import Navigation from '@/components/App/Navigation';
 import { ProfileImg } from './../../components/ProfileImg/ProfileImg';
 import { useRef, useState, useEffect } from 'react';
 import { supabase } from '@/api/supabase';
+import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
 
 import toast from 'react-hot-toast';
 
 function Profile() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const [userName, setUserName] = useState('');
   const [profileImgUrl, setProfileImgUrl] = useState('');
+  const { count } = useUserRecordsCount();
 
   useEffect(() => {
-    fetchProfileImage();
+    fetchUserName(), fetchProfileImage();
   }, []);
+
+  async function fetchUserName() {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const { data, error } = await supabase
+          .from('users')
+          .select('username')
+          .eq('id', user.id)
+          .single();
+
+        if (error) throw error;
+
+        if (data && data.username) {
+          setUserName(data.username);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching profile image:', error);
+    }
+  }
 
   async function fetchProfileImage() {
     try {
@@ -114,6 +140,8 @@ function Profile() {
           accept="image/*"
           style={{ display: 'none' }}
         />
+        <span>{`${userName}`}</span>
+        <span>작성글 {count}</span>
 
         <ul className={S.myMenu}>
           <li>
