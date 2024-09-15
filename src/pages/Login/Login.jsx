@@ -109,7 +109,6 @@ function Login() {
           label="비밀번호"
           onChange={setPassword}
           onKeyDown={(e) => handleKeyDown(e, 'password')}
-          ref={passwordInputRef}
           required
         />
         {error && <p className={`${S.error} para-sm`}>{error}</p>}
