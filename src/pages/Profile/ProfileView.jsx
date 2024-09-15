@@ -37,11 +37,11 @@ function ProfileView() {
           .single();
 
         const { data: profileData, error: profileError } = await supabase
-          .from('users_profile')
+          .from('users')
           .select(
             'keyword, job, company, school, gender, age, gender_open, age_open'
           )
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .single();
 
         if (userError || profileError) {

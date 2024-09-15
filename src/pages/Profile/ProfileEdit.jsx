@@ -48,11 +48,11 @@ function ProfileEdit() {
           .single();
 
         const { data: profileData, error: profileError } = await supabase
-          .from('users_profile')
+          .from('users')
           .select(
             'keyword, job, company, school, gender, age, gender_open, age_open'
           )
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .single();
 
         if (userError || profileError) {
@@ -135,9 +135,9 @@ function ProfileEdit() {
       if (userError) throw userError;
 
       const { data: existingProfile, error: checkError } = await supabase
-        .from('users_profile')
-        .select('user_id')
-        .eq('user_id', user.id)
+        .from('users')
+        .select('id')
+        .eq('id', user.id)
         .single();
 
       if (checkError && checkError.code !== 'PGRST116') {
@@ -147,7 +147,7 @@ function ProfileEdit() {
       let profileError;
       if (existingProfile) {
         const { error } = await supabase
-          .from('users_profile')
+          .from('users')
           .update({
             keyword: profileData.keyword || '미입력',
             job: profileData.job || '미입력',
@@ -158,11 +158,11 @@ function ProfileEdit() {
             gender_open: isGenderPublic,
             age_open: isAgePublic,
           })
-          .eq('user_id', user.id);
+          .eq('id', user.id);
         profileError = error;
       } else {
-        const { error } = await supabase.from('users_profile').insert({
-          user_id: user.id,
+        const { error } = await supabase.from('users').insert({
+          id: user.id,
           keyword: profileData.keyword || '미입력',
           job: profileData.job || '미입력',
           company: profileData.company || '미입력',
