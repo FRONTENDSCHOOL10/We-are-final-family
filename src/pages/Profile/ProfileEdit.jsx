@@ -27,10 +27,6 @@ function ProfileEdit() {
   const [isGenderPublic, setIsGenderPublic] = useState();
   const [isAgePublic, setIsAgePublic] = useState();
   const [childData, setChildData] = useState('');
-  console.log('🚀 ~ ProfileEdit ~ childData:', childData);
-
-  // console.log('gender: ' + isGenderPublic);
-  // console.log('age: ' + isAgePublic);
 
   const isAllTrue = Array.isArray(childData) && childData.every((data) => data);
 
