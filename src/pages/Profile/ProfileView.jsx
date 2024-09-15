@@ -38,7 +38,9 @@ function ProfileView() {
 
         const { data: profileData, error: profileError } = await supabase
           .from('users_profile')
-          .select('keyword, job, company, school, gender, age')
+          .select(
+            'keyword, job, company, school, gender, age, gender_open, age_open'
+          )
           .eq('user_id', user.id)
           .single();
 
@@ -55,6 +57,8 @@ function ProfileView() {
           school: profileData?.school || '미입력',
           gender: profileData?.gender || '미입력',
           age: profileData?.age || '미입력',
+          genderOpen: profileData?.gender_open,
+          ageOpen: profileData?.age_open,
         });
       }
     } catch (error) {
@@ -62,11 +66,10 @@ function ProfileView() {
     }
   };
 
-  const renderPrivateInfo = (info) => {
-    return info.includes('(비공개)') ? '비공개' : info;
+  const renderPrivateInfo = (info, isPublic) => {
+    return isPublic ? info : '비공개';
   };
 
-  // 수정하기 버튼 클릭 핸들러 추가
   const handleEditClick = () => {
     navigate('/profile/edit');
   };
@@ -109,13 +112,13 @@ function ProfileView() {
           <li>
             <span className={S.lbl}>성별</span>
             <span className={`${S.val} lbl-sm`}>
-              {renderPrivateInfo(profileData.gender)}
+              {renderPrivateInfo(profileData.gender, profileData.genderOpen)}
             </span>
           </li>
           <li>
             <span className={S.lbl}>연령</span>
             <span className={`${S.val} lbl-sm`}>
-              {renderPrivateInfo(profileData.age)}
+              {renderPrivateInfo(profileData.age, profileData.ageOpen)}
             </span>
           </li>
         </ul>
