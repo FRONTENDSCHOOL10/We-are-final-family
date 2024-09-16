@@ -8,10 +8,8 @@ ChatSpeechbubble.propTypes = {
   userId: any,
   time: string,
 };
-
 export function ChatSpeechbubble({
   mychatdata = '어쩌구 저쩌구 안녕하세요',
-  yourchatdata = '바보',
   userId,
   time,
 }) {
@@ -36,7 +34,7 @@ export function ChatSpeechbubble({
         style={{ background: 'var(--gray-100)', color: 'var(--black)' }}
         className="para-md"
       >
-        {yourchatdata}
+        {mychatdata}
       </div>
       <div
         className="para-sm"
