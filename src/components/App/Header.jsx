@@ -197,7 +197,7 @@ function Header({
             <li key={index}>
               <IconButton
                 title={getTitle(action)}
-                className={action.icon}
+                className={action.icon || ''} // 여기에 className 추가
                 onClick={action.onClick}
               />
             </li>

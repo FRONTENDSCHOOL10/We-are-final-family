@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import S from './ButtonSelector.module.css';
 import { Toggle } from './Toggle/Toggle';
 
@@ -8,11 +8,23 @@ function ButtonSelector({
   title = 'off',
   toggle = 'off',
   toggleName,
+  btnValue,
+  onChange,
+  onToggleChange,
+  isToggleOn,
 }) {
   const [selectedOption, setSelectedOption] = useState(data[0]);
 
+  useEffect(() => {
+    const option = data.find((item) => item.label === btnValue);
+    setSelectedOption(option);
+  }, [btnValue, data]);
+
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    if (onChange) {
+      onChange(option.label);
+    }
   };
 
   const getGuidanceText = () => {
@@ -27,7 +39,7 @@ function ButtonSelector({
   return (
     <div>
       <div className={S.container}>
-        <div className={S.labelContainer}>
+        <div className={`${S.labelContainer} lbl-md`}>
           <span className="para-md">{label}</span>
           {title === 'on' && (
             <span className="para-md">{selectedOption.label}</span>
@@ -56,7 +68,12 @@ function ButtonSelector({
       </div>
       <div>
         {toggle === 'on' && (
-          <Toggle className={S.toggle} toggleName={toggleName} />
+          <Toggle
+            className={S.toggle}
+            toggleName={toggleName}
+            onChange={onToggleChange}
+            isOn={isToggleOn}
+          />
         )}
       </div>
     </div>

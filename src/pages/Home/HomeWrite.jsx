@@ -2,7 +2,7 @@ import S from './HomeWrite.module.css';
 import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
 import ListSelect from './../../components/ListSelect/ListSelect';
-import PeopleCounter from '@/components/WriteForm/PeopleCounter/PeopleCounter';
+import PersonnelCounter from '@/components/WriteForm/PersonnelCounter/PersonnelCounter';
 import DateSelector from './../../components/WriteForm/DateSelector/DateSelector';
 import TimeSelector from './../../components/WriteForm/TimeSelector/TimeSelector';
 import LocationButton from './../../components/WriteForm/LocationButton/LocationButton';
@@ -41,7 +41,7 @@ function HomeWrite() {
           ></textarea>
           <div className="imgBox"></div>
 
-          <PeopleCounter label="인원" />
+          <PersonnelCounter label="인원" />
           <DateSelector label="날짜" />
           <TimeSelector label="시간" />
           <LocationButton label="장소" />

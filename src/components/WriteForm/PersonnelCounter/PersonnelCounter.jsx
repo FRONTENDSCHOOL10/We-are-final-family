@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import S from './PeopleCounter.module.css';
+import S from './PersonnelCounter.module.css';
 
-function PeopleCounter({ label }) {
+function PersonnelCounter({ label }) {
   const [count, setCount] = useState(2);
 
   const increment = () => {
@@ -28,4 +28,4 @@ function PeopleCounter({ label }) {
   );
 }
 
-export default PeopleCounter;
+export default PersonnelCounter;
