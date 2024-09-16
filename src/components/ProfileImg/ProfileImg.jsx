@@ -10,20 +10,25 @@ ProfileImg.propTypes = {
 };
 
 export function ProfileImg({
-  image = '/src/assets/testImg/bonobobono.jpeg',
+  image = '',
   width = '',
   height = '',
   display = 'none',
   onClick,
 }) {
+  console.log('🚀 ~ image:', image);
+  const defaultImage = '/src/assets/testImg/bonobobono.jpeg';
+
   const styled = {
-    backgroundImage: `url(${image})`,
-    minWidth: width,
-    minHeight: height,
+    backgroundImage: `url(${image || defaultImage})`,
+    maxWidth: width,
+    maxHeight: height,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   };
 
   return (
-    <div>
+    <div className={S.ProfileImg}>
       <div className={S.component} style={styled}>
         <span
           className={`${S.pencil} i_pencil`}
