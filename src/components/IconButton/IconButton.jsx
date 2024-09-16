@@ -11,7 +11,7 @@ IconButton.propTypes = {
   onClick: func,
 };
 
-function IconButton({ title, className, onClick }) {
+function IconButton({ title, className, onClick, ...props }) {
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
@@ -29,6 +29,7 @@ function IconButton({ title, className, onClick }) {
       aria-pressed={active}
       className={S.icon_btn}
       onClick={handleClick}
+      {...props}
     >
       <span className={className}></span>
     </button>

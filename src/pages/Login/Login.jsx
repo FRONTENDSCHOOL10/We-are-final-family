@@ -6,6 +6,7 @@ import ValidationInput from '@/components/ValidationInput/ValidationInput';
 import { supabase } from '@/api/supabase';
 import useInterestStore from '@/stores/InterestStore';
 import { getData } from '@/api/DataService';
+import { useStore } from '@/stores/chatStore';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -70,6 +71,12 @@ function Login() {
           }
         },
       });
+
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (!user) {
+        return;
+      }
+      setCurrentUser(user.id);
     } catch (error) {
       console.error('Login error:', error);
       setError('로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');

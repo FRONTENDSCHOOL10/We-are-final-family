@@ -1,43 +1,111 @@
-// import { SendButton } from './Icone/SendButton';
 import { SendEmoji } from './Icone/SendEmoji';
 import { SendImg } from './Icone/SnedImg';
-
-// !! stipop-react-sdk 내부
-// defaultProps 경고
-// import { UnifiedComponent } from 'stipop-react-sdk';
-import { useState } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import S from './SendMessage.module.css';
 import IconButton from '@/components/IconButton/IconButton';
 import { useStore } from '@/stores/chatStore';
 
 function SendMessage() {
-  const store = useStore();
   const [active, setActive] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    setNewMessage,
+    newMessage,
+    fetchOrCreateChatRoom,
+    sendMessage,
+    sendingMessage,
+  } = useStore();
+  const inputRef = useRef(null);
+  const focusTimeoutRef = useRef(null);
 
-  const handleClick = () => {
-    setActive(!active);
-    console.log(active);
-  };
+  const handleClick = useCallback(() => {
+    setActive((prev) => !prev);
+  }, []);
 
-  const onChange = (e) => {
-    store.setNewMessage(e.target.value);
+  const onChange = useCallback(
+    (e) => {
+      setNewMessage(e.target.value);
+    },
+    [setNewMessage]
+  );
 
-    console.log(store.newMessage);
-  };
-
-  const handleSendClick = async () => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const selectedUser = { id: 'b9486e5b-1527-4ccd-b152-236ccdcaeb24' };
-
-    store.setCurrentUser(currentUser);
-    store.setSelectedUser(selectedUser);
-
-    const room = await store.fetchOrCreateChatRoom();
-    if (room) {
-      console.log('채팅방 생성 또는 찾기 성공:', room);
-      store.sendMessage(store.newMessage);
+  const focusInput = useCallback(() => {
+    if (inputRef.current) {
+      console.log('Attempting to focus input');
+      // 포커스 설정을 약간 지연시킵니다.
+      focusTimeoutRef.current = setTimeout(() => {
+        inputRef.current.focus();
+        console.log('Focus attempt completed');
+      }, 0);
+    } else {
+      console.log('Input ref is null');
     }
-  };
+  }, []);
+
+  const handleSendClick = useCallback(async () => {
+    if (newMessage.trim() && !sendingMessage && !isSubmitting) {
+      setIsSubmitting(true);
+      console.log('Sending message...');
+      const room = await fetchOrCreateChatRoom();
+      if (room) {
+        await sendMessage();
+        console.log('Message sent, attempting to focus');
+        focusInput();
+      }
+      setIsSubmitting(false);
+    }
+  }, [
+    fetchOrCreateChatRoom,
+    sendMessage,
+    newMessage,
+    sendingMessage,
+    isSubmitting,
+    focusInput,
+  ]);
+
+  useEffect(() => {
+    console.log('Component mounted, focusing input');
+    focusInput();
+    return () => {
+      if (focusTimeoutRef.current) {
+        clearTimeout(focusTimeoutRef.current);
+      }
+    };
+  }, [focusInput]);
+
+  useEffect(() => {
+    if (newMessage === '') {
+      console.log('New message is empty, focusing input');
+      focusInput();
+    }
+  }, [focusInput, newMessage]);
+
+  useEffect(() => {
+    let timer;
+    if (isSubmitting) {
+      timer = setTimeout(() => {
+        setIsSubmitting(false);
+        console.log('isSubmitting set to false, focusing input');
+        focusInput();
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [isSubmitting, focusInput]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (
+        e.key === 'Enter' &&
+        !e.shiftKey &&
+        !sendingMessage &&
+        !isSubmitting
+      ) {
+        e.preventDefault();
+        handleSendClick();
+      }
+    },
+    [handleSendClick, sendingMessage, isSubmitting]
+  );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -45,35 +113,25 @@ function SendMessage() {
         <SendImg />
         <div className={S.textInputWrap}>
           <input
+            ref={inputRef}
             className={`${S.input} para-md`}
             placeholder="메시지 보내기"
             onChange={onChange}
-          ></input>
+            value={newMessage}
+            onKeyDown={handleKeyDown}
+            disabled={sendingMessage || isSubmitting}
+          />
           <SendEmoji onClick={handleClick} />
         </div>
         <IconButton
           title="메시지 보내기"
           className="i_send"
           onClick={handleSendClick}
+          disabled={sendingMessage || isSubmitting || !newMessage.trim()}
         />
-        {/* <SendButton /> */}
       </div>
       <div className={active ? S.block : S.none}>
-        {/* <UnifiedComponent
-          stickerClick={(url) => {
-            console.log(url);
-          }}
-          preview:true
-          params={{
-            apikey: '17905f61092c7cf66135a3f21b3e6782',
-            userId: 'Han',
-            countryCode: 'KR',
-            lang: 'ko',
-          }}
-          size={{
-            width: '100%',
-          }}
-        /> */}
+        {/* UnifiedComponent 코드... */}
       </div>
     </div>
   );

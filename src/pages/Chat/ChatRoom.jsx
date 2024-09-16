@@ -4,28 +4,38 @@ import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble
 import SendMessage from '@/components/SendMessage/SendMessage';
 import { useStore } from '@/stores/chatStore';
 import { formatDate } from '@/utils/formatDate';
+import { useRef } from 'react';
 import { useEffect } from 'react';
 
 function ChatRoom() {
-  const store = useStore();
+  const {
+    fetchMessages,
+    subscribeToMessages,
+    messages,
+    currentRoom,
+    currentUser,
+  } = useStore();
   const handleSearchButton = () => {
     console.log('검색 버튼 클릭');
   };
+  const chatContainerRef = useRef(null);
+
   useEffect(() => {
-    if (store.currentRoom) store.fetchMessages(store.currentRoom);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-    const unsubscribe = store.subscribeToMessages(store.currentRoom);
-    return unsubscribe;
-  }, [store.currentRoom]);
-
-  console.log(store.currentRoom);
-  console.log(store.messages);
-  console.log(store.chatRoom);
-
-  store.messages.map((item, index) => {
-    console.log(item.content);
-    console.log(index);
-  });
+  useEffect(() => {
+    const loadMessages = async () => {
+      if (currentRoom) {
+        await fetchMessages(); // 초기 메시지 불러오기
+      }
+    };
+    loadMessages();
+    // 컴포넌트가 언마운트되거나 방을 나갈 때 구독 해제
+  }, [currentRoom, fetchMessages, subscribeToMessages]);
 
   return (
     <>
@@ -34,14 +44,18 @@ function ChatRoom() {
         contactName="김멋사"
         actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
       />
-      <main className={S.chatRoom}>
+      <main
+        className={S.chatRoom}
+        ref={chatContainerRef}
+        style={{ height: '400px', overflowY: 'scroll' }}
+      >
         <div style={{ flex: '1' }}>
-          {store.messages.map((item) => {
+          {messages.map((item) => {
             return (
               <ChatSpeechbubble
                 mychatdata={item.content}
                 key={item.id}
-                userId={item.id}
+                userId={item.user_id === currentUser}
                 time={formatDate(item.created_at)}
               />
             );
