@@ -17,12 +17,15 @@
   height: 100%;
 }
 .calendar {
-  background: var(--white);
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  padding: 1.5rem;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  padding: 1rem;
-  width: 100%;
-
+  background-color: var(--white);
   transform: translateY(100%);
   transition: transform 0.3s ease-in-out;
 }
@@ -31,19 +34,25 @@
   transform: translateY(0);
 }
 
-.closeButtonWrapper {
-  display: flex;
-  justify-content: end;
+.closeBtn {
+  position: absolute;
+  top: -2rem;
+  right: 0.5rem;
+  button {
+    background-color: rgba(0, 0, 0, 0.5);
+    span {
+      color: var(--white);
+    }
+  }
 }
 
 .header {
+  flex: 1;
   display: flex;
-  justify-content: space-between;
+  flex-flow: row nowrap;
   align-items: center;
-  margin: 0.5rem 0 1rem 0;
-  padding: 0 4rem;
-  font-size: 1rem;
-  font-weight: bold;
+  justify-content: space-between;
+  color: var(--gray-900);
 }
 
 .header button {
@@ -57,18 +66,18 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0.25rem;
-  margin-bottom: 0.5rem;
 }
 
 .weekday {
   text-align: center;
-  font-weight: bold;
+  color: var(--gray-900);
 }
 
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0.5rem;
+  color: var(--gray-900);
 }
 
 .day,
@@ -79,6 +88,11 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
+  border: none;
+  background-color: var(--white);
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }
 
 .day:hover {
@@ -115,7 +129,7 @@
   color: var(--gray-300);
 }
 
-.arrow:hover,
+/* .arrow:hover,
 .closeButton {
   display: flex;
   align-items: center;
@@ -128,4 +142,4 @@
 .arrow:hover,
 .closeButton:hover {
   background-color: var(--secondary);
-}
+} */

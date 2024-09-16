@@ -1,0 +1,17 @@
+.listItem {
+  display: flex;
+  flex-flow: column;
+  padding: 0.5rem 1.5rem;
+  gap: 0.25rem;
+}
+
+.commentHeader {
+  display: flex;
+  flex-flow: nowrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.commentTime {
+  color: var(--gray-600);
+}

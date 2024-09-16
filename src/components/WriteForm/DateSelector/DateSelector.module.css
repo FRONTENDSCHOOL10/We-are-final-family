@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
 }
 
 .dateSelector {
@@ -13,11 +13,12 @@
 }
 
 .icon {
+  color: var(--gray-700);
   cursor: pointer;
 }
 
 .iconFilled {
-  color: var(--primary);
+  /* color: var(--primary); */
 }
 
 .calendarWrapper {
