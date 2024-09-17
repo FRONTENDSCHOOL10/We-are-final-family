@@ -6,6 +6,7 @@ import { supabase } from '@/api/supabase';
 import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
 import toast from 'react-hot-toast';
 import UserCard from '@/components/UserCard/UserCard';
+import { clearLocalStorage } from '@/utils/clearLocalStorage'; // clearLocalStorage 함수 import
 
 function Profile() {
   const navigate = useNavigate();
@@ -22,6 +23,12 @@ function Profile() {
     }
     loadData();
   }, []);
+
+  function handleLogout() {
+    clearLocalStorage(); // 로컬 스토리지 초기화
+    navigate('/'); // 인트로 페이지로 이동
+    toast.success('로그아웃되었습니다.');
+  }
 
   async function fetchUserName() {
     try {
@@ -168,7 +175,9 @@ function Profile() {
           <li>설정</li>
           <li>공지사항</li>
           <li>서비스 정보</li>
-          <li>로그아웃</li>
+          <li className={S.logout} onClick={handleLogout}>
+            로그아웃
+          </li>
           <li>탈퇴하기</li>
         </ul>
       </main>

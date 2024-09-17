@@ -12,9 +12,11 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
   const navigate = useNavigate();
   const { clearInterests } = useInterestStore();
   const passwordInputRef = useRef(null);
+  const { setCurrentUser } = useStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,7 +28,6 @@ function Login() {
     }
 
     try {
-      console.log('Attempting to sign in with:', email);
       const { data: authData, error: authError } =
         await supabase.auth.signInWithPassword({
           email,
@@ -117,7 +118,9 @@ function Login() {
           onChange={setPassword}
           onKeyDown={(e) => handleKeyDown(e, 'password')}
           required
+          showError={false}
         />
+
         {error && <p className={`${S.error} para-sm`}>{error}</p>}
       </form>
       <footer>

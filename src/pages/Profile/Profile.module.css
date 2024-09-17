@@ -102,3 +102,7 @@
 .SignUpList {
   padding: 0 1rem 0 1rem;
 }
+
+.logout:hover {
+  cursor: pointer;
+}
