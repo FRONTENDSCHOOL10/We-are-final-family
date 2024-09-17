@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import S from './Profile.module.css';
 import Navigation from '@/components/App/Navigation';
-import { ProfileImg } from './../../components/ProfileImg/ProfileImg';
 import { useRef, useState, useEffect } from 'react';
 import { supabase } from '@/api/supabase';
 import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
-
 import toast from 'react-hot-toast';
+import UserCard from '@/components/UserCard/UserCard';
 
 function Profile() {
   const navigate = useNavigate();
@@ -14,9 +13,14 @@ function Profile() {
   const [userName, setUserName] = useState('');
   const [profileImgUrl, setProfileImgUrl] = useState('');
   const { count } = useUserRecordsCount();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchUserName(), fetchProfileImage();
+    async function loadData() {
+      await Promise.all([fetchUserName(), fetchProfileImage()]);
+      setIsLoading(false);
+    }
+    loadData();
   }, []);
 
   async function fetchUserName() {
@@ -69,7 +73,7 @@ function Profile() {
     navigate('/profile/view');
   }
 
-  function handlePorfileImg() {
+  function handleProfileImg() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -79,12 +83,13 @@ function Profile() {
     const file = event.target.files[0];
     if (file) {
       try {
+        setIsLoading(true);
         const { data: userData, error: userError } =
           await supabase.auth.getUser();
         if (userError) throw userError;
 
         const fileExt = file.name.split('.').pop();
-        const fileName = `${userData.user.id}.${fileExt}`;
+        const fileName = `${userData.user.id}_${Date.now()}.${fileExt}`;
         const filePath = `${userData.user.id}/${fileName}`;
 
         // 파일 업로드
@@ -92,17 +97,15 @@ function Profile() {
           .from('profile_img')
           .upload(filePath, file, {
             cacheControl: '3600',
-            upsert: true, // 이 옵션을 추가합니다
+            upsert: false,
           });
 
         if (uploadError) throw uploadError;
 
         // 업로드된 파일의 공개 URL 가져오기
-        const { data: urlData, error: urlError } = supabase.storage
+        const { data: urlData } = supabase.storage
           .from('profile_img')
           .getPublicUrl(filePath);
-
-        if (urlError) throw urlError;
 
         const publicUrl = urlData.publicUrl;
 
@@ -119,19 +122,26 @@ function Profile() {
       } catch (error) {
         console.error('Error uploading image:', error);
         toast.error('이미지 업로드에 실패했습니다.');
+      } finally {
+        setIsLoading(false);
       }
     }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>; // 또는 로딩 스피너 컴포넌트
   }
 
   return (
     <>
       <main className={S.profile}>
-        <ProfileImg
-          width="4rem"
-          height="4rem"
-          display=""
-          onClick={handlePorfileImg}
+        <UserCard
+          userId={1}
+          states="profile"
+          onClick={handleProfileImg}
           image={profileImgUrl}
+          username={userName}
+          postCount={count}
         />
         <input
           type="file"
@@ -140,9 +150,6 @@ function Profile() {
           accept="image/*"
           style={{ display: 'none' }}
         />
-        <span>{`${userName}`}</span>
-        <span>작성글 {count}</span>
-
         <ul className={S.myMenu}>
           <li>
             <span className="i_like_filled"></span>저장한 글
