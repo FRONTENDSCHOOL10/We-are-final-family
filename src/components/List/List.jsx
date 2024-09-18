@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { string, bool, arrayOf } from 'prop-types';
 import Error from '@/pages/Error';
 import Fallback from '@/pages/Fallback';
+import NoneData from '@/pages/NoneData';
 
 // 사용 방법
 // <List type="party" />
@@ -44,6 +45,7 @@ function List({
         if (error) {
           console.error('에러 발생!', error);
           setError(error);
+          <Error />;
         } else if (fetchedData && fetchedData.length > 0) {
           console.log('데이터 불러오기 성공:', fetchedData);
 
@@ -102,10 +104,12 @@ function List({
           setData(filteredData);
         } else {
           console.warn('데이터가 없습니다.');
+          <NoneData />;
         }
       } catch (error) {
         console.error('네트워크 에러 발생!', error);
         setError(error);
+        <Error />;
       } finally {
         <Fallback />;
       }
@@ -124,7 +128,7 @@ function List({
   ]); // type이 변경될 때마다 데이터 새로 불러오기
 
   if (error) return <Error />;
-  if (data.length === 0) return <p>데이터가 없습니다.</p>;
+  if (data.length === 0) return <NoneData />;
 
   return (
     <>
