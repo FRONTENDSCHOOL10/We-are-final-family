@@ -1,20 +1,18 @@
 import S from './UserCard.module.css';
-import { node, string, number } from 'prop-types';
+import { node, string, number, func } from 'prop-types';
 import { ProfileTitle } from '../ProfileTitle/ProfileTitle';
 import { ProfileImg } from '../ProfileImg/ProfileImg';
-import { useState } from 'react';
 
-UserCard.propTypes = {
-  children: node,
-  description: node || string,
-  userId: number,
-  states: string,
-};
-
-export function UserCard({ description = '연남동', userId, states }) {
-  const [state] = useState(states);
-
-  switch (state) {
+function UserCard({
+  description,
+  userId,
+  states,
+  onClick,
+  image,
+  username,
+  postCount,
+}) {
+  switch (states) {
     case 'pending':
       return (
         <div className={S.wrapper}>
@@ -56,6 +54,8 @@ export function UserCard({ description = '연남동', userId, states }) {
             width={'4.84375rem'}
             height={'4.84375rem'}
             display="block"
+            onClick={onClick}
+            image={image}
           />
           <div
             style={{
@@ -65,12 +65,26 @@ export function UserCard({ description = '연남동', userId, states }) {
               gap: '0.25rrem',
             }}
           >
-            <ProfileTitle name="고명한" className="lbl-lg"></ProfileTitle>
+            <ProfileTitle name={username} className="lbl-lg" />
             <p className="para-sm" style={{ color: 'var(--gray-600)' }}>
-              작성글10
+              작성글 {postCount}
             </p>
           </div>
         </div>
       );
+    default:
+      return null;
   }
 }
+
+UserCard.propTypes = {
+  description: node || string,
+  userId: number,
+  states: string.isRequired,
+  onClick: func,
+  image: string,
+  username: string,
+  postCount: number,
+};
+
+export default UserCard;
