@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import S from './PersonnelCounter.module.css';
+import PropTypes from 'prop-types';
 
 function PersonnelCounter({ label }) {
   const [count, setCount] = useState(2);
@@ -27,5 +28,9 @@ function PersonnelCounter({ label }) {
     </div>
   );
 }
+
+PersonnelCounter.propTypes = {
+  label: PropTypes.string,
+};
 
 export default PersonnelCounter;

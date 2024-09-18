@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import S from './TimeSelector.module.css';
+import PropTypes from 'prop-types';
 
 function TimeSelector({ label }) {
   // 시간, 분, AM/PM, 모달 열림 상태를 관리하는 state
@@ -133,5 +134,9 @@ function TimeSelector({ label }) {
     </div>
   );
 }
+
+TimeSelector.propTypes = {
+  label: PropTypes.string,
+};
 
 export default TimeSelector;
