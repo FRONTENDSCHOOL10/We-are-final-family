@@ -6,14 +6,13 @@ import FilterButton from '@/components/List/FilterButton';
 import List from '@/components/List/List';
 import FloatingButton from '@/components/FloatingButton/FloatingButton';
 import FilterModal from '@/components/List/FilterModal';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/api/supabase';
-import useHomeStore from '@/stores/useHomeStore';
-import { useState } from 'react';
-import { getData } from '@/api/DataService';
 import Fallback from '@/pages/Fallback';
 import Error from '@/pages/Error';
+import useHomeStore from '@/stores/useHomeStore';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/api/supabase';
+import { getData } from '@/api/DataService';
 
 function Home() {
   // 상태 관리
@@ -24,7 +23,6 @@ function Home() {
     updateFilter,
     isFilterModalOpen,
     setIsFilterModalOpen,
-    // currentFilterType,
     setCurrentFilterType,
     filterValues,
     setFilterValues,
@@ -52,7 +50,7 @@ function Home() {
     navigate('/home/write');
   };
 
-  // 로그인 유저 정보
+  // 로그인 유저 정보 및 위치 정보 가져오기
   useEffect(() => {
     const fetchUser = async () => {
       const {
@@ -60,22 +58,31 @@ function Home() {
       } = await supabase.auth.getUser();
       if (user) {
         setCurrentUser(user);
+
+        // 사용자 위치 정보 가져오기
+        const { data, error } = await supabase
+          .from('users')
+          .select('location')
+          .eq('email', user.email)
+          .single();
+
+        if (error) {
+          console.error('사용자 위치 정보 가져오기 실패:', error);
+          // <Error />;
+        } else if (data?.location) {
+          setUserLocation(data.location); // Zustand 스토어에 저장
+        }
       }
     };
 
     fetchUser();
-
-    const savedLocation = localStorage.getItem('userLocation');
-    if (savedLocation) {
-      setUserLocation(savedLocation);
-    }
   }, [setCurrentUser, setUserLocation]);
 
-  // 내 위치
+  // 내 위치 업데이트
   const handleLocationUpdate = async (location) => {
     setUserLocation(location);
 
-    // 로그인한 사용자 위치 정보
+    // 로그인한 사용자의 위치 정보 업데이트
     if (currentUser) {
       try {
         const { error } = await supabase
@@ -85,7 +92,7 @@ function Home() {
 
         if (error) throw error;
         console.log(`위치 업데이트 성공: ${location}`);
-        localStorage.setItem('userLocation', location); // 로컬 스토리지 저장
+        // localStorage.setItem('userLocation', location); // 로컬 스토리지 저장
       } catch (error) {
         console.error('위치 업데이트 실패:', error.message);
       }
@@ -228,16 +235,6 @@ function Home() {
           ))}
         </div>
 
-        {/* <List
-          type="party"
-          category={activeCategory}
-          location={userLocation}
-          sortByInterest={sortByInterest}
-          sortByLatest={isSortedByLatest}
-          sortByRecruiting={sortByRecruiting}
-          gender={selectedGender}
-          age={selectedAge}
-        /> */}
         {error ? (
           <Error />
         ) : loadingInterests ? (

@@ -3,7 +3,7 @@ import IconButton from '@/components/IconButton/IconButton';
 import { string, bool, array, func } from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/api/supabase';
+import useHomeStore from '@/stores/useHomeStore';
 
 Header.propTypes = {
   title: string,
@@ -46,51 +46,15 @@ function Header({
   // 내 위치 버튼
   const [location, setLocation] = useState('내 위치'); // 현재 위치 텍스트 (예: 구로구)
   const [isLocationActive, setIsLocationActive] = useState(false); // 위치 아이콘 상태
+  const { userLocation, setUserLocation } = useHomeStore();
 
+  // 사용자의 위치가 저장되어 있을 경우
   useEffect(() => {
-    if (myLocation) {
-      const fetchUserLocation = async () => {
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.getUser(); // 현재 로그인한 사용자 가져오기
-
-        if (error) {
-          console.error('사용자 정보를 가져오는 중 오류 발생:', error);
-          return;
-        }
-
-        if (!user) {
-          console.error('사용자를 찾을 수 없음');
-          return;
-        }
-
-        const { data, error: fetchError } = await supabase
-          .from('users')
-          .select('location')
-          .eq('email', user.email) // 이메일을 기준으로 사용자 조회
-          .single(); // 단일 사용자만 조회
-
-        if (fetchError) {
-          console.error('사용자 위치를 가져오는 중 오류 발생:', fetchError);
-        } else {
-          const userLocation = data?.location;
-          if (userLocation) {
-            setLocation(userLocation);
-            setIsLocationActive(true);
-          } else {
-            const storedLocation = localStorage.getItem('location');
-            if (storedLocation) {
-              setLocation(storedLocation);
-              setIsLocationActive(true);
-            }
-          }
-        }
-      };
-
-      fetchUserLocation();
+    if (myLocation && userLocation) {
+      setLocation(userLocation);
+      setIsLocationActive(true);
     }
-  }, [myLocation]);
+  }, [myLocation, userLocation]);
 
   const getRegionName = (latitude, longitude) => {
     const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
@@ -106,8 +70,9 @@ function Header({
         if (data.documents && data.documents.length > 0) {
           const regionName = data.documents[0].region_2depth_name; // 예: 구로구
           setLocation(regionName);
-          localStorage.setItem('location', regionName);
-          onLocationUpdate(regionName);
+          setIsLocationActive(true);
+          setUserLocation(regionName); // Zustand 스토어에 위치 정보 업데이트
+          onLocationUpdate(regionName); // Home 페이지에서 콜백으로 위치 정보 업데이트
         } else {
           setLocation('위치 이름을 가져올 수 없음');
         }
@@ -124,7 +89,7 @@ function Header({
         (position) => {
           const { latitude, longitude } = position.coords;
           getRegionName(latitude, longitude); // 좌표를 사용하여 지역명 가져오기
-          setIsLocationActive(true);
+          // setIsLocationActive(true);
         },
         (error) => {
           console.error('위치 정보를 가져오는 중 오류 발생:', error);
