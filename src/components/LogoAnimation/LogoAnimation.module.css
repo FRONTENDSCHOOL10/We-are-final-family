@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.logo {
+  overflow: visible;
+}
+
+.movingWaves {
+  animation: moveWaves 30s linear infinite;
+}
+
+.wave {
+  transform: translateX(0px);
+}
+
+.wave:nth-child(2) {
+  transform: translateX(193px);
+}
+
+.wave:nth-child(3) {
+  transform: translateX(386px);
+}
+.wave:nth-child(4) {
+  transform: translateX(579px);
+}
+
+@keyframes moveWaves {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-579px);
+  }
+}
+
+.grayLogo {
+  fill: #7f7f7f;
+  opacity: 0.3;
+}
