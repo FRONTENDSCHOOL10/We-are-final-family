@@ -1,6 +1,6 @@
 import { useState, useId } from 'react';
 import PropTypes from 'prop-types';
-import S from './CheckboxList.module.css';
+import S from './CheckBoxList.module.css';
 
 function Checkbox({
   title,
