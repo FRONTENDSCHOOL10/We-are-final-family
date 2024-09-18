@@ -96,7 +96,7 @@ function Profile() {
         if (userError) throw userError;
 
         const fileExt = file.name.split('.').pop();
-        const fileName = `${userData.user.id}_${Date.now()}.${fileExt}`;
+        const fileName = `${userData.user.id}.${fileExt}`;
         const filePath = `${userData.user.id}/${fileName}`;
 
         // 파일 업로드
@@ -104,7 +104,7 @@ function Profile() {
           .from('profile_img')
           .upload(filePath, file, {
             cacheControl: '3600',
-            upsert: false,
+            upsert: true,
           });
 
         if (uploadError) throw uploadError;
@@ -114,7 +114,8 @@ function Profile() {
           .from('profile_img')
           .getPublicUrl(filePath);
 
-        const publicUrl = urlData.publicUrl;
+        // URL에 타임스탬프 추가
+        const publicUrl = `${urlData.publicUrl}?t=${new Date().getTime()}`;
 
         // users 테이블 업데이트
         const { error: updateError } = await supabase
@@ -124,12 +125,22 @@ function Profile() {
 
         if (updateError) throw updateError;
 
-        setProfileImgUrl(publicUrl);
-        toast.success('프로필 이미지가 업데이트되었습니다.');
+        // 이미지 로드 후 상태 업데이트
+        const img = new Image();
+        img.onload = () => {
+          setProfileImgUrl(publicUrl);
+          toast.success('프로필 이미지가 업데이트되었습니다.');
+          setIsLoading(false);
+        };
+        img.onerror = () => {
+          console.error('Error loading image');
+          toast.error('이미지 로드에 실패했습니다.');
+          setIsLoading(false);
+        };
+        img.src = publicUrl;
       } catch (error) {
         console.error('Error uploading image:', error);
         toast.error('이미지 업로드에 실패했습니다.');
-      } finally {
         setIsLoading(false);
       }
     }

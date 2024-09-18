@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import S from './AgreementForm.module.css';
-import CheckboxList from './CheckboxList';
+import CheckboxList from './CheckBoxList';
 
 function AgreementForm({ agreements, sendDataToParent }) {
   const [checkedItems, setCheckedItems] = useState(
@@ -14,7 +14,7 @@ function AgreementForm({ agreements, sendDataToParent }) {
 
   useEffect(() => {
     sendDataToParent(checkedItems);
-  }, [checkedItems]);
+  }, [checkedItems, sendDataToParent]);
 
   const handleSingleCheck = (index, checked) => {
     const newCheckedItems = [...checkedItems];
@@ -22,7 +22,6 @@ function AgreementForm({ agreements, sendDataToParent }) {
     newCheckedItems[0] = newCheckedItems.slice(1).every(Boolean);
     setCheckedItems(newCheckedItems);
   };
-  // console.log('🚀 ~ AgreementForm ~ checkedItems:', checkedItems);
 
   return (
     <div className={S.agreementForm}>
@@ -66,6 +65,7 @@ AgreementForm.propTypes = {
       showButton: PropTypes.bool,
     })
   ).isRequired,
+  sendDataToParent: PropTypes.func.isRequired,
 };
 
 export default AgreementForm;
