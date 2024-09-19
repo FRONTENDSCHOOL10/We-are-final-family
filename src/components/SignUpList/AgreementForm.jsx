@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import S from './AgreementForm.module.css';
-import CheckboxList from './CheckBoxList';
+import CheckboxList from './CheckboxList';
 
 function AgreementForm({ agreements, sendDataToParent }) {
   const [checkedItems, setCheckedItems] = useState(
