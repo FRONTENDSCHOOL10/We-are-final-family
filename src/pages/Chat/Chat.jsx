@@ -5,6 +5,7 @@ import { ChatProfileCard } from '@/components/ChatProfileCard/ChatProfileCard';
 import { useEffect } from 'react';
 import { useStore } from '@/stores/chatStore';
 import { useNavigate } from 'react-router-dom';
+import { Fallback } from '..';
 
 function Chat() {
   const {
@@ -13,7 +14,6 @@ function Chat() {
     setCurrentRoom,
     chatRooms,
     fetchChatRooms1,
-    subscribeToMessages,
     setCurrentUser,
   } = useStore();
   const navigate = useNavigate();
@@ -40,7 +40,6 @@ function Chat() {
     setSelectedUser(selectedUser);
     setCurrentRoom(currentRoom);
     fetchChatRooms1();
-    subscribeToMessages();
     navigate('/chat/room');
   } //여기 손봐야됨
   return (
@@ -64,7 +63,7 @@ function Chat() {
               </li>
             ))
           ) : (
-            <div>is loading</div>
+            <Fallback />
           )}
         </ul>
       </main>

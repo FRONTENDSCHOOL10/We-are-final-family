@@ -4,8 +4,9 @@ import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble
 import SendMessage from '@/components/SendMessage/SendMessage';
 import { useStore } from '@/stores/chatStore';
 import { formatDate } from '@/utils/formatDate';
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import { useCallback } from 'react';
+import { useEffect, useRef } from 'react';
+import { AutoSizer, List } from 'react-virtualized';
 
 function ChatRoom() {
   const {
@@ -14,28 +15,82 @@ function ChatRoom() {
     messages,
     currentRoom,
     currentUser,
+    setCurrentUser,
+    setCurrentRoom,
+    setMessages,
   } = useStore();
+  const listRef = useRef();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    setCurrentUser(user.id);
+  }, [setCurrentUser]);
+
   const handleSearchButton = () => {
     console.log('검색 버튼 클릭');
   };
-  const chatContainerRef = useRef(null);
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   useEffect(() => {
     const loadMessages = async () => {
       if (currentRoom) {
+        console.log(messages);
+
         await fetchMessages(); // 초기 메시지 불러오기
       }
     };
+
     loadMessages();
-    // 컴포넌트가 언마운트되거나 방을 나갈 때 구독 해제
-  }, [currentRoom, fetchMessages, subscribeToMessages]);
+  }, [currentRoom, fetchMessages]);
+
+  useEffect(() => {
+    let unsubscribe;
+
+    unsubscribe = subscribeToMessages(); // 구독 시작
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe(); // 컴포넌트 언마운트 시 구독 취소
+      }
+    };
+  }, [subscribeToMessages, currentRoom]); // currentRoom 변경 시 다시 구독
+  console.log(currentRoom);
+
+  //언마운트시 currentRoom 초기화
+  useEffect(() => {
+    return () => {
+      setCurrentRoom(null);
+      console.log(currentRoom);
+    };
+  }, [setCurrentRoom]);
+
+  //컴포넌트 언마운트시 메시지값 초기화
+  useEffect(() => {
+    return () => {
+      setMessages([]);
+      console.log(messages);
+    };
+  }, [setMessages]);
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollToRow(messages.length - 1);
+    }
+  }, [messages]);
+
+  const rowRenderer = useCallback(
+    ({ index, key, style }) => {
+      const item = messages[index];
+      return (
+        <div key={key} style={style}>
+          <ChatSpeechbubble
+            mychatdata={item.content}
+            userId={item.user_id === currentUser}
+            time={formatDate(item.created_at)}
+          />
+        </div>
+      );
+    },
+    [messages, currentUser]
+  );
 
   return (
     <>
@@ -44,23 +99,20 @@ function ChatRoom() {
         contactName="김멋사"
         actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
       />
-      <main
-        className={S.chatRoom}
-        ref={chatContainerRef}
-        style={{ height: '400px', overflowY: 'scroll' }}
-      >
-        <div style={{ flex: '1' }}>
-          {messages.map((item) => {
-            return (
-              <ChatSpeechbubble
-                mychatdata={item.content}
-                key={item.id}
-                userId={item.user_id === currentUser}
-                time={formatDate(item.created_at)}
-              />
-            );
-          })}
-        </div>
+      <main className={S.chatRoom}>
+        <AutoSizer>
+          {({ width, height }) => (
+            <List
+              ref={listRef}
+              width={width}
+              height={height - 65} // SendMessage 컴포넌트의 높이를 고려하여 조정
+              rowCount={messages.length}
+              rowHeight={44} // ChatSpeechbubble의 높이
+              rowRenderer={rowRenderer}
+              scrollToIndex={messages.length - 1}
+            />
+          )}
+        </AutoSizer>
         <SendMessage />
       </main>
     </>
