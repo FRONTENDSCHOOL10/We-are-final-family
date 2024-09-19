@@ -29,7 +29,7 @@ function Badge({ text, variant }) {
   };
 
   return (
-    <span className={S.Badge} style={badgeStyle}>
+    <span className={S.Badge} style={badgeStyle} aria-label={text}>
       {text}
     </span>
   );

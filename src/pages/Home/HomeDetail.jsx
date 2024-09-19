@@ -6,6 +6,10 @@ import Badge from '@/components/Badge/Badge';
 import OptionPopup from '@/components/OptionPopup/OptionPopup';
 import { JoinPartyList } from '@/components/JoinPartyList/JoinPartyList';
 import { PendingList } from '@/components/PendingList/PendingList';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import useListStore from '@/stores/useListStore';
+import { formatDateWithTime } from '@/utils/formatDate';
 
 function HomeDetail() {
   const [isLiked, setIsLiked] = useState(false);
@@ -30,6 +34,23 @@ function HomeDetail() {
     setIsOptionPopupActive((prevState) => !prevState);
   };
 
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const encodedId = query.get('q');
+  const id = atob(encodedId); // base64 디코딩된 id 값
+
+  const { singleData, error, isLoading, fetchData } = useListStore(); // Zustand 사용
+
+  useEffect(() => {
+    fetchData('party', id); // 'party' 테이블에서 특정 id의 데이터 조회
+  }, [id, fetchData]);
+
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>에러: {error}</p>;
+  if (!singleData) return <p>데이터가 없습니다.</p>;
+
+  const formattedDate = formatDateWithTime(singleData.meet_date);
+
   return (
     <>
       <Header
@@ -47,9 +68,44 @@ function HomeDetail() {
       <main className={S.homeDetail}>
         <div className={S.detailWrap}>
           <section className={S.post}>
-            <Badge text="모집중" variant="recruit"></Badge>
-            <Badge text="스터디" variant="category"></Badge>
-            피그마 스터디 하실 분~
+            <header className={S.postHeader}>
+              <ul className={S.postBadge}>
+                <li>
+                  <Badge
+                    text={singleData.state ? '모집중' : '모집마감'}
+                    variant={singleData.state ? 'recruit' : 'end_recruit'}
+                  />
+                </li>
+                <li>
+                  <Badge
+                    text={singleData.category}
+                    variant={singleData.state ? 'category' : 'end_category'}
+                  />
+                </li>
+              </ul>
+              <h1 className="hdg-lg">{singleData.title}</h1>
+            </header>
+            <div className={S.postContent}>
+              <ul className="para-md">
+                <li aria-label="날짜">
+                  <span aria-hidden="true" className="i_calendar_filled"></span>
+                  <span>{formattedDate}</span>
+                </li>
+                <li aria-label="장소">
+                  <span aria-hidden="true" className="i_location_filled"></span>
+                  <span>{singleData.place}</span>
+                </li>
+                <li aria-label="성별">
+                  <span aria-hidden="true" className="i_people_filled"></span>
+                  <span>{singleData.gender} 참여 가능</span>
+                </li>
+                <li aria-label="연령">
+                  <span aria-hidden="true" className="i_people_filled"></span>
+                  <span>{singleData.age} 참여 가능</span>
+                </li>
+              </ul>
+              <p className="para-md">{singleData.description}</p>
+            </div>
           </section>
           <section className={S.state}>
             <JoinPartyList />
