@@ -1,28 +1,28 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Button/Button';
 import Logo from '@/components/Logo/Logo';
 import S from './Intro.module.css';
-import { supabase } from '@/api/supabase';
+// import { useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { supabase } from '@/api/supabase';
 
 function Intro() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkUserAuth = async () => {
-      const storedUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (storedUser && storedUser.id) {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (user && user.id === storedUser.id) {
-          navigate('/home');
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const checkUserAuth = async () => {
+  //     const storedUser = JSON.parse(localStorage.getItem('currentUser'));
+  //     if (storedUser && storedUser.id) {
+  //       const {
+  //         data: { user },
+  //       } = await supabase.auth.getUser();
+  //       if (user && user.id === storedUser.id) {
+  //         navigate('/home');
+  //       }
+  //     }
+  //   };
 
-    checkUserAuth();
-  }, [navigate]);
+  //   checkUserAuth();
+  // }, [navigate]);
 
   return (
     <main className={S.intro}>
@@ -43,12 +43,6 @@ function Intro() {
 
       {/* 버튼 */}
       <div className={S.button_container}>
-        <Button to={'/test'} color="white">
-          테스트 페이지로 이동
-        </Button>
-        <Button to={'/home'} color="white">
-          메인 페이지로 이동
-        </Button>
         <Button to={'/register'} color="primary">
           시작하기
         </Button>
