@@ -1,6 +1,6 @@
 import { number } from 'prop-types';
 import S from './JoinPartyList.module.css';
-import { UserCard } from '../UserCard/UserCard';
+import UserCard from '../UserCard/UserCard';
 
 JoinPartyList.propTypes = {
   join: number,
