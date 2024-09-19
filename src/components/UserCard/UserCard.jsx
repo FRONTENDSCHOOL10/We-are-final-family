@@ -11,11 +11,12 @@ function UserCard({
   image,
   username,
   postCount,
+  ...props
 }) {
   switch (states) {
     case 'pending':
       return (
-        <div className={S.wrapper}>
+        <div className={S.wrapper} {...props}>
           <ProfileImg></ProfileImg>
           <div className={S.component}>
             <ProfileTitle name={name} className={'lbl-md'}>
@@ -53,7 +54,7 @@ function UserCard({
       );
     case 'profile':
       return (
-        <div className={S.profile}>
+        <div className={S.profile} {...props}>
           <ProfileImg
             width={'4.84375rem'}
             height={'4.84375rem'}
