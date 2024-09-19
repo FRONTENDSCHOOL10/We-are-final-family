@@ -15,14 +15,14 @@ import PropTypes from 'prop-types';
 function WriteForm({
   label,
   title,
-  toggle,
+  toggle = 'off',
   toggleName,
   type = 'default',
-  value,
-  btnValue,
-  onChange,
-  onToggleChange,
-  isToggleOn,
+  value = '',
+  btnValue = '',
+  onChange = () => {},
+  onToggleChange = () => {},
+  isToggleOn = false,
 }) {
   switch (label) {
     case '인원':
@@ -95,16 +95,6 @@ WriteForm.propTypes = {
   onChange: PropTypes.func,
   onToggleChange: PropTypes.func,
   isToggleOn: PropTypes.bool,
-};
-
-WriteForm.defaultProps = {
-  type: 'default',
-  toggle: 'off',
-  value: '',
-  btnValue: '',
-  onChange: () => {},
-  onToggleChange: () => {},
-  isToggleOn: false,
 };
 
 export default WriteForm;

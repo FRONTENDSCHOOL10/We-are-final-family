@@ -11,14 +11,15 @@ function UserCard({
   image,
   username,
   postCount,
+  ...props
 }) {
   switch (states) {
     case 'pending':
       return (
-        <div className={S.wrapper}>
+        <div className={S.wrapper} {...props}>
           <ProfileImg></ProfileImg>
           <div className={S.component}>
-            <ProfileTitle name="고명한" className={'lbl-md'}>
+            <ProfileTitle name={name} className={'lbl-md'}>
               <div className={S.actions}>
                 <button className={`${S.agree} lbl-sm`}>승인</button>
                 <button className={`${S.disagree} lbl-sm`}>거절</button>
@@ -29,11 +30,11 @@ function UserCard({
       );
     case 'join':
       return (
-        <div className={S.wrapper}>
+        <div className={S.wrapper} onClick={onClick} {...props}>
           <ProfileImg></ProfileImg>
           <span className=""></span>
           <div className={S.component}>
-            <ProfileTitle name="고명한" className={'lbl-md'}>
+            <ProfileTitle name={name} className={'lbl-md'}>
               {userId === userId ? (
                 <div className={`${S.cert} para-sm`}>
                   <span className="i_certificate" />
@@ -45,11 +46,15 @@ function UserCard({
             </ProfileTitle>
             <p className={`${S.desc} para-sm`}>{description}</p>
           </div>
+          <div>
+            <button>프로필보기</button>
+            <button>채팅하기</button>
+          </div>
         </div>
       );
     case 'profile':
       return (
-        <div className={S.profile}>
+        <div className={S.profile} {...props}>
           <ProfileImg
             width={'4.84375rem'}
             height={'4.84375rem'}

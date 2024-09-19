@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
+import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
 
 const viteConfig = defineConfig({
   base: '/',
@@ -13,6 +14,11 @@ const viteConfig = defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      plugins: [fixReactVirtualized],
     },
   },
 });
