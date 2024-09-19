@@ -40,11 +40,6 @@ function List({
     fetchData(tableName);
   }, [type, fetchData]);
 
-  if (isLoading) return <Fallback />;
-  if (error) return <Error />;
-  if (data.length === 0)
-    return <NoneData icon="i_close" text="데이터가 없습니다." />;
-
   // 필터링과 정렬 적용
   let filteredData = data;
 
@@ -53,7 +48,9 @@ function List({
   }
 
   if (location) {
-    filteredData = filteredData.filter((item) => item.place.includes(location));
+    filteredData = filteredData.filter((item) =>
+      item.place ? item.place.includes(location) : false
+    );
   }
 
   if (Array.isArray(sortByInterest) && sortByInterest.length > 0) {
@@ -78,6 +75,22 @@ function List({
 
   if (age && type === 'party') {
     filteredData = filteredData.filter((item) => item.age === age);
+  }
+
+  if (isLoading) return <Fallback />;
+  if (error) return <Error />;
+
+  const noneDataText =
+    type === 'party'
+      ? '일치하는 파티가 없습니다.'
+      : '일치하는 게시글이 없습니다.';
+
+  // if (filteredData.length === 0)
+  //   return <NoneData icon="i_close" text="일치하는 파티 또는 글이 없습니다." />;
+
+  if (filteredData.length === 0) {
+    console.log('filteredData is empty, rendering NoneData');
+    return <NoneData icon="i_close" text={noneDataText} />;
   }
 
   return (
