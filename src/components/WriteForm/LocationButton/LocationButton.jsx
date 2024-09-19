@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import S from './LocationButton.module.css';
 import CurrentLocationButton from './CurrentLocationButton/CurrentLocationButton';
+import PropTypes from 'prop-types';
 
-function LocationButton({ label }) {
+function LocationButton({ label, value, onChange }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(value || '');
 
   useEffect(() => {
     if (isModalOpen) {
@@ -34,6 +35,7 @@ function LocationButton({ label }) {
 
   function handleLocationUpdate(location) {
     setSelectedLocation(location);
+    onChange(location);
     closeModal();
   }
 
@@ -68,5 +70,11 @@ function LocationButton({ label }) {
     </div>
   );
 }
+
+LocationButton.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default LocationButton;
