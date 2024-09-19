@@ -10,6 +10,8 @@
   background-color: var(--white);
   h1 {
     flex: 1;
+    padding-left: 0.5rem;
+    padding-inline-start: 0.5rem;
   }
   p {
     flex: 1;

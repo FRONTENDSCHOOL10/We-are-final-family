@@ -3,6 +3,9 @@ import Badge from '../Badge/Badge';
 import { supabase } from '@/api/supabase';
 import S from './ListSearch.module.css';
 import PropTypes from 'prop-types';
+import Error from '@/pages/Error';
+import Fallback from '@/pages/Fallback';
+import NoneData from '@/pages/NoneData';
 
 function ListSearch({ searchTerm, activeFilter }) {
   const [mixedData, setMixedData] = useState([]);
@@ -57,9 +60,10 @@ function ListSearch({ searchTerm, activeFilter }) {
     fetchData();
   }, [searchTerm, activeFilter]);
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러 발생: {error}</div>;
-  if (mixedData.length === 0) return <div>검색 결과가 없습니다.</div>;
+  if (loading) return <Fallback />;
+  if (error) return <Error />;
+  if (mixedData.length === 0)
+    return <NoneData icon="i_close" text="검색 결과가 없습니다." />;
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

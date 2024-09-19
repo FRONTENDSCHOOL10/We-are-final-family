@@ -4,6 +4,7 @@ function Fallback() {
   return (
     <div
       style={{
+        flex: '1',
         display: 'flex',
         flexFlow: 'column nowrap',
         gap: '3rem',

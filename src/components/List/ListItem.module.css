@@ -8,14 +8,14 @@
     text-decoration: none;
     border-bottom: 1px solid var(--gray-100);
     color: var(--gray-900);
+
+    &:focus {
+      outline-color: var(--secondary);
+    }
   }
 }
 
 .boardItem {
-  /* flex-flow: row nowrap;
-  align-items: center;
-  gap: 0.5rem; */
-
   a {
     display: flex;
     flex-flow: row nowrap;
