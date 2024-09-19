@@ -3,19 +3,28 @@ import S from './TimeSelector.module.css';
 import PropTypes from 'prop-types';
 
 function TimeSelector({ label, value, onChange }) {
+  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+  const timeSelectorRef = useRef(null);
+  const timePickerWrapperRef = useRef(null);
+
+  // 기본값을 '오전 07:00'으로 설정
+  const defaultTime = '오전 07:00';
+
+  // value prop으로부터 시간, 분, AM/PM 상태를 추출하되, 값이 없으면 기본값 사용
   const [selectedHour, setSelectedHour] = useState(
     value ? value.split(':')[0] : '07'
   );
   const [selectedMinute, setSelectedMinute] = useState(
-    value ? value.split(':')[1] : '00'
+    value ? value.split(':')[1].split(' ')[0] : '00'
   );
-  const [isAM, setIsAM] = useState(
-    value ? parseInt(value.split(':')[0]) < 12 : true
-  );
-  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false);
+  const [isAM, setIsAM] = useState(value ? value.includes('오전') : true);
 
-  const timeSelectorRef = useRef(null);
-  const timePickerWrapperRef = useRef(null);
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 value가 없으면 기본값으로 설정
+    if (!value) {
+      onChange(defaultTime);
+    }
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -36,12 +45,12 @@ function TimeSelector({ label, value, onChange }) {
 
   const handleHourChange = (e) => {
     setSelectedHour(e.target.value);
-    updateTime(e.target.value, selectedMinute);
+    updateTime(e.target.value, selectedMinute, isAM);
   };
 
   const handleMinuteChange = (e) => {
     setSelectedMinute(e.target.value);
-    updateTime(selectedHour, e.target.value);
+    updateTime(selectedHour, e.target.value, isAM);
   };
 
   const toggleTimePicker = () => {
@@ -56,20 +65,16 @@ function TimeSelector({ label, value, onChange }) {
     });
   };
 
-  const updateTime = (hour, minute, am = isAM) => {
-    let formattedHour = parseInt(hour);
-    if (!am && formattedHour !== 12) formattedHour += 12;
-    if (am && formattedHour === 12) formattedHour = 0;
-    const formattedTime = `${formattedHour
-      .toString()
-      .padStart(2, '0')}:${minute}`;
+  const updateTime = (hour, minute, am) => {
+    const formattedTime = `${am ? '오전' : '오후'} ${hour.padStart(
+      2,
+      '0'
+    )}:${minute.padStart(2, '0')}`;
     onChange(formattedTime);
   };
 
   const formatTime = () => {
-    const formattedHour = selectedHour.padStart(2, '0');
-    const formattedMinute = selectedMinute.padStart(2, '0');
-    return `${isAM ? '오전' : '오후'} ${formattedHour}:${formattedMinute}`;
+    return value || defaultTime;
   };
 
   const generateHourOptions = () => {
@@ -140,9 +145,9 @@ function TimeSelector({ label, value, onChange }) {
 }
 
 TimeSelector.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default TimeSelector;
