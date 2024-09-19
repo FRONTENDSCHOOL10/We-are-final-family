@@ -98,7 +98,7 @@ function ListItem({
         className={`${S.listItem} ${S.boardItem}`}
         onClick={onClick}
       >
-        <Link to={`board/detail/${id}`}>
+        <Link to={`/board/detail?q=${encodedId}`}>
           <div className={S.content}>
             <ul aria-label="카테고리" className={S.category}>
               <li>

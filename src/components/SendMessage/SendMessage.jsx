@@ -110,15 +110,7 @@ function SendMessage() {
   );
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'absolute',
-        bottom: '0',
-        width: '100%',
-      }}
-    >
+    <div className={S.componentWrap}>
       <div className={S.component}>
         <SendImg />
         <div className={S.textInputWrap}>
@@ -140,9 +132,7 @@ function SendMessage() {
           disabled={sendingMessage || isSubmitting || !newMessage.trim()}
         />
       </div>
-      <div className={active ? S.block : S.none}>
-        {/* UnifiedComponent 코드... */}
-      </div>
+      <div className={active ? S.block : S.none}>UnifiedComponent 코드...</div>
     </div>
   );
 }

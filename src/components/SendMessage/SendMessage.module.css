@@ -1,3 +1,7 @@
+.componentWrap {
+  display: flex;
+  flex-flow: column nowrap;
+}
 .component {
   display: flex;
   flex-flow: row nowrap;
@@ -31,6 +35,8 @@
   display: none;
 }
 
+/* 이모티콘 추가 시 수정 필요 */
 .block {
   display: block;
+  background-color: var(--gray-300);
 }

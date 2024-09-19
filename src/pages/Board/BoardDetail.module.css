@@ -2,25 +2,54 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  overflow: hidden;
+  justify-content: space-between;
+  overflow: auto;
 
   footer {
     padding: 0rem;
   }
 }
 
-.detailWrap {
+.post {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;
   overflow: auto;
-  padding: 1rem;
-  header {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 0.5rem;
-    align-items: flex-start;
+}
+
+.postHeader {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem 1rem 0;
+}
+
+.postContent {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  padding: 0 1rem;
+  ul {
+    li {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gray-600);
+
+      span {
+        color: var(--gray-400);
+      }
+      span:first-child {
+        font-size: 1.25rem;
+      }
+    }
+  }
+  p {
+    color: var(--gray-900);
   }
 }
 
