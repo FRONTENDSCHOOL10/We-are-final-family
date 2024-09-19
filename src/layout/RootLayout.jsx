@@ -12,7 +12,13 @@ function RootLayout() {
   useEffect(() => {
     const checkUserAuth = async () => {
       const storedUser = JSON.parse(localStorage.getItem('currentUser'));
-      const publicRoutes = ['/', '/login', '/register']; // 로그인 관련 경로
+      const publicRoutes = [
+        '/',
+        '/login',
+        '/register',
+        '/register/1',
+        '/register/2',
+      ]; // 로그인 관련 경로
 
       // 사용자 정보가 로컬 스토리지에 존재하는지 확인
       if (storedUser && storedUser.id) {
