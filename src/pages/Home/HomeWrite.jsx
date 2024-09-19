@@ -16,7 +16,7 @@ function HomeWrite() {
     title,
     interest,
     category,
-    content,
+    description,
     personnel,
     date,
     time,
@@ -24,7 +24,7 @@ function HomeWrite() {
     setTitle,
     setInterest,
     setCategory,
-    setContent,
+    setDescription,
     setPersonnel,
     setDate,
     setTime,
@@ -79,11 +79,11 @@ function HomeWrite() {
             onChange={setCategory}
           />
           <textarea
-            id="content"
+            id="description" // id를 "content"에서 "description"으로 변경
             placeholder="활동 내용을 입력해주세요."
             className="para-md"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={description} // content를 description으로 변경
+            onChange={(e) => setDescription(e.target.value)} // setContent를 setDescription으로 변경
           ></textarea>
           <div className="imgBox"></div>
 
