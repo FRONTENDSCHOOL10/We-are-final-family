@@ -1,4 +1,4 @@
-function NoneData() {
+function NoneData({ icon, text }) {
   return (
     <div
       style={{
@@ -12,7 +12,7 @@ function NoneData() {
       }}
     >
       <span
-        className="i_close"
+        className={icon}
         style={{
           padding: '0.25rem',
           fontSize: '1.25rem',
@@ -22,7 +22,7 @@ function NoneData() {
         }}
       ></span>
       <p className="para-md" style={{ color: 'var(--gray-600)' }}>
-        데이터가 없습니다.
+        {text}
       </p>
     </div>
   );

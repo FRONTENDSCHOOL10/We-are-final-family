@@ -28,6 +28,11 @@
   &:hover {
     background-color: var(--gray-100);
   }
+
+  &:focus {
+    outline-offset: 1px;
+    outline-color: var(--secondary);
+  }
 }
 
 .categoryButton.active,

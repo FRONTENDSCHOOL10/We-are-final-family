@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import S from './Search.module.css';
 import Header from '@/components/App/Header';
 import { supabase } from '@/api/supabase';
+import Fallback from '@/pages/Fallback';
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -220,18 +221,18 @@ function Search() {
           <h2 className="hdg-md">인기 검색어</h2>
           <div className={S.popularSearchesContainer}>
             {loading ? (
-              <p>로딩 중...</p>
+              <Fallback />
             ) : error ? (
               <p>{error}</p>
             ) : (
               popularSearches.map((item, index) => (
-                <span
+                <button
                   key={index}
                   className={`${S.popularSearch} para-md`}
                   onClick={() => handleSearchClick(item.title)}
                 >
                   {item.title}
-                </span>
+                </button>
               ))
             )}
           </div>
@@ -241,13 +242,13 @@ function Search() {
           <div className={S.recentSearchesContainer}>
             {recentSearches.length > 0 ? (
               recentSearches.map((item, index) => (
-                <span
+                <button
                   key={index}
                   className={`${S.recentSearch} para-md`}
                   onClick={() => handleSearchClick(item)}
                 >
                   {item}
-                </span>
+                </button>
               ))
             ) : (
               <p></p>

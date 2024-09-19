@@ -1,44 +1,65 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  /* background-color: yellowgreen; */
+}
+
 .label {
-  margin-bottom: 0.25rem;
-  margin-block-end: 0.25rem;
+  color: var(--gray-900);
 }
 
 .error {
   color: var(--negative);
-  padding-top: 4px;
 }
 
 .input {
+  flex: 1;
   padding: 0.5rem 1rem;
-  border: 0.06rem solid var(--gray-200);
+  color: var(--gray-900);
+  border-radius: 0.25rem;
+  border: 0.06rem solid var(--gray-100);
+  &:focus {
+    outline-offset: 0.25rem;
+    outline-color: var(--secondary);
+  }
+}
+
+.inputPassword {
+  padding-right: 4.25rem;
 }
 
 .inputError {
   color: var(--negative);
+  border-color: var(--negative);
   &:focus {
-    outline-color: var(--negative);
+    outline-color: rgba(255, 69, 0, 0.65);
   }
 }
 
 .inputWrapper {
   position: relative;
+  flex: 1;
   display: flex;
   align-items: center;
 }
 
 .togglePassword {
   position: absolute;
-  right: 0.5rem;
   top: 50%;
+  right: 0.75rem;
   transform: translateY(-50%);
-  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  padding: 0.25rem;
+  color: var(--gray-600);
   border: none;
+  background: transparent;
   cursor: pointer;
-  color: var(--gray-400);
-  font-size: 0.875rem;
-}
-
-.input {
-  width: 100%;
-  padding-right: 4rem; /* 비밀번호 보기/숨기기 버튼을 위한 여유 공간 */
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }
