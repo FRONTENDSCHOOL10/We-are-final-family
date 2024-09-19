@@ -1,8 +1,3 @@
-.container {
-  display: flex;
-  flex-flow: column;
-}
-
 .label {
   margin-bottom: 0.25rem;
   margin-block-end: 0.25rem;
@@ -23,4 +18,27 @@
   &:focus {
     outline-color: var(--negative);
   }
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-400);
+  font-size: 0.875rem;
+}
+
+.input {
+  width: 100%;
+  padding-right: 4rem; /* 비밀번호 보기/숨기기 버튼을 위한 여유 공간 */
 }

@@ -20,41 +20,51 @@ const signUp = async (email, password, username) => {
     });
     if (error) {
       toast.error('동일한 이메일이 존재합니다.');
-      throw new Error();
+      throw error;
     } else if (data.user && data.user.id) {
       console.log(
         'Attempting to insert user into public.users. User ID:',
         data.user.id
       );
     }
-    createData({
+    await createData({
       from: 'users',
-      values: { email: email, username: username },
+      values: { id: data.user.id, email: email, username: username },
     });
+    return data.user.id;
   } catch (error) {
     console.error('Error in signUp process:', error);
     throw error;
   }
 };
-const interested = async (userEmail) => {
-  const data = JSON.parse(localStorage.getItem('interest-storage'));
 
-  console.log(data.state.savedInterests[0].name);
+const saveInterests = async (userId) => {
+  try {
+    const interestData = JSON.parse(localStorage.getItem('interest-storage'));
+    const interests = interestData.state.savedInterests;
 
-  const interests = data.state.savedInterests;
+    const interestValues = {
+      id: userId,
+      interest_1: interests[0]?.name || null,
+      interest_2: interests[1]?.name || null,
+      interest_3: interests[2]?.name || null,
+      interest_4: interests[3]?.name || null,
+      interest_5: interests[4]?.name || null,
+      interest_6: interests[5]?.name || null,
+    };
 
-  const obj = interests.reduce(
-    (acc, item, index) => {
-      acc.values[`interest_${index + 1}`] = item.name; // 동적으로 키 생성 및 값 할당
-      return acc;
-    },
-    { from: 'interest_selected', values: { email: userEmail } }
-  );
+    await createData({
+      from: 'interest_selected',
+      values: interestValues,
+    });
 
-  console.log(obj);
-
-  await createData(obj);
+    console.log('Interests saved successfully');
+  } catch (error) {
+    console.error('Error saving interests:', error);
+    throw error;
+  }
 };
+
 const clearLocalStorage = () => {
   localStorage.clear();
 };
@@ -62,27 +72,26 @@ const clearLocalStorage = () => {
 function Register() {
   const { email, password, username, setEmail, reset, setPassword, setName } =
     useRegisterStore();
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState(false);
+
   const handleSubmit = async () => {
     try {
-      // 회원가입 로직 실행
-      await signUp(email, password, username);
-      await interested(email);
-      // 회원가입 성공 시 상태 초기화 및 활성화
+      const userId = await signUp(email, password, username);
+      await saveInterests(userId);
       reset();
       clearLocalStorage();
       setActive(true);
+      toast.success('회원가입이 완료되었습니다.');
     } catch (error) {
-      // 오류가 발생하면 여기서 처리
       console.error('회원가입 중 오류가 발생했습니다:', error);
-      // 오류 처리 로직 (필요하다면 사용자에게 알림을 줄 수 있음)
+      toast.error('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
   };
+
   const isFormValid =
     validateEmail(email) === '' &&
     validatePassword(password) === '' &&
     username;
-  console.log(isFormValid);
 
   return (
     <main className={S.register}>

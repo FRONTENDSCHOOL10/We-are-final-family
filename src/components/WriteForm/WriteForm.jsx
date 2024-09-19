@@ -10,6 +10,7 @@ import DateSelector from './DateSelector/DateSelector';
 import LocationButton from './LocationButton/LocationButton';
 import PersonnelCounter from './PersonnelCounter/PersonnelCounter';
 import TimeSelector from './TimeSelector/TimeSelector';
+import PropTypes from 'prop-types';
 
 function WriteForm({
   label,
@@ -74,5 +75,36 @@ function WriteForm({
       return null;
   }
 }
+
+WriteForm.propTypes = {
+  label: PropTypes.oneOf([
+    '인원',
+    '날짜',
+    '장소',
+    '시간',
+    '토글',
+    '성별',
+    '연령',
+  ]).isRequired,
+  title: PropTypes.string,
+  toggle: PropTypes.oneOf(['on', 'off']),
+  toggleName: PropTypes.string,
+  type: PropTypes.oneOf(['default', 'profile']),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  btnValue: PropTypes.string,
+  onChange: PropTypes.func,
+  onToggleChange: PropTypes.func,
+  isToggleOn: PropTypes.bool,
+};
+
+WriteForm.defaultProps = {
+  type: 'default',
+  toggle: 'off',
+  value: '',
+  btnValue: '',
+  onChange: () => {},
+  onToggleChange: () => {},
+  isToggleOn: false,
+};
 
 export default WriteForm;

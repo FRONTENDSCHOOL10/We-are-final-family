@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import styles from './Logo.module.css';
+import styles from './LogoAnimation.module.css';
 
-function Logo({ width = '7rem', height = '7rem' }) {
+const LogoAnimation = ({ width = 200, height = 200 }) => {
   const wavePath = (
     <g className={styles.wave}>
       <path
@@ -32,8 +32,8 @@ function Logo({ width = '7rem', height = '7rem' }) {
             <rect width="100%" height="100%" fill="white">
               <animate
                 attributeName="y"
-                // values="140; 0"
-                // dur="3s "
+                values="140; 0"
+                dur="3s "
                 repeatCount="indefinite"
               />
             </rect>
@@ -94,11 +94,11 @@ function Logo({ width = '7rem', height = '7rem' }) {
       </svg>
     </div>
   );
-}
+};
 
-Logo.propTypes = {
+LogoAnimation.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
 };
 
-export default Logo;
+export default LogoAnimation;

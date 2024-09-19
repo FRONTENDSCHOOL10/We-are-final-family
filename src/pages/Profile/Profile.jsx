@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import S from './Profile.module.css';
 import Navigation from '@/components/App/Navigation';
-import { ProfileImg } from './../../components/ProfileImg/ProfileImg';
 import { useRef, useState, useEffect } from 'react';
 import { supabase } from '@/api/supabase';
 import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
-
 import toast from 'react-hot-toast';
+import UserCard from '@/components/UserCard/UserCard';
+import { clearLocalStorage } from '@/utils/clearLocalStorage'; // clearLocalStorage 함수 import
 
 function Profile() {
   const navigate = useNavigate();
@@ -14,10 +14,21 @@ function Profile() {
   const [userName, setUserName] = useState('');
   const [profileImgUrl, setProfileImgUrl] = useState('');
   const { count } = useUserRecordsCount();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchUserName(), fetchProfileImage();
+    async function loadData() {
+      await Promise.all([fetchUserName(), fetchProfileImage()]);
+      setIsLoading(false);
+    }
+    loadData();
   }, []);
+
+  function handleLogout() {
+    clearLocalStorage(); // 로컬 스토리지 초기화
+    navigate('/'); // 인트로 페이지로 이동
+    toast.success('로그아웃되었습니다.');
+  }
 
   async function fetchUserName() {
     try {
@@ -69,7 +80,7 @@ function Profile() {
     navigate('/profile/view');
   }
 
-  function handlePorfileImg() {
+  function handleProfileImg() {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -79,6 +90,7 @@ function Profile() {
     const file = event.target.files[0];
     if (file) {
       try {
+        setIsLoading(true);
         const { data: userData, error: userError } =
           await supabase.auth.getUser();
         if (userError) throw userError;
@@ -92,19 +104,18 @@ function Profile() {
           .from('profile_img')
           .upload(filePath, file, {
             cacheControl: '3600',
-            upsert: true, // 이 옵션을 추가합니다
+            upsert: true,
           });
 
         if (uploadError) throw uploadError;
 
         // 업로드된 파일의 공개 URL 가져오기
-        const { data: urlData, error: urlError } = supabase.storage
+        const { data: urlData } = supabase.storage
           .from('profile_img')
           .getPublicUrl(filePath);
 
-        if (urlError) throw urlError;
-
-        const publicUrl = urlData.publicUrl;
+        // URL에 타임스탬프 추가
+        const publicUrl = `${urlData.publicUrl}?t=${new Date().getTime()}`;
 
         // users 테이블 업데이트
         const { error: updateError } = await supabase
@@ -114,24 +125,41 @@ function Profile() {
 
         if (updateError) throw updateError;
 
-        setProfileImgUrl(publicUrl);
-        toast.success('프로필 이미지가 업데이트되었습니다.');
+        // 이미지 로드 후 상태 업데이트
+        const img = new Image();
+        img.onload = () => {
+          setProfileImgUrl(publicUrl);
+          toast.success('프로필 이미지가 업데이트되었습니다.');
+          setIsLoading(false);
+        };
+        img.onerror = () => {
+          console.error('Error loading image');
+          toast.error('이미지 로드에 실패했습니다.');
+          setIsLoading(false);
+        };
+        img.src = publicUrl;
       } catch (error) {
         console.error('Error uploading image:', error);
         toast.error('이미지 업로드에 실패했습니다.');
+        setIsLoading(false);
       }
     }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>; // 또는 로딩 스피너 컴포넌트
   }
 
   return (
     <>
       <main className={S.profile}>
-        <ProfileImg
-          width="4rem"
-          height="4rem"
-          display=""
-          onClick={handlePorfileImg}
+        <UserCard
+          userId={1}
+          states="profile"
+          onClick={handleProfileImg}
           image={profileImgUrl}
+          username={userName}
+          postCount={count}
         />
         <input
           type="file"
@@ -140,9 +168,6 @@ function Profile() {
           accept="image/*"
           style={{ display: 'none' }}
         />
-        <span>{`${userName}`}</span>
-        <span>작성글 {count}</span>
-
         <ul className={S.myMenu}>
           <li>
             <span className="i_like_filled"></span>저장한 글
@@ -161,7 +186,9 @@ function Profile() {
           <li>설정</li>
           <li>공지사항</li>
           <li>서비스 정보</li>
-          <li>로그아웃</li>
+          <li className={S.logout} onClick={handleLogout}>
+            로그아웃
+          </li>
           <li>탈퇴하기</li>
         </ul>
       </main>
