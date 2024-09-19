@@ -1,3 +1,10 @@
+import { string } from 'prop-types';
+
+NoneData.propTypes = {
+  icon: string,
+  text: string,
+};
+
 function NoneData({ icon, text }) {
   return (
     <div
