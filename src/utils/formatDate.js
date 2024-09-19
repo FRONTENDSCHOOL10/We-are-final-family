@@ -57,3 +57,21 @@ export function formatTimeAgo(dateString) {
     return `${differenceInWeeks}주 전`;
   }
 }
+
+export function toKoreanTime(date) {
+  const koreanTime = new Date(date);
+  koreanTime.setHours(koreanTime.getHours() + 9);
+  return new Date(
+    koreanTime.getFullYear(),
+    koreanTime.getMonth(),
+    koreanTime.getDate()
+  );
+}
+
+export function fromKoreanTime(date) {
+  const utcTime = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
+  utcTime.setUTCHours(0, 0, 0, 0);
+  return utcTime;
+}

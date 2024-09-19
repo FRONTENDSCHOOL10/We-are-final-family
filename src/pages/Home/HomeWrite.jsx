@@ -8,6 +8,7 @@ import DateSelector from '@/components/WriteForm/DateSelector/DateSelector';
 import TimeSelector from '@/components/WriteForm/TimeSelector/TimeSelector';
 import LocationButton from '@/components/WriteForm/LocationButton/LocationButton';
 import useHomeWriteStore from '@/stores/homeWriteStore';
+import { toKoreanTime, fromKoreanTime } from '@/utils/formatDate';
 
 function HomeWrite() {
   const navigate = useNavigate();
@@ -38,6 +39,10 @@ function HomeWrite() {
     // 여기서 로컬 스토리지 저장은 Zustand의 persist 미들웨어가 자동으로 처리합니다.
     navigate('/home/writenext');
   };
+  const dateValue =
+    typeof date === 'string'
+      ? toKoreanTime(new Date(date))
+      : toKoreanTime(date || new Date());
 
   return (
     <>
@@ -65,7 +70,7 @@ function HomeWrite() {
             title="관심분야를 선택해주세요."
             type="A"
             value={interest}
-            onChange={setInterest} // 단순히 setInterest 함수만 전달
+            onChange={setInterest}
           />
           <ListSelect
             title="카테고리를 선택해주세요."
@@ -87,7 +92,14 @@ function HomeWrite() {
             value={personnel}
             onChange={setPersonnel}
           />
-          <DateSelector label="날짜" value={date} onChange={setDate} />
+          <DateSelector
+            label="날짜"
+            value={dateValue}
+            onChange={(newDate) => {
+              const utcDate = fromKoreanTime(newDate);
+              setDate(utcDate.toISOString());
+            }}
+          />
           <TimeSelector label="시간" value={time} onChange={setTime} />
           <LocationButton
             label="장소"
