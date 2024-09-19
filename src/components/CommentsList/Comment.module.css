@@ -1,17 +1,23 @@
-.listItem {
+.commentItem {
   display: flex;
-  flex-flow: column;
-  padding: 0.5rem 1.5rem;
+  flex-flow: column nowrap;
   gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .commentHeader {
   display: flex;
-  flex-flow: nowrap;
+  flex-flow: row nowrap;
   align-items: center;
   gap: 0.5rem;
+  color: var(--gray-900);
+
+  .commentTime {
+    color: var(--gray-600);
+  }
 }
 
-.commentTime {
-  color: var(--gray-600);
+.commentText {
+  color: var(--gray-900);
 }

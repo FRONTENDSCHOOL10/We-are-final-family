@@ -24,9 +24,9 @@ function Comment({ userName, time, comment }) {
   const formattedTime = formatDate(time);
 
   return (
-    <li className={`${S.commentItem} ${S.listItem}`}>
+    <li className={`${S.commentItem}`}>
       <div className={S.commentHeader}>
-        <span className={`${S.authorName} para-sm`}>{userName}</span>
+        <span className="para-sm">{userName}</span>
         <time className={`${S.commentTime} para-util`} dateTime={time}>
           {formattedTime}
         </time>

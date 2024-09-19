@@ -3,6 +3,7 @@ export function formatKrTime(date) {
   return new Date(date.getTime() + offset);
 }
 
+// 결과: 오후 4:00
 export function formatDate(dateString) {
   const date = new Date(dateString);
   const koreanDate = formatKrTime(date);
@@ -18,6 +19,7 @@ export function formatDate(dateString) {
   return `${ampm} ${hour12}:${minutes < 10 ? '0' : ''}${minutes}`;
 }
 
+// 결과: 24.09.19
 export function formatDateWithYear(dateString) {
   const date = new Date(dateString);
   const koreanDate = formatKrTime(date);
@@ -31,6 +33,32 @@ export function formatDateWithYear(dateString) {
   }${day}`; // 'YY.MM.DD' 형식으로 반환
 }
 
+// 결과: 24.09.19 오전 16시
+export function formatDateWithTime(dateString) {
+  const date = new Date(dateString);
+  const koreanDate = formatKrTime(date); // 한국 시간으로 변환하는 함수라면 이대로 사용
+
+  const year = koreanDate.getUTCFullYear().toString().slice(2); // 연도 마지막 두 자리
+  const month = koreanDate.getUTCMonth() + 1; // 월 (0부터 시작하므로 +1)
+  const day = koreanDate.getUTCDate(); // 일
+  const hours = koreanDate.getUTCHours();
+  const minutes = koreanDate.getUTCMinutes();
+
+  const ampm = hours >= 12 ? '오후' : '오전';
+  const hour12 = hours % 12 || 12; // 12시간제로 변환
+
+  if (minutes === 0) {
+    return `${year}.${month < 10 ? '0' : ''}${month}.${
+      day < 10 ? '0' : ''
+    }${day} ${ampm} ${hour12}시`;
+  } else {
+    return `${year}.${month < 10 ? '0' : ''}${month}.${
+      day < 10 ? '0' : ''
+    }${day} ${ampm} ${hour12}시 ${minutes < 10 ? '0' : ''}${minutes}분`;
+  }
+}
+
+// 결과: 4일 전
 export function formatTimeAgo(dateString) {
   const now = new Date();
   const koreanNow = formatKrTime(now);

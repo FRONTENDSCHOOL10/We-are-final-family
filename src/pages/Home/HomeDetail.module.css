@@ -18,7 +18,44 @@
 
 .post {
   flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
   padding: 1rem;
+}
+
+.postHeader {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+
+  .postBadge {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.25rem;
+  }
+}
+
+.postContent {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  ul {
+    li {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gray-600);
+
+      span {
+        color: var(--gray-400);
+      }
+      span:first-child {
+        font-size: 1.25rem;
+      }
+    }
+  }
 }
 
 .state {
