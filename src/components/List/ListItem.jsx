@@ -46,16 +46,16 @@ function ListItem({
 
   const formattedDate = formatDateWithYear(date);
 
-  console.log(formattedDate);
-
   const timeSincePost = formatTimeAgo(createDate);
   const viewCount = 0; // 수정 필요
+
+  const encodedId = btoa(id);
 
   if (type === 'party') {
     // Party 타입에 대한 렌더링
     return (
       <li role="listitem" className={S.listItem} onClick={onClick}>
-        <Link to={`/home/detail/${id}`}>
+        <Link to={`/home/detail?q=${encodedId}`}>
           <ul aria-label="카테고리" className={S.category}>
             {state && (
               <li>

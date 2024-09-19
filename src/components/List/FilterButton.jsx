@@ -1,4 +1,4 @@
-import S from './FillterButton.module.css';
+import S from './FilterButton.module.css';
 import { string, bool, func } from 'prop-types';
 
 FilterButton.propTypes = {
