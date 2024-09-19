@@ -39,7 +39,12 @@ function FilterModal({ title, onClose, filterOptions, onApply }) {
 
   return (
     <div className={S.overlay}>
-      <section className={S.filterModal}>
+      {/* <section className={S.filterModal}> */}
+      <section
+        className={`${S.filterModal} ${
+          title === '관심분야' ? S.interestFilter : ''
+        }`}
+      >
         <header>
           <h3 className="hdg-md">{title}</h3>
           <IconButton
@@ -48,24 +53,52 @@ function FilterModal({ title, onClose, filterOptions, onApply }) {
             onClick={onClose}
           />
         </header>
+        <div role="group" className={S.optionWrap}>
+          {title === '관심분야' && (
+            <button
+              type="button"
+              className={`${S.buttonAll} para-md ${
+                selectedOptions.length === filterOptions[title].length
+                  ? S.active
+                  : ''
+              }`}
+              onClick={() => {
+                if (selectedOptions.length === filterOptions[title].length) {
+                  // 이미 전체가 선택되어 있다면 모두 해제
+                  setSelectedOptions([]);
+                } else {
+                  // 전체 선택
+                  setSelectedOptions(
+                    filterOptions[title].map((option) => option.value)
+                  );
+                }
+                onApply(title, selectedOptions);
+              }}
+            >
+              전체
+            </button>
+          )}
 
-        <ul>
-          {filterOptions[title].map((option) => (
-            <li key={option.value}>
-              <button
-                type="button"
-                className={`${S.button} para-md ${
-                  selectedOptions.includes(option.value) ? S.active : ''
-                }`}
-                value={option.value}
-                onClick={handleOptionChange}
-              >
-                {option.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-
+          <ul>
+            {filterOptions[title].map((option) => (
+              <li key={option.value}>
+                <button
+                  type="button"
+                  className={`${S.button} para-md ${
+                    selectedOptions.includes(option.value) ? S.active : ''
+                  }`}
+                  value={option.value}
+                  onClick={handleOptionChange}
+                >
+                  {option.label}
+                  {selectedOptions.includes(option.value) && (
+                    <span className={`${S.activeIcon} lbl-sm`}>참여중</span> // 선택된 경우에만 span 추가
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
         {/* 확인 버튼 */}
         {title === '관심분야' && (
           <Button color="black" onClick={handleInterestClick}>

@@ -34,6 +34,18 @@
     padding: 0 1rem;
   }
 
+  & > button {
+    width: auto;
+    margin: 0.75rem 1rem 0;
+  }
+}
+
+.optionWrap {
+  overflow: auto;
+  .buttonAll {
+    box-sizing: border-box;
+  }
+
   ul {
     display: flex;
     flex-flow: row wrap;
@@ -41,19 +53,97 @@
     padding: 0 1rem;
     overflow: auto;
   }
+  .button {
+    padding: 0.25rem 0.75rem;
+    white-space: nowrap;
+    color: var(--gray-900);
+    border: 1px solid var(--gray-100);
+    border-radius: 2.5rem;
+    background-color: var(--white);
+
+    &.active {
+      color: var(--white);
+      border: 1px solid var(--gray-900);
+      background-color: var(--gray-900);
+    }
+  }
 }
 
-.button {
-  padding: 0.25rem 0.75rem;
-  white-space: nowrap;
-  color: var(--gray-900);
-  border: 1px solid var(--gray-100);
-  border-radius: 2.5rem;
-  background-color: var(--white);
-
-  &.active {
-    color: var(--white);
-    border: 1px solid var(--gray-900);
-    background-color: var(--gray-900);
+.interestFilter {
+  .optionWrap {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: antiquewhite;
+    .buttonAll {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border: none;
+      box-sizing: border-box;
+      background-color: var(--white);
+    }
+    ul {
+      flex-flow: column nowrap;
+      gap: 0;
+      padding: 0;
+      button {
+        box-sizing: border-box;
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        border-radius: 0;
+        border: none;
+        &.active {
+          color: var(--gray-900);
+          border: none;
+          background-color: var(--white);
+        }
+        .activeIcon {
+          padding: 0.25rem 0.5rem;
+          color: var(--primary);
+          border-radius: 0.25rem;
+          background-color: #f6f8fb;
+        }
+      }
+    }
   }
+
+  /* ul {
+    flex-flow: column nowrap;
+    gap: 0;
+    padding: 0;
+  }
+  li {
+    display: flex;
+    flex: 1;
+    border-bottom: 1px solid var(--gray-100);
+    &:nth-last-child(1) {
+      border-bottom: none;
+    }
+    button {
+      flex: 1;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-radius: 0;
+      border: none;
+      &.active {
+        border: none;
+        color: var(--gray-900);
+        background-color: var(--white);
+        .activeIcon {
+          padding: 0.25rem 0.5rem;
+          color: var(--primary);
+          border-radius: 0.25rem;
+          background-color: #f6f8fb;
+        }
+      }
+    }
+  } */
 }
