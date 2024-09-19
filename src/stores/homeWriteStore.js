@@ -12,6 +12,8 @@ const useHomeWriteStore = create(
       date: new Date(),
       time: '오전 07:00',
       location: '',
+      gender: '',
+      age: '',
       setTitle: (title) => set({ title }),
       setInterest: (interest) => set({ interest }),
       setCategory: (category) => set({ category }),
@@ -20,6 +22,8 @@ const useHomeWriteStore = create(
       setDate: (date) => set({ date }),
       setTime: (time) => set({ time }),
       setLocation: (location) => set({ location }),
+      setGender: (gender) => set({ gender }),
+      setAge: (age) => set({ age }),
       reset: () =>
         set({
           title: '',
@@ -30,6 +34,8 @@ const useHomeWriteStore = create(
           date: new Date(),
           time: '오전 07:00',
           location: '',
+          gender: '',
+          age: '',
         }),
     }),
     {
