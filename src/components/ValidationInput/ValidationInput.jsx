@@ -67,7 +67,7 @@ function ValidationInput({
           defaultValue={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          className={`${S.input} ${
+          className={`${S.input} ${type === 'pw' ? S.inputPassword : ''} ${
             error && showError ? S.inputError : ''
           } para-md`}
           placeholder={info}
@@ -77,10 +77,14 @@ function ValidationInput({
         {type === 'pw' && (
           <button
             type="button"
-            className={S.togglePassword}
+            className={`${S.togglePassword} para-md`}
             onClick={togglePasswordVisibility}
           >
-            {showPassword ? '숨기기' : '보기'}
+            {showPassword ? (
+              <span className="i_view_off"></span>
+            ) : (
+              <span className="i_view_on"></span>
+            )}
           </button>
         )}
       </div>

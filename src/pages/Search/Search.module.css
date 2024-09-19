@@ -1,23 +1,39 @@
-.searchContainer {
+.searchWrap {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 2rem;
   padding: 1rem;
+}
+
+.searchContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.75rem;
 }
 
 .recentSearchesContainer,
 .popularSearchesContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 .recentSearch,
 .popularSearch {
-  padding: 0.31rem 0.75rem;
-  border: 0.06rem solid var(--gray-100);
-  border-radius: 2.25rem;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 3rem;
+  border: 1px solid var(--gray-100);
+  background-color: transparent;
+  &:focus {
+    outline-offset: 1px;
+    outline-color: var(--secondary);
+  }
 }
 
 .recentSearch:hover,
 .popularSearch:hover {
+  color: var(--white);
+  border-color: var(--gray-900);
+  background-color: var(--gray-900);
   cursor: pointer;
-  background-color: var(--gray-100);
 }

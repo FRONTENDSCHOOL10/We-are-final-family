@@ -104,7 +104,7 @@ function List({
           setData(filteredData);
         } else {
           console.warn('데이터가 없습니다.');
-          <NoneData />;
+          <NoneData icon="i_close" text="데이터가 없습니다." />;
         }
       } catch (error) {
         console.error('네트워크 에러 발생!', error);
@@ -128,7 +128,8 @@ function List({
   ]); // type이 변경될 때마다 데이터 새로 불러오기
 
   if (error) return <Error />;
-  if (data.length === 0) return <NoneData />;
+  if (data.length === 0)
+    return <NoneData icon="i_close" text="데이터가 없습니다." />;
 
   return (
     <>

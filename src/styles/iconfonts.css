@@ -29,6 +29,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.i_view_off:before {
+  content: '\e927';
+}
+.i_view_on:before {
+  content: '\e928';
+}
 .i_board_filled:before {
   content: '\e900';
 }

@@ -5,16 +5,6 @@
 
   li {
     flex: 1;
-    button {
-      display: flex;
-      flex-flow: column nowrap;
-      gap: 0.5rem;
-      align-items: center;
-      width: 100%;
-      padding: 0.5rem;
-      border: none;
-      background-color: transparent;
-    }
   }
 
   .icon_circle {
@@ -25,12 +15,22 @@
     line-height: 3rem;
     font-size: 1.25rem;
     border-radius: 3rem;
-    border: 2px solid var(--gray-100);
-    background-color: var(--gray-100);
+    /* border: 2px solid var(--gray-100); */
+    /* background-color: var(--gray-100); */
+    border: 2px solid #eef1f8;
+    background-color: #eef1f8;
   }
 }
 
 .button {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  background-color: transparent;
   &.active {
     color: #333;
     .icon_circle {
@@ -40,5 +40,8 @@
     span {
       color: var(--primary);
     }
+  }
+  &:focus {
+    outline-color: var(--secondary);
   }
 }
