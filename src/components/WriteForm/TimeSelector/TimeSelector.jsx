@@ -12,10 +12,10 @@ function TimeSelector({ label, value, onChange }) {
 
   // value prop으로부터 시간, 분, AM/PM 상태를 추출하되, 값이 없으면 기본값 사용
   const [selectedHour, setSelectedHour] = useState(
-    value ? value.split(':')[0] : '07'
+    value ? value.split(':')[0].split(' ')[1] : '07'
   );
   const [selectedMinute, setSelectedMinute] = useState(
-    value ? value.split(':')[1].split(' ')[0] : '00'
+    value ? value.split(':')[1] : '00'
   );
   const [isAM, setIsAM] = useState(value ? value.includes('오전') : true);
 
