@@ -2,11 +2,12 @@ import InterestCard from './InterestCard';
 import S from './InterestCardList.module.css';
 import PropTypes from 'prop-types';
 import useInterestStore from '@/stores/InterestStore';
+import { Fallback } from '@/pages';
 
 function InterestCardList({ subCategories }) {
   const { selectedInterests, addInterest, removeInterest } = useInterestStore();
 
-  if (!subCategories.length) return <div>Loading...</div>;
+  if (!subCategories.length) return <Fallback />;
 
   const handleToggle = (subCategory) => {
     const isSelected = selectedInterests.some(

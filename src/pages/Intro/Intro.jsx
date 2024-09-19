@@ -43,12 +43,6 @@ function Intro() {
 
       {/* 버튼 */}
       <div className={S.button_container}>
-        <Button to={'/test'} color="white">
-          테스트 페이지로 이동
-        </Button>
-        <Button to={'/home'} color="white">
-          메인 페이지로 이동
-        </Button>
         <Button to={'/register'} color="primary">
           시작하기
         </Button>
