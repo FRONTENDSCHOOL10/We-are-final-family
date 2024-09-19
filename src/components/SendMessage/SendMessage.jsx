@@ -47,6 +47,8 @@ function SendMessage() {
       setIsSubmitting(true);
       console.log('Sending message...');
       const room = await fetchOrCreateChatRoom();
+      console.log(room);
+
       if (room) {
         await sendMessage();
         console.log('Message sent, attempting to focus');
@@ -108,7 +110,15 @@ function SendMessage() {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        bottom: '0',
+        width: '100%',
+      }}
+    >
       <div className={S.component}>
         <SendImg />
         <div className={S.textInputWrap}>

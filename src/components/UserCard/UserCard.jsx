@@ -1,17 +1,27 @@
 import S from './UserCard.module.css';
-import { node, string, number } from 'prop-types';
+import { node, string } from 'prop-types';
 import { ProfileTitle } from '../ProfileTitle/ProfileTitle';
 import { ProfileImg } from '../ProfileImg/ProfileImg';
 import { useState } from 'react';
+import { func } from 'prop-types';
 
 UserCard.propTypes = {
   children: node,
   description: node || string,
-  userId: number,
+  userId: string,
   states: string,
+  name: string,
+  onClick: func,
 };
 
-export function UserCard({ description = '연남동', userId, states }) {
+export function UserCard({
+  description = '연남동',
+  userId,
+  states,
+  name,
+  onClick,
+  ...props
+}) {
   const [state] = useState(states);
 
   switch (state) {
@@ -20,7 +30,7 @@ export function UserCard({ description = '연남동', userId, states }) {
         <div className={S.wrapper}>
           <ProfileImg></ProfileImg>
           <div className={S.component}>
-            <ProfileTitle name="고명한" className={'lbl-md'}>
+            <ProfileTitle name={name} className={'lbl-md'}>
               <div className={S.actions}>
                 <button className={`${S.agree} lbl-sm`}>승인</button>
                 <button className={`${S.disagree} lbl-sm`}>거절</button>
@@ -31,11 +41,11 @@ export function UserCard({ description = '연남동', userId, states }) {
       );
     case 'join':
       return (
-        <div className={S.wrapper}>
+        <div className={S.wrapper} onClick={onClick} {...props}>
           <ProfileImg></ProfileImg>
           <span className=""></span>
           <div className={S.component}>
-            <ProfileTitle name="고명한" className={'lbl-md'}>
+            <ProfileTitle name={name} className={'lbl-md'}>
               {userId === userId ? (
                 <div className={`${S.cert} para-sm`}>
                   <span className="i_certificate" />
@@ -46,6 +56,10 @@ export function UserCard({ description = '연남동', userId, states }) {
               )}
             </ProfileTitle>
             <p className={`${S.desc} para-sm`}>{description}</p>
+          </div>
+          <div>
+            <button>프로필보기</button>
+            <button>채팅하기</button>
           </div>
         </div>
       );
@@ -65,7 +79,7 @@ export function UserCard({ description = '연남동', userId, states }) {
               gap: '0.25rrem',
             }}
           >
-            <ProfileTitle name="고명한" className="lbl-lg"></ProfileTitle>
+            <ProfileTitle name={name} className="lbl-lg"></ProfileTitle>
             <p className="para-sm" style={{ color: 'var(--gray-600)' }}>
               작성글10
             </p>

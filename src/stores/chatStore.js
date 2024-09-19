@@ -14,70 +14,109 @@ export const useStore = create((set, get) => ({
   setCurrentUser: (user) => set({ currentUser: user }),
   setSelectedUser: (user) => set({ selectedUser: user }),
   setNewMessage: (message) => set({ newMessage: message }),
-  setCurrentRoom: (room) => {
+  setCurrentRoom: (room) => set({ currentRoom: room }),
+  setSendingMessage: (value) => set({ sendingMessage: value }),
+  setChatRooms: (rooms) => {
     set(
       produce((draft) => {
-        draft.currentRoom = room;
+        draft.chatRooms = rooms;
       })
     );
   },
-  setSendingMessage: (value) => set({ sendingMessage: value }),
+  setMessages: (messages) => {
+    set(
+      produce((draft) => {
+        draft.messages = messages;
+      })
+    );
+  },
 
   //두사용자 간의 채팅방 찾기
 
   fetchChatRoom: async () => {
     const { currentUser, selectedUser } = get();
-    if (!currentUser || !selectedUser) {
-      console.error('currentUser 또는 selectedUser가 없습니다');
-      return null;
-    }
 
-    const { data: existingRoom } = await supabase
-      .from('chat_rooms')
-      .select('*')
-      .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
-      .or(`user1_id.eq.${selectedUser.id},user2_id.eq.${selectedUser.id}`)
-      .limit(1);
-
-    if (existingRoom && existingRoom.length > 0) {
-      set({ currentRoom: existingRoom[0] });
-      return existingRoom[0];
-    }
-  },
-
-  fetchOrCreateChatRoom: async () => {
-    const { currentUser, selectedUser } = get();
+    // 기본적인 유효성 검사
     if (!currentUser || !selectedUser || currentUser === selectedUser) {
       console.error('currentUser 또는 selectedUser가 없습니다');
       return null;
     }
 
-    const { data: existingRoom } = await supabase
-      .from('chat_rooms')
-      .select('*')
-      .or(`user1_id.eq.${currentUser},user2_id.eq.${currentUser}`)
-      .or(`user1_id.eq.${selectedUser},user2_id.eq.${selectedUser}`)
-      .limit(1);
+    try {
+      // 기존 채팅방이 있는지 확인
+      const { data: existingRoom, error: fetchError } = await supabase
+        .from('chat_rooms')
+        .select('*')
+        .or(`user1_id.eq.${currentUser},user2_id.eq.${currentUser}`)
+        .or(`user1_id.eq.${selectedUser},user2_id.eq.${selectedUser}`)
+        .limit(1);
 
-    if (existingRoom && existingRoom.length > 0) {
-      set({ currentRoom: existingRoom[0] });
-      return existingRoom[0];
+      if (fetchError) {
+        throw new Error('채팅방을 불러오는 중 오류 발생');
+      }
+
+      // 기존 채팅방이 있을 경우 해당 채팅방을 반환
+      if (existingRoom && existingRoom.length > 0) {
+        set({ currentRoom: existingRoom[0] });
+        return existingRoom[0];
+      } else {
+        set({ currentRoom: null });
+        return;
+      }
+
+      // 새로 생성된 채팅방 설정 및 반환
+    } catch (error) {
+      console.error('Error in fetchOrCreateChatRoom:', error.message);
+      return null;
     }
+  },
 
-    // 새 채팅방 생성
-    const { data: newRoom, error } = await supabase
-      .from('chat_rooms')
-      .insert({ user1_id: currentUser, user2_id: selectedUser })
-      .select()
-      .single();
+  fetchOrCreateChatRoom: async () => {
+    const { currentUser, selectedUser } = get();
 
-    if (error) {
-      console.error('채팅방 생성 오류:', error);
+    // 기본적인 유효성 검사
+    if (!currentUser || !selectedUser || currentUser === selectedUser) {
+      console.error('currentUser 또는 selectedUser가 없습니다');
       return null;
     }
 
-    set({ currentRoom: newRoom });
-    return newRoom;
+    try {
+      // 기존 채팅방이 있는지 확인
+      const { data: existingRoom, error: fetchError } = await supabase
+        .from('chat_rooms')
+        .select('*')
+        .or(`user1_id.eq.${currentUser},user2_id.eq.${currentUser}`)
+        .or(`user1_id.eq.${selectedUser},user2_id.eq.${selectedUser}`)
+        .limit(1);
+
+      if (fetchError) {
+        throw new Error('채팅방을 불러오는 중 오류 발생');
+      }
+
+      // 기존 채팅방이 있을 경우 해당 채팅방을 반환
+      if (existingRoom && existingRoom.length > 0) {
+        set({ currentRoom: existingRoom[0] });
+        return existingRoom[0];
+      }
+
+      // 기존 채팅방이 없을 경우 새 채팅방 생성
+      const { data: newRoom, error: insertError } = await supabase
+        .from('chat_rooms')
+        .insert([{ user1_id: currentUser, user2_id: selectedUser }])
+        .select()
+        .single();
+
+      if (insertError) {
+        throw new Error('채팅방 생성 오류');
+      }
+
+      // 새로 생성된 채팅방 설정 및 반환
+      set({ currentRoom: newRoom });
+      return newRoom;
+    } catch (error) {
+      console.error('Error in fetchOrCreateChatRoom:', error.message);
+      return null;
+    }
   },
 
   sendMessage: async () => {
@@ -170,11 +209,10 @@ export const useStore = create((set, get) => ({
         }
       )
       .subscribe();
+    console.log('구독성공');
 
     return () => {
       supabase.removeChannel(channel);
-      console.log(channel);
-
       console.log('구독 취소');
     };
   },
