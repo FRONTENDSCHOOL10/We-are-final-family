@@ -31,8 +31,8 @@ function HomeWrite() {
             />
           </div>
 
-          <ListSelect title="관심분야를 선택해주세요." />
-          <ListSelect />
+          <ListSelect title="관심분야를 선택해주세요." type="A" />
+          <ListSelect title="카테고리를 선택해주세요." type="B" />
           <textarea
             name=""
             id=""
