@@ -45,7 +45,7 @@ function List({
   if (data.length === 0)
     return <NoneData icon="i_close" text="데이터가 없습니다." />;
 
-  // 필터링과 정렬 적용 (이전 코드 그대로 사용 가능)
+  // 필터링과 정렬 적용
   let filteredData = data;
 
   if (category !== '전체') {

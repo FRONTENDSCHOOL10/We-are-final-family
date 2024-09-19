@@ -3,35 +3,16 @@
     display: flex;
     flex-flow: row nowrap;
     gap: 0.25rem;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1rem;
     color: var(--gray-900);
+    border-bottom: 1px solid var(--gray-100);
     span {
       color: var(--primary);
     }
   }
-}
 
-.listItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid var(--gray-100);
-
-  div {
+  ul {
     display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: 0.5rem;
-    .authorName {
-      color: var(--gray-900);
-    }
-    .time {
-      color: var(--gray-600);
-    }
-  }
-
-  p {
-    color: var(--gray-900);
+    flex-flow: column nowrap;
   }
 }

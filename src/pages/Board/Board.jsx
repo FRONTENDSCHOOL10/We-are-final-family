@@ -36,14 +36,7 @@ function Board() {
       <main className={S.board}>
         {/* FilterButton */}
         <div className={S.filters}>
-          {[
-            '전체',
-            'Q&A',
-            '자유게시판',
-            '취업준비',
-            '회사이야기',
-            '자격증',
-          ].map((filter) => (
+          {['전체', 'Q&A', '자유게시판', '취업준비', '자격증'].map((filter) => (
             <FilterButton
               key={filter}
               label={filter}
