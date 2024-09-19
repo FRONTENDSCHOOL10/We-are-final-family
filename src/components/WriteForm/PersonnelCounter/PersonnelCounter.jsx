@@ -1,27 +1,24 @@
-import { useState } from 'react';
 import S from './PersonnelCounter.module.css';
 import PropTypes from 'prop-types';
 
-function PersonnelCounter({ label }) {
-  const [count, setCount] = useState(2);
-
+function PersonnelCounter({ label, value, onChange }) {
   const increment = () => {
-    setCount((prevCount) => (prevCount < 6 ? prevCount + 1 : prevCount));
+    onChange(value < 6 ? value + 1 : value);
   };
 
   const decrement = () => {
-    setCount((prevCount) => (prevCount > 2 ? prevCount - 1 : 2));
+    onChange(value > 2 ? value - 1 : 2);
   };
 
   return (
     <div className={S.container}>
       <span className={`${S.label} para-md`}>{label}</span>
       <div className={`${S.counter} para-md`}>
-        <button className={S.btn} onClick={decrement} disabled={count === 2}>
+        <button className={S.btn} onClick={decrement} disabled={value === 2}>
           <span className={`${S.icon} i_minus`}></span>
         </button>
-        <span>{count}명</span>
-        <button className={S.btn} onClick={increment} disabled={count === 6}>
+        <span>{value}명</span>
+        <button className={S.btn} onClick={increment} disabled={value === 6}>
           <span className={`${S.icon} i_plus`}></span>
         </button>
       </div>
@@ -31,6 +28,8 @@ function PersonnelCounter({ label }) {
 
 PersonnelCounter.propTypes = {
   label: PropTypes.string,
+  value: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default PersonnelCounter;

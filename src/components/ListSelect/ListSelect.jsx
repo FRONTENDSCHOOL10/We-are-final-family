@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import S from './ListSelect.module.css';
 import { fetchListData } from '@/utils/fetchListData';
 
-function ListSelect({ title = '카테고리를 선택해주세요', type = 'A' }) {
-  const [selectedOption, setSelectedOption] = useState('');
+function ListSelect({
+  title = '카테고리를 선택해주세요',
+  type = 'A',
+  value,
+  onChange,
+}) {
+  const [selectedOption, setSelectedOption] = useState(value || '');
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +24,10 @@ function ListSelect({ title = '카테고리를 선택해주세요', type = 'A' }
     }
     loadData();
   }, [type]);
+
+  useEffect(() => {
+    setSelectedOption(value || '');
+  }, [value]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -48,8 +57,9 @@ function ListSelect({ title = '카테고리를 선택해주세요', type = 'A' }
     };
   }, [isOpen]);
 
-  function handleChange(value) {
+  function handleChange(value, label) {
     setSelectedOption(value);
+    onChange(label);
     setIsOpen(false);
   }
 
@@ -75,7 +85,8 @@ function ListSelect({ title = '카테고리를 선택해주세요', type = 'A' }
         >
           <div className={S.selectedOption}>
             {selectedOption
-              ? options.find((opt) => opt.value === selectedOption)?.label
+              ? options.find((opt) => opt.value === selectedOption)?.label ||
+                selectedOption
               : title}
           </div>
           <span
@@ -104,12 +115,14 @@ function ListSelect({ title = '카테고리를 선택해주세요', type = 'A' }
                 options.map((option) => (
                   <li
                     key={option.value}
-                    className={S.optionItem}
+                    className={`${S.optionItem} ${
+                      option.value === selectedOption ? S.selected : ''
+                    }`}
                     tabIndex="0"
-                    onClick={() => handleChange(option.value)}
+                    onClick={() => handleChange(option.value, option.label)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
-                        handleChange(option.value);
+                        handleChange(option.value, option.label);
                       }
                     }}
                   >
@@ -128,6 +141,8 @@ function ListSelect({ title = '카테고리를 선택해주세요', type = 'A' }
 ListSelect.propTypes = {
   title: PropTypes.string,
   type: PropTypes.oneOf(['A', 'B']),
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default ListSelect;
