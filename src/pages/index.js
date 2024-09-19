@@ -16,6 +16,7 @@ export { default as SearchBoard } from './Search/SearchBoard';
 export const Home = lazy(() => import('./Home/Home'));
 export const HomeDetail = lazy(() => import('./Home/HomeDetail'));
 export { default as HomeWrite } from './Home/HomeWrite';
+export { default as HomeWriteNext } from './Home/HomeWriteNext';
 
 // Board (게시판)
 export const Board = lazy(() => import('./Board/Board'));

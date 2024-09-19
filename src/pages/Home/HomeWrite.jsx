@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import S from './HomeWrite.module.css';
 import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
@@ -8,8 +9,14 @@ import TimeSelector from './../../components/WriteForm/TimeSelector/TimeSelector
 import LocationButton from './../../components/WriteForm/LocationButton/LocationButton';
 
 function HomeWrite() {
+  const navigate = useNavigate();
+
   const handlePictureClick = () => {
     console.log('이미지 업로드 버튼 클릭');
+  };
+
+  const handleNextClick = () => {
+    navigate('/home/writenext');
   };
 
   return (
@@ -47,7 +54,9 @@ function HomeWrite() {
           <LocationButton label="장소" />
         </div>
         <footer>
-          <Button color="black">다음</Button>
+          <Button color="black" onClick={handleNextClick}>
+            다음
+          </Button>
         </footer>
       </main>
     </>
