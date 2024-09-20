@@ -15,7 +15,7 @@ function Board() {
   };
 
   const handleFloatButton = () => {
-    console.log('게시글 작성하기 버튼 클릭');
+    navigate('/board/write');
   };
 
   const [activeFilter, setActiveFilter] = useState('전체');

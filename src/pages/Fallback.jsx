@@ -1,4 +1,4 @@
-import Spinner from '@/components/App/Spinner';
+import LogoAnimation from '@/components/LogoAnimation/LogoAnimation';
 
 function Fallback() {
   return (
@@ -14,7 +14,7 @@ function Fallback() {
         color: 'var(--gray-700)',
       }}
     >
-      <Spinner />
+      <LogoAnimation width="7rem" height="7rem" />
       <p className="para-md">페이지를 불러오고 있습니다.</p>
     </div>
   );

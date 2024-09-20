@@ -16,7 +16,7 @@ export async function fetchListData(type) {
       .single();
 
     if (error) {
-      console.error('Error fetching interests:', error);
+      console.error('관심사 가져오기 오류:', error);
       return [];
     }
 
@@ -32,7 +32,7 @@ export async function fetchListData(type) {
       .select('id, name');
 
     if (error) {
-      console.error('Error fetching categories:', error);
+      console.error('카테고리 가져오기 오류:', error);
       return [];
     }
 
@@ -40,6 +40,22 @@ export async function fetchListData(type) {
       value: category.id,
       label: category.name,
     }));
+  } else if (type === 'C') {
+    const { data, error } = await supabase
+      .from('board_category')
+      .select('id, category');
+
+    if (error) {
+      console.error('게시판 카테고리 가져오기 오류:', error);
+      return [];
+    }
+
+    const formattedData = data.map((category) => ({
+      value: category.id,
+      label: category.category,
+    }));
+
+    return formattedData;
   }
 
   return [];

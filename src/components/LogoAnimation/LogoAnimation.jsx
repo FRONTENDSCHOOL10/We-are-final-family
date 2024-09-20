@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './LogoAnimation.module.css';
 
-const LogoAnimation = ({ width = 200, height = 200 }) => {
+const LogoAnimation = ({ width = '200rem', height = '200rem' }) => {
   const wavePath = (
     <g className={styles.wave}>
       <path
@@ -33,7 +33,7 @@ const LogoAnimation = ({ width = 200, height = 200 }) => {
               <animate
                 attributeName="y"
                 values="140; 0"
-                dur="3s "
+                dur="1s "
                 repeatCount="indefinite"
               />
             </rect>
@@ -97,8 +97,8 @@ const LogoAnimation = ({ width = 200, height = 200 }) => {
 };
 
 LogoAnimation.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
+  width: PropTypes.string,
+  height: PropTypes.string,
 };
 
 export default LogoAnimation;
