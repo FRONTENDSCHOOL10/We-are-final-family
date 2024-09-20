@@ -98,7 +98,7 @@ function ListSelect({
         {isOpen && (
           <div className={S.optionListWrapper}>
             <div className={S.closeButtonWrapper}>
-              <span className={S.title}>{title}</span>
+              <span className={`${S.title} para-md`}>{title}</span>
               <button
                 className={S.closeButton}
                 onClick={() => setIsOpen(false)}
@@ -117,7 +117,7 @@ function ListSelect({
                     key={option.value}
                     className={`${S.optionItem} ${
                       option.value === selectedOption ? S.selected : ''
-                    }`}
+                    } para-md`}
                     tabIndex="0"
                     onClick={() => handleChange(option.value, option.label)}
                     onKeyDown={(e) => {

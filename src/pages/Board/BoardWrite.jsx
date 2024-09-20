@@ -5,7 +5,7 @@ import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
 import ListSelect from '@/components/ListSelect/ListSelect';
 import { supabase } from '@/api/supabase';
-import { toast } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 function BoardWrite() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -70,6 +70,7 @@ function BoardWrite() {
   };
 
   const handleSubmit = async () => {
+    let error = null;
     try {
       const {
         data: { user },
@@ -122,26 +123,37 @@ function BoardWrite() {
           content,
           user_id: user.id,
           username: userData.username,
-          board_img: boardImg, // 여기를 'board_img'로 변경
+          board_img: boardImg,
         })
         .select()
         .single();
 
       if (boardError) throw boardError;
 
-      toast.success('게시글이 성공적으로 작성되었습니다.');
-      localStorage.removeItem('boardWriteTemp');
+      if (boardData) {
+        toast.success(
+          `게시글 "${boardData.title}"이(가) 성공적으로 작성되었습니다. (ID: ${boardData.id})`
+        );
+        localStorage.removeItem('boardWriteTemp');
 
-      // 작성된 게시글의 상세 페이지로 이동
-      navigate(`/board/${boardData.id}`);
-    } catch (error) {
-      console.error('Error submitting board post:', error);
+        // 작성된 게시글의 ID를 state에 저장 (필요시 사용)
+        // 예: setLatestPostId(boardData.id);
+
+        navigate('/board/');
+      }
+    } catch (err) {
+      console.error('Error submitting board post:', err);
+      error = err;
+    }
+
+    if (error) {
       toast.error(`게시글 작성 중 오류가 발생했습니다: ${error.message}`);
     }
   };
 
   return (
     <>
+      <Toaster />
       <Header
         back={true}
         actions={[{ icon: 'i_picture_line', onClick: handlePictureClick }]}
@@ -156,6 +168,7 @@ function BoardWrite() {
       <main className={S.boardWrite}>
         <div className={S.writeWrap}>
           <input
+            className={`${S.titleInput} hdg-lg`}
             type="text"
             placeholder="글 제목 입력"
             value={title}
@@ -173,6 +186,7 @@ function BoardWrite() {
             </div>
           )}
           <textarea
+            className={`${S.textArea} para-md`}
             placeholder="내용을 입력하세요"
             value={content}
             onChange={handleContentChange}
