@@ -4,6 +4,7 @@ import { string, number, func } from 'prop-types';
 import { formatDateWithYear, formatTimeAgo } from '@/utils/formatDate';
 import { Link } from 'react-router-dom';
 import useViewCountStore from '@/stores/useViewCountStore';
+import useCommentCountStore from '@/stores/useCommentCountStore';
 import { useEffect } from 'react';
 
 ListItem.propTypes = {
@@ -37,10 +38,12 @@ function ListItem({
 }) {
   const { viewCounts, fetchViewCount, incrementViewCount } =
     useViewCountStore();
+  const { commentCounts, fetchCommentCount } = useCommentCountStore();
 
   useEffect(() => {
     if (type === 'board') {
       fetchViewCount(id);
+      fetchCommentCount(id);
     }
   }, [type, id, fetchViewCount]);
 
@@ -61,6 +64,7 @@ function ListItem({
 
   const timeSincePost = formatTimeAgo(createDate);
   const viewCount = viewCounts[id] || 0;
+  const commentCount = commentCounts[id] || 0;
 
   const encodedId = btoa(id);
 
@@ -133,6 +137,7 @@ function ListItem({
                 <span>{timeSincePost}</span>
                 <span aria-hidden="true">&middot;</span>
                 <span>조회 {viewCount}</span>
+                <span>댓글 {commentCount}</span>
               </p>
             </div>
           </div>
