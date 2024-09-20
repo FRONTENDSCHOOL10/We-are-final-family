@@ -15,11 +15,9 @@ export function PendingList({ join = 1 }) {
 
   const {
     updatePendingUsers,
-    // updateJoinArray,
-    // updatePendingArray,
-    // movePendingToJoin,
     fetchAndSetPartyData,
     pendingUsers,
+    moveTopending,
   } = usePartyStore();
   const { setCurrentUser, currentUser } = useStore();
 
@@ -28,7 +26,7 @@ export function PendingList({ join = 1 }) {
       await fetchAndSetPartyData(singleData.id);
     };
     fatch();
-  }, [singleData.id, fetchAndSetPartyData, updatePendingUsers]);
+  }, [singleData.id, fetchAndSetPartyData, updatePendingUsers, moveTopending]);
 
   useEffect(() => {
     return () => {
@@ -42,6 +40,18 @@ export function PendingList({ join = 1 }) {
   }, [setCurrentUser]);
 
   join = pendingUsers.length;
+
+  const handleClick = (singleDataId, id) => {
+    moveTopending(singleDataId, id);
+    const fatch = async () => {
+      await fetchAndSetPartyData(singleData.id);
+    };
+
+    setTimeout(() => {
+      fatch();
+    }, 500);
+    console.log(id);
+  };
 
   return (
     <div className={`${S.component}`}>
@@ -59,6 +69,9 @@ export function PendingList({ join = 1 }) {
             userId={item.id}
             currentuser={currentUser}
             writer={singleData.user_id}
+            onClick={() => {
+              handleClick(singleData.id, item.id);
+            }}
           />
         );
       })}

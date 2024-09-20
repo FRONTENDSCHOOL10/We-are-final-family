@@ -18,7 +18,6 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
     updateJoinArray,
     joinArray,
     joinUsers,
-
     // updatePendingArray,
     // movePendingToJoin,
     fetchAndSetPartyData,
@@ -39,6 +38,9 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
   }, [updateJoinArray]);
   console.log(joinUsers);
 
+  join = joinUsers.length;
+  maxparty = singleData.people;
+
   return (
     <div className={`${S.component}`}>
       <h3 className="lbl-md">
@@ -46,7 +48,7 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
         {maxparty}
       </h3>
 
-      {joinUsers.map((item) => {
+      {[...joinUsers].reverse().map((item) => {
         console.log(item);
 
         return (

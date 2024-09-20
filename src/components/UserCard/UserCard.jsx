@@ -24,7 +24,13 @@ function UserCard({
             <ProfileTitle name={username} className={'lbl-md'}>
               {currentuser === writer ? (
                 <div className={S.actions}>
-                  <button className={`${S.agree} lbl-sm`}>승인</button>
+                  <button
+                    type="submit"
+                    onClick={onClick}
+                    className={`${S.agree} lbl-sm`}
+                  >
+                    승인
+                  </button>
                   <button className={`${S.disagree} lbl-sm`}>거절</button>
                 </div>
               ) : (
@@ -96,6 +102,8 @@ UserCard.propTypes = {
   image: string,
   username: string,
   postCount: number,
+  writer: string,
+  currentuser: string,
 };
 
 export default UserCard;
