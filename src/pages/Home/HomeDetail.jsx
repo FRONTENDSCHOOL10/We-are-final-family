@@ -22,6 +22,7 @@ function HomeDetail() {
   };
 
   const [isOptionPopupActive, setIsOptionPopupActive] = useState(false);
+  const { setSingleData } = useListStore();
 
   const menuOptions = [
     { label: '모집완료', onClick: () => console.log('모집완료 클릭!') },
@@ -44,6 +45,12 @@ function HomeDetail() {
   useEffect(() => {
     fetchData('party', id); // 'party' 테이블에서 특정 id의 데이터 조회
   }, [id, fetchData]);
+
+  useEffect(() => {
+    return () => {
+      setSingleData(null);
+    };
+  }, [setSingleData]);
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>에러: {error}</p>;

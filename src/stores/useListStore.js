@@ -6,7 +6,7 @@ const useListStore = create((set) => ({
   singleData: null,
   error: null,
   isLoading: false,
-
+  setSingleData: (newData) => set({ singleData: newData }),
   fetchData: async (tableName, id = null) => {
     set({ isLoading: true, error: null }); // 로딩 시작
 
