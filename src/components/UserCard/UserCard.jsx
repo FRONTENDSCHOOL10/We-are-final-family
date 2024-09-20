@@ -8,9 +8,12 @@ function UserCard({
   userId,
   states,
   onClick,
+  cancelClick,
   image,
   username,
   postCount,
+  writer,
+  currentuser,
   ...props
 }) {
   switch (states) {
@@ -19,11 +22,26 @@ function UserCard({
         <div className={S.wrapper} {...props}>
           <ProfileImg></ProfileImg>
           <div className={S.component}>
-            <ProfileTitle name={name} className={'lbl-md'}>
-              <div className={S.actions}>
-                <button className={`${S.agree} lbl-sm`}>승인</button>
-                <button className={`${S.disagree} lbl-sm`}>거절</button>
-              </div>
+            <ProfileTitle name={username} className={'lbl-md'}>
+              {currentuser === writer ? (
+                <div className={S.actions}>
+                  <button
+                    type="submit"
+                    onClick={onClick}
+                    className={`${S.agree} lbl-sm`}
+                  >
+                    승인
+                  </button>
+                  <button
+                    onClick={cancelClick}
+                    className={`${S.disagree} lbl-sm`}
+                  >
+                    거절
+                  </button>
+                </div>
+              ) : (
+                ''
+              )}
             </ProfileTitle>
           </div>
         </div>
@@ -34,8 +52,8 @@ function UserCard({
           <ProfileImg></ProfileImg>
           <span className=""></span>
           <div className={S.component}>
-            <ProfileTitle name={name} className={'lbl-md'}>
-              {userId === userId ? (
+            <ProfileTitle name={username} className={'lbl-md'}>
+              {writer === userId ? (
                 <div className={`${S.cert} para-sm`}>
                   <span className="i_certificate" />
                   파티장
@@ -84,12 +102,15 @@ function UserCard({
 
 UserCard.propTypes = {
   description: node || string,
-  userId: number,
+  userId: string,
+  cancelClick: func,
   states: string.isRequired,
   onClick: func,
   image: string,
   username: string,
   postCount: number,
+  writer: string,
+  currentuser: string,
 };
 
 export default UserCard;
