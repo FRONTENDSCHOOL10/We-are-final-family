@@ -56,3 +56,16 @@
 .state {
   padding: 1rem;
 }
+
+.boardImage {
+  margin-top: 1rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.boardImage img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}

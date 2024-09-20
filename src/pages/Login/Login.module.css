@@ -16,3 +16,6 @@
   flex-flow: column nowrap;
   gap: 1rem;
 }
+.error {
+  color: var(--negative);
+}

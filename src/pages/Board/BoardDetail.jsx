@@ -122,6 +122,11 @@ function BoardDetail() {
               </li>
             </ul>
             <p className="para-md">{singleData.content}</p>
+            {singleData.board_img && (
+              <div className={S.boardImage}>
+                <img src={singleData.board_img} alt="게시글 이미지" />
+              </div>
+            )}
           </div>
           {loadingComments ? (
             <p>댓글을 불러오는 중...</p>
