@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Error from '@/pages/Error';
 import Fallback from '@/pages/Fallback';
 import NoneData from '@/pages/NoneData';
+import { Link } from 'react-router-dom';
 
 function ListSearch({ searchTerm, activeFilter }) {
   const [mixedData, setMixedData] = useState([]);
@@ -75,17 +76,34 @@ function ListSearch({ searchTerm, activeFilter }) {
 
   return (
     <div className={S.listSearch}>
-      {mixedData.map((item) => (
-        <div key={`${item.source}-${item.id}`} className={S.listSearchItem}>
-          <Badge text={item.source === 'board' ? '게시판' : '파티모집'} />
-          <div className={S.listSearchItemContent}>
-            <span className={`${S.listSearchTitle} para-md`}>{item.title}</span>
-            <span className={`${S.listSearchDate} para-sm`}>
-              {formatDate(item.update_at || item.create_at)}
-            </span>
-          </div>
-        </div>
-      ))}
+      {mixedData.map((item) => {
+        const encodedId = btoa(item.id);
+        const linkPath =
+          item.source === 'board'
+            ? `/board/detail?q=${encodedId}`
+            : `/home/detail?q=${encodedId}`;
+
+        return (
+          <Link
+            key={`${item.source}-${item.id}`}
+            to={linkPath}
+            className={S.listSearchItem}
+          >
+            <Badge
+              text={item.source === 'board' ? '게시판' : '파티모집'}
+              className={S.listSearchBadge}
+            />
+            <div className={S.listSearchItemContent}>
+              <span className={`${S.listSearchTitle} para-md`}>
+                {item.title}
+              </span>
+              <span className={`${S.listSearchDate} para-sm`}>
+                {formatDate(item.update_at || item.create_at)}
+              </span>
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }
