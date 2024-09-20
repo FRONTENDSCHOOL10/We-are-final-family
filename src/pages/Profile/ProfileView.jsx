@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import S from './Profile.module.css';
 import Header from '@/components/App/Header';
 import Navigation from '@/components/App/Navigation';
 import Button from '@/components/Button/Button';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/api/supabase';
 
 function ProfileView() {
@@ -74,9 +74,38 @@ function ProfileView() {
     navigate('/profile/edit');
   };
 
+  const handleClose = () => {
+    navigate('/profile');
+  };
+
+  const infoItems = [
+    { label: '이름(별명)', value: profileData.username },
+    { label: '이메일', value: profileData.email },
+    { label: '프로필 키워드', value: profileData.keyword },
+    { label: '하는 일', value: profileData.job },
+    { label: '회사', value: profileData.company },
+    { label: '학교', value: profileData.school },
+    {
+      label: '성별',
+      value: renderPrivateInfo(profileData.gender, profileData.genderOpen),
+    },
+    {
+      label: '연령',
+      value: renderPrivateInfo(profileData.age, profileData.ageOpen),
+    },
+  ];
+
   return (
     <>
-      <Header title="나의 프로필" actions={['i_close']} />
+      <Header
+        title="나의 프로필"
+        actions={[
+          {
+            icon: 'i_close',
+            onClick: handleClose,
+          },
+        ]}
+      />
       <main className={`${S.profile} ${S.profileView}`}>
         <h2 className={`${S.viewTitle} lbl-md`}>
           기본 정보
@@ -85,42 +114,12 @@ function ProfileView() {
           </Button>
         </h2>
         <ul className={`${S.myInfo} para-md`}>
-          <li>
-            <span className={S.lbl}>이름(별명)</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.username}</span>
-          </li>
-          <li>
-            <span className={S.lbl}>이메일</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.email}</span>
-          </li>
-          <li>
-            <span className={S.lbl}>프로필 키워드</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.keyword}</span>
-          </li>
-          <li>
-            <span className={S.lbl}>하는 일</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.job}</span>
-          </li>
-          <li>
-            <span className={S.lbl}>회사</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.company}</span>
-          </li>
-          <li>
-            <span className={S.lbl}>학교</span>
-            <span className={`${S.val} lbl-sm`}>{profileData.school}</span>
-          </li>
-          <li>
-            <span className={S.lbl}>성별</span>
-            <span className={`${S.val} lbl-sm`}>
-              {renderPrivateInfo(profileData.gender, profileData.genderOpen)}
-            </span>
-          </li>
-          <li>
-            <span className={S.lbl}>연령</span>
-            <span className={`${S.val} lbl-sm`}>
-              {renderPrivateInfo(profileData.age, profileData.ageOpen)}
-            </span>
-          </li>
+          {infoItems.map((item, index) => (
+            <li key={index}>
+              <span className={S.lbl}>{item.label}</span>
+              <span className={`${S.val} lbl-sm`}>{item.value}</span>
+            </li>
+          ))}
         </ul>
       </main>
       <Navigation />

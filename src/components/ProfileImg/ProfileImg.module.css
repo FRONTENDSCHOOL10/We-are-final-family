@@ -1,21 +1,32 @@
 .component {
   position: relative;
-  min-width: 3.25rem;
-  min-height: 3.25rem;
+  min-width: 4rem;
+  min-height: 4rem;
   border-radius: 50%;
   background-position: center;
   background: lightgray 50% / cover no-repeat;
   aspect-ratio: 1 / 1;
 }
 .pencil {
-  padding: 0.3rem;
   position: absolute;
+  right: -0.5rem;
+  bottom: 0;
+  display: flex;
+  padding: 0.275rem;
+  font-size: 1.2rem;
+  color: var(--gray-400);
   border-radius: 50%;
   border: 1px solid var(--gray-100);
   background: var(--white);
-  color: var(--gray-400);
-  bottom: 0;
-  right: -0.5rem;
-  font-size: 1.2rem;
   cursor: pointer;
+  &:hover {
+    color: var(--secondary);
+  }
+  &:focus {
+    color: var(--secondary);
+    outline-color: var(--secondary);
+  }
+  &:active {
+    color: var(--primary);
+  }
 }

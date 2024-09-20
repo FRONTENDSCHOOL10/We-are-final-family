@@ -1,55 +1,29 @@
-.container {
-  display: flex;
-  flex-flow: column;
-  gap: 1rem;
-  color: var(--gray-900);
-}
-
-.labelContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.optionsWrapper {
-  display: flex;
-  flex-flow: nowrap;
-  gap: 0.5rem;
-}
-.btnOption {
-  display: flex;
-  flex-flow: column;
-  gap: 0.5rem;
-}
 .guidance {
   color: var(--gray-600);
 }
 
-.optionsContainer {
+.optionList {
   display: flex;
-  flex-wrap: wrap;
-
+  flex-flow: row wrap;
   gap: 0.5rem;
 }
 
 .optionBtn {
-  padding: 0.31rem 0.75rem;
+  padding: 0.3125rem 0.75rem;
+  color: var(--gray-900);
+  border-radius: 3rem;
+  border: 1px solid var(--gray-100);
   background-color: var(--white);
-  border: 0.0625rem solid var(--gray-900);
-  border-radius: 1000px;
   cursor: pointer;
-  transition: all 0.3s ease;
-}
 
-.optionBtn:hover {
-  background-color: var(--gray-100);
-}
-
-.optionBtn.selected {
-  background-color: var(--gray-900);
-  color: var(--white);
-  border-color: var(--gray-900);
-}
-
-.toggle {
-  padding: 0.5rem 0;
+  &.selected {
+    color: var(--white);
+    background-color: var(--gray-900);
+  }
+  &:hover {
+    border-color: var(--secondary);
+  }
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }

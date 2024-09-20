@@ -294,9 +294,7 @@ function ProfileEdit() {
             />
           </li>
         </ul>
-        <div className={S.SignUspList}>
-          <SignUpList sendDataToParent={handleDataFromChild} />
-        </div>
+        <SignUpList sendDataToParent={handleDataFromChild} />
         <div className={S.buttonForm}>
           <Button
             color="white"
@@ -314,8 +312,10 @@ function ProfileEdit() {
             저장
           </Button>
         </div>
-        <div>
-          <a href="">정보 초기화 및 이용 동의 철회</a>
+        <div className={S.reset}>
+          <button type="button" className={`${S.resetBtn} para-sm`}>
+            정보 초기화 및 이용 동의 철회
+          </button>
         </div>
       </main>
       <Navigation />

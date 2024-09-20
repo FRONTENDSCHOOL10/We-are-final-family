@@ -24,26 +24,29 @@ function AgreementForm({ agreements, sendDataToParent }) {
   };
 
   return (
-    <div className={S.agreementForm}>
-      <h2 className={S.agreementFormTitle}>이용약관 동의</h2>
-      <div className={S.checkboxContainer}>
+    <section className={S.agreementForm}>
+      <h2 className="lbl-lg">이용약관 동의</h2>
+      <div className={S.checkboxAll}>
         <input
           type="checkbox"
           id="all-check"
           checked={checkedItems[0]}
           onChange={(e) => handleAllCheck(e.target.checked)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleAllCheck(!checkedItems[0]);
+            }
+          }}
           className={S.checkboxInput}
         />
-        <label htmlFor="all-check" className={S.checkboxLabel}>
+        <label htmlFor="all-check" className={`${S.checkboxLabel} para-md`}>
           <span
             className={`${S.checkboxIcon} ${
               checkedItems[0] ? 'i_check' : 'i_check'
             }`}
           />
-          <span className={`${S.checkboxTitle} para-md`}>
-            아래 내용에 전체 동의합니다.
-          </span>
-          <span className={`${S.requiredText} para-md`}>필수 동의</span>
+          <span className={S.full}>아래 내용에 전체 동의합니다.</span>
+          <span className={S.requiredText}>필수 동의</span>
         </label>
       </div>
       <CheckboxList
@@ -51,7 +54,7 @@ function AgreementForm({ agreements, sendDataToParent }) {
         checkedItems={checkedItems}
         onCheckChange={handleSingleCheck}
       />
-    </div>
+    </section>
   );
 }
 

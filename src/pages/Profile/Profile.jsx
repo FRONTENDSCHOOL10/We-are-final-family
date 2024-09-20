@@ -1,11 +1,13 @@
-import { useNavigate } from 'react-router-dom';
 import S from './Profile.module.css';
-import Navigation from '@/components/App/Navigation';
-import { useRef, useState, useEffect } from 'react';
-import { supabase } from '@/api/supabase';
-import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
-import toast from 'react-hot-toast';
+import Fallback from '@/pages/Fallback';
 import UserCard from '@/components/UserCard/UserCard';
+import Navigation from '@/components/App/Navigation';
+import ProfileList from '@/components/ProfileList/ProfileList';
+import { supabase } from '@/api/supabase';
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
 import { clearLocalStorage } from '@/utils/clearLocalStorage'; // clearLocalStorage 함수 import
 
 function Profile() {
@@ -45,7 +47,7 @@ function Profile() {
         if (error) throw error;
 
         if (data && data.username) {
-          setUserName(data.username);
+          setUserName(data?.username || '');
         }
       }
     } catch (error) {
@@ -68,7 +70,7 @@ function Profile() {
         if (error) throw error;
 
         if (data && data.profile_img) {
-          setProfileImgUrl(data.profile_img);
+          setProfileImgUrl(data?.profile_img || '');
         }
       }
     } catch (error) {
@@ -147,8 +149,35 @@ function Profile() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>; // 또는 로딩 스피너 컴포넌트
+    return <Fallback />;
   }
+
+  // JSX를 깔곰하게~
+  const menuItems = [
+    {
+      label: '저장한 글',
+      icon: 'i_like_filled',
+      onClick: () => console.log('저장한 글 클릭'),
+    },
+    {
+      label: '나의 파티',
+      icon: 'i_certificate',
+      onClick: () => console.log('나의 파티 클릭'),
+    },
+    {
+      label: '내 프로필',
+      icon: 'i_profile_filled',
+      onClick: handleProfileClick,
+    },
+  ];
+
+  const settingItems = [
+    { label: '설정', onClick: () => console.log('설정 클릭') },
+    { label: '공지사항', onClick: () => console.log('공지사항 클릭') },
+    { label: '서비스 정보', onClick: () => console.log('서비스 정보 클릭') },
+    { label: '로그아웃', onClick: handleLogout, className: S.logout },
+    { label: '탈퇴하기', onClick: () => console.log('탈퇴하기 클릭') },
+  ];
 
   return (
     <>
@@ -168,28 +197,25 @@ function Profile() {
           accept="image/*"
           style={{ display: 'none' }}
         />
-        <ul className={S.myMenu}>
-          <li>
-            <span className="i_like_filled"></span>저장한 글
-          </li>
-          <li>
-            <span className="i_certificate"></span>나의 파티
-          </li>
-          <li
-            onClick={handleProfileClick}
-            onKeyDown={(e) => e.key === 'Enter' && handleProfileClick()}
-          >
-            <span className="i_profile_filled"></span>내 프로필
-          </li>
+        <ul className={`${S.myMenu} para-sm`}>
+          {menuItems.map((item, index) => (
+            <ProfileList
+              key={index}
+              label={item.label}
+              icon={item.icon}
+              onClick={item.onClick}
+            />
+          ))}
         </ul>
-        <ul className={S.settingMenu}>
-          <li>설정</li>
-          <li>공지사항</li>
-          <li>서비스 정보</li>
-          <li className={S.logout} onClick={handleLogout}>
-            로그아웃
-          </li>
-          <li>탈퇴하기</li>
+        <ul className={`${S.settingMenu} para-md`}>
+          {settingItems.map((item, index) => (
+            <ProfileList
+              key={index}
+              label={item.label}
+              onClick={item.onClick}
+              className={item.className}
+            />
+          ))}
         </ul>
       </main>
       <Navigation />
