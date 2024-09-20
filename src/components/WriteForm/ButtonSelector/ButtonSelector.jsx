@@ -55,14 +55,18 @@ function ButtonSelector({
   };
 
   return (
-    <>
-      <span className="lbl-md">{label}</span>
-      {title === 'on' && (
-        <>
-          <span className="lbl-md">{selectedOption.label}</span>
-          <span className={`${S.guidance} para-sm`}>{getGuidanceText()}</span>
-        </>
-      )}
+    <section className={S.container}>
+      <header className={S.contHeader}>
+        <h4 className="lbl-md">
+          {label}
+          {title === 'on' && (
+            <span className="para-md">{selectedOption.label}</span>
+          )}
+        </h4>
+        {title === 'on' && (
+          <p className={`${S.guidance} para-sm`}>{getGuidanceText()}</p>
+        )}
+      </header>
       <ul
         role="group"
         aria-label={`${label} 옵션 목록`}
@@ -90,7 +94,7 @@ function ButtonSelector({
           isOn={isToggleOn}
         />
       )}
-    </>
+    </section>
   );
 }
 

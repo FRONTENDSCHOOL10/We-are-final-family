@@ -1,3 +1,22 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+}
+
+.contHeader {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  h4 {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
 .guidance {
   color: var(--gray-600);
 }
@@ -16,14 +35,23 @@
   background-color: var(--white);
   cursor: pointer;
 
-  &.selected {
-    color: var(--white);
-    background-color: var(--gray-900);
-  }
   &:hover {
-    border-color: var(--secondary);
+    color: var(--gray-900);
+    outline: 2px solid var(--gray-800);
+    outline-offset: -2px;
   }
   &:focus {
     outline-color: var(--secondary);
+  }
+
+  &.selected {
+    color: var(--white);
+    border-color: var(--gray-900);
+    background-color: var(--gray-900);
+    &:hover {
+      color: var(--white);
+      border-color: var(--gray-900);
+      background-color: var(--gray-900);
+    }
   }
 }
