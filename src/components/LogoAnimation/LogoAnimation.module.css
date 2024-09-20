@@ -11,7 +11,7 @@
 }
 
 .movingWaves {
-  animation: moveWaves 30s linear infinite;
+  animation: moveWaves 5s linear infinite;
 }
 
 .wave {

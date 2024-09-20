@@ -140,7 +140,7 @@ function ListSelect({
 
 ListSelect.propTypes = {
   title: PropTypes.string,
-  type: PropTypes.oneOf(['A', 'B']),
+  type: PropTypes.oneOf(['A', 'B', 'C']),
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
