@@ -1,4 +1,9 @@
 import AgreementForm from './AgreementForm';
+import { func } from 'prop-types';
+
+SignUpList.propTypes = {
+  sendDataToParent: func,
+};
 
 function SignUpList({ sendDataToParent }) {
   const agreements = [
@@ -34,12 +39,10 @@ function SignUpList({ sendDataToParent }) {
   ];
 
   return (
-    <div>
-      <AgreementForm
-        agreements={agreements}
-        sendDataToParent={sendDataToParent}
-      />
-    </div>
+    <AgreementForm
+      agreements={agreements}
+      sendDataToParent={sendDataToParent}
+    />
   );
 }
 

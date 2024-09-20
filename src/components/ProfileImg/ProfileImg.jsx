@@ -31,9 +31,16 @@ export function ProfileImg({
     <div className={S.ProfileImg}>
       <div className={S.component} style={styled}>
         <span
+          aria-label="프로필 이미지 변경"
           className={`${S.pencil} i_pencil`}
           style={{ display: `${display}` }}
           onClick={onClick}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === '') {
+              onClick();
+            }
+          }}
         ></span>
       </div>
     </div>

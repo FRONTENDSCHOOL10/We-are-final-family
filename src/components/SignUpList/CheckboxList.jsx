@@ -15,21 +15,24 @@ function Checkbox({
   const id = useId();
 
   return (
-    <div className={S.checkboxContainer}>
-      <div className={S.checkboxHeader}>
-        <div className={S.checkboxTitleArea}>
+    <li className={S.checkboxContainer}>
+      <div className={S.checkboxContent}>
+        <div className={S.checkbox}>
           <input
             type="checkbox"
             id={id}
             checked={checked}
             onChange={(e) => onChange(e.target.checked)}
-            className={S.checkboxInput}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                onChange(!checked);
+              }
+            }}
+            className={S.input}
           />
-          <label htmlFor={id} className={`${S.checkboxLabel} para-sm`}>
-            <span
-              className={`${S.checkboxIcon} ${checked ? 'i_check' : 'i_check'}`}
-            />
-            <span className={S.checkboxTitle}>{title}</span>
+          <label htmlFor={id} className={`${S.label} para-sm`}>
+            <span className={`${S.icon} ${checked ? 'i_check' : 'i_check'}`} />
+            <span className={S.full}>{title}</span>
             {isRequired && <span className={S.requiredText}>필수동의</span>}
           </label>
         </div>
@@ -42,13 +45,14 @@ function Checkbox({
           </button>
         )}
       </div>
+
       {expanded && (
         <div className={S.agreementInfo}>
-          <p className={`${S.agreementContent} para-sm`}>{content}</p>
+          <p className="para-sm">{content}</p>
           {info && <p className={`${S.agreementInfoText} para-sm`}>{info}</p>}
         </div>
       )}
-    </div>
+    </li>
   );
 }
 
@@ -64,7 +68,7 @@ Checkbox.propTypes = {
 
 function CheckboxList({ agreements, checkedItems, onCheckChange }) {
   return (
-    <div className={S.checkboxList}>
+    <ul className={S.checkboxList}>
       {agreements.map((agreement, index) => (
         <Checkbox
           key={index}
@@ -77,7 +81,7 @@ function CheckboxList({ agreements, checkedItems, onCheckChange }) {
           showButton={agreement.showButton}
         />
       ))}
-    </div>
+    </ul>
   );
 }
 

@@ -1,6 +1,24 @@
-import { useState, useEffect } from 'react';
 import S from './ButtonSelector.module.css';
+import { useState, useEffect } from 'react';
 import { Toggle } from './Toggle/Toggle';
+import { arrayOf, oneOf, shape, string, func, bool } from 'prop-types';
+
+ButtonSelector.propTypes = {
+  data: arrayOf(
+    shape({
+      id: string.isRequired,
+      label: string.isRequired,
+    })
+  ).isRequired,
+  label: string.isRequired,
+  title: oneOf(['on', 'off']),
+  toggle: oneOf(['on', 'off']),
+  toggleName: string,
+  btnValue: string.isRequired,
+  onChange: func.isRequired,
+  onToggleChange: func,
+  isToggleOn: bool,
+};
 
 function ButtonSelector({
   data,
@@ -37,46 +55,42 @@ function ButtonSelector({
   };
 
   return (
-    <div>
-      <div className={S.container}>
-        <div className={`${S.labelContainer} lbl-md`}>
-          <span className="para-md">{label}</span>
-          {title === 'on' && (
-            <span className="para-md">{selectedOption.label}</span>
-          )}
-        </div>
-        <div className={S.btnOption}>
-          {title === 'on' && (
-            <span className={`${S.guidance} para-sm`}>{getGuidanceText()}</span>
-          )}
-          <div className={S.optionsWrapper}>
-            <div className={S.optionsContainer}>
-              {data.map((item) => (
-                <button
-                  className={`${S.optionBtn} para-md ${
-                    selectedOption === item ? S.selected : ''
-                  }`}
-                  key={item.id}
-                  onClick={() => handleOptionClick(item)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        {toggle === 'on' && (
-          <Toggle
-            className={S.toggle}
-            toggleName={toggleName}
-            onChange={onToggleChange}
-            isOn={isToggleOn}
-          />
-        )}
-      </div>
-    </div>
+    <>
+      <span className="lbl-md">{label}</span>
+      {title === 'on' && (
+        <>
+          <span className="lbl-md">{selectedOption.label}</span>
+          <span className={`${S.guidance} para-sm`}>{getGuidanceText()}</span>
+        </>
+      )}
+      <ul
+        role="group"
+        aria-label={`${label} 옵션 목록`}
+        className={S.optionList}
+      >
+        {data.map((item) => (
+          <li key={item.id}>
+            <button
+              className={`${S.optionBtn} para-md ${
+                selectedOption === item ? S.selected : ''
+              }`}
+              onClick={() => handleOptionClick(item)}
+            >
+              {item.label}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {toggle === 'on' && (
+        <Toggle
+          className={S.toggle}
+          toggleName={toggleName}
+          onChange={onToggleChange}
+          isOn={isToggleOn}
+        />
+      )}
+    </>
   );
 }
 

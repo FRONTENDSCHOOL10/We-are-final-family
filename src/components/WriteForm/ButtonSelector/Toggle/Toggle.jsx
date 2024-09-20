@@ -1,8 +1,9 @@
 import { useState, useEffect, useId } from 'react';
 import S from './Toggle.module.css';
-import { bool, func } from 'prop-types';
+import { string, bool, func } from 'prop-types';
 
 Toggle.propTypes = {
+  toggleName: string,
   isOn: bool,
   onChange: func,
 };
@@ -15,8 +16,7 @@ export function Toggle({ toggleName, onChange, isOn = false }) {
     setIsActive(isOn);
   }, [isOn]);
 
-  const handleChange = (e) => {
-    const newState = e.target.checked;
+  const handleChange = (newState) => {
     setIsActive(newState);
     if (onChange) {
       onChange(newState);
@@ -25,7 +25,7 @@ export function Toggle({ toggleName, onChange, isOn = false }) {
 
   return (
     <div className={S.container}>
-      <div>{toggleName}</div>
+      <p className="para-md">{toggleName}</p>
       <div className={S.toggleContainer}>
         <input
           type="checkbox"
@@ -33,6 +33,11 @@ export function Toggle({ toggleName, onChange, isOn = false }) {
           className={S.toggleCheckbox}
           checked={isActive}
           onChange={handleChange}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleChange(!isActive);
+            }
+          }}
         />
         <label htmlFor={id} className={S.toggleLabel}>
           <span className={S.toggleButton}></span>
