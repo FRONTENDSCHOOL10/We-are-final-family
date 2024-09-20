@@ -29,6 +29,7 @@ function HomeWrite() {
     setDate,
     setTime,
     setLocation,
+    isFormValid,
   } = useHomeWriteStore();
 
   const handlePictureClick = () => {
@@ -108,7 +109,11 @@ function HomeWrite() {
           />
         </div>
         <footer>
-          <Button color="black" onClick={handleNextClick}>
+          <Button
+            color="black"
+            onClick={handleNextClick}
+            disabled={!isFormValid()}
+          >
             다음
           </Button>
         </footer>
