@@ -3,9 +3,14 @@ import { create } from 'zustand';
 
 export const usePartyStore = create((set, get) => ({
   joinArray: [],
+  joinUsers: [],
   pendingArray: [],
   pendingUsers: [],
   updateJoinArray: (newJoinArray) => set({ joinArray: newJoinArray }),
+  updateJoinUsers: async (joinArray) => {
+    const users = await fetchUsersByPendingArray(joinArray);
+    set({ joinUsers: users });
+  },
   updatePendingArray: (newPendingArray) =>
     set({ pendingArray: newPendingArray }),
   updatePendingUsers: async (pendingArray) => {
@@ -26,6 +31,7 @@ export const usePartyStore = create((set, get) => ({
       const { joinArray, pendingArray } = processPartyData(data);
       set({ joinArray, pendingArray });
       await get().updatePendingUsers(pendingArray);
+      await get().updateJoinUsers(joinArray);
     }
   },
 }));
