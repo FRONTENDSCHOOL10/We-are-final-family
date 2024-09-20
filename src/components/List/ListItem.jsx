@@ -16,6 +16,7 @@ ListItem.propTypes = {
   place: string,
   createDate: string,
   onClick: func,
+  boardImg: string, // 새로운 prop 추가
 };
 
 function ListItem({
@@ -30,6 +31,7 @@ function ListItem({
   place,
   createDate,
   onClick,
+  boardImg,
 }) {
   const badgePartyVariant =
     type === 'party'
@@ -117,10 +119,11 @@ function ListItem({
             </div>
           </div>
           <div className={S.thumbnail}>
-            <img
-              src="/src/assets/testImg/bonobobono.jpeg"
-              alt="보노보노 이미지"
-            />
+            {boardImg ? (
+              <img src={boardImg} alt={title} />
+            ) : (
+              <div className={S.noImage}></div>
+            )}
           </div>
         </Link>
       </li>
