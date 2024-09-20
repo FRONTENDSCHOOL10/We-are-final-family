@@ -56,7 +56,7 @@ export const routes = [
           { path: 'detail', text: '파티모집 상세', element: <HomeDetail /> },
           { path: 'write', text: '파티모집 글 쓰기', element: <HomeWrite /> },
           {
-            path: 'writenext',
+            path: 'write/2',
             text: '파티모집 글 쓰기',
             element: <HomeWriteNext />,
           },
