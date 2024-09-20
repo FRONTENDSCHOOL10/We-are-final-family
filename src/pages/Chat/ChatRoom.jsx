@@ -42,16 +42,30 @@ function ChatRoom() {
   }, [currentRoom, fetchMessages]);
 
   useEffect(() => {
+    let isMounted = true;
     let unsubscribe;
 
-    unsubscribe = subscribeToMessages(); // 구독 시작
-
-    return () => {
-      if (unsubscribe) {
-        unsubscribe(); // 컴포넌트 언마운트 시 구독 취소
+    const handleSubscription = async () => {
+      try {
+        unsubscribe = await subscribeToMessages();
+        if (isMounted) {
+          console.log('구독 성공');
+        }
+      } catch (error) {
+        console.error('구독 실패:', error);
       }
     };
-  }, [subscribeToMessages, currentRoom]); // currentRoom 변경 시 다시 구독
+
+    handleSubscription();
+
+    return () => {
+      isMounted = false;
+      if (unsubscribe) {
+        console.log('구독 취소');
+        unsubscribe();
+      }
+    };
+  }, [subscribeToMessages]);
   console.log(currentRoom);
 
   //언마운트시 currentRoom 초기화

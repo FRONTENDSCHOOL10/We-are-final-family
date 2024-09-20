@@ -111,6 +111,7 @@ export const useStore = create((set, get) => ({
       }
 
       // 새로 생성된 채팅방 설정 및 반환
+
       set({ currentRoom: newRoom });
       return newRoom;
     } catch (error) {
@@ -181,19 +182,22 @@ export const useStore = create((set, get) => ({
     const { currentRoom } = get();
     if (!currentRoom) return;
 
+    // currentRoom이 객체인지 문자열인지 확인하고 적절한 값을 사용
+    const roomId =
+      typeof currentRoom === 'object' ? currentRoom.id : currentRoom;
+
     const channel = supabase
-      .channel(`room-${currentRoom}`)
+      .channel(`room-${roomId}`)
       .on(
         'postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
           table: 'chat_messages',
-          filter: `room_id=eq.${currentRoom}`, // room_id 칼럼 필터 적용
+          filter: `room_id=eq.${roomId}`, // room_id 칼럼 필터 적용
         },
         (payload) => {
           console.log('실시간 데이터 업데이트', payload.new);
-          console.log(currentRoom);
 
           // 여기서 상태 업데이트
           set(
@@ -209,11 +213,13 @@ export const useStore = create((set, get) => ({
         }
       )
       .subscribe();
+
     console.log('구독성공');
 
     return () => {
+      console.log('구독 취소 시작, roomId:', roomId);
       supabase.removeChannel(channel);
-      console.log('구독 취소');
+      console.log('구독 취소 완료');
     };
   },
 
