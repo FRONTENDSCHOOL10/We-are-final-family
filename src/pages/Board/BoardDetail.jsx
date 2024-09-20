@@ -6,12 +6,13 @@ import SendMessage from '@/components/SendMessage/SendMessage';
 import CommentsList from '@/components/CommentsList/CommentsList';
 import useListStore from '@/stores/useListStore';
 import { supabase } from '@/api/supabase';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { formatDateWithTime } from '@/utils/formatDate';
 import Fallback from '@/pages/Fallback';
 import Error from '@/pages/Error';
 import NoneData from '@/pages/NoneData';
+import toast from 'react-hot-toast';
 
 function BoardDetail() {
   const [isLiked, setIsLiked] = useState(false);
@@ -31,43 +32,76 @@ function BoardDetail() {
     fetchData('board', id);
   }, [id, fetchData]);
 
-  useEffect(() => {
-    async function fetchComments() {
-      if (!singleData || !singleData.id) return;
+  const fetchComments = useCallback(async () => {
+    if (!singleData || !singleData.id) return;
 
-      setLoadingComments(true);
-      try {
-        const { data, error } = await supabase
-          .from('board_comment')
-          .select(
-            `
+    setLoadingComments(true);
+    try {
+      const { data, error } = await supabase
+        .from('board_comment')
+        .select(
+          `
             id,
             comment,
             create_at,
             users:user_id (username)
           `
-          )
-          .eq('board_id', singleData.id)
-          .order('create_at', { ascending: true });
+        )
+        .eq('board_id', singleData.id)
+        .order('create_at', { ascending: true });
+
+      if (error) throw error;
+
+      const processedData = data.map((comment) => ({
+        ...comment,
+        id: comment.id.toString(),
+      }));
+
+      setComments(processedData);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      setCommentsError('댓글을 불러오는 데 실패했습니다.');
+    } finally {
+      setLoadingComments(false);
+    }
+  }, [singleData]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
+
+  const handleSendMessage = useCallback(
+    async (message) => {
+      try {
+        const { data: userData, error: userError } =
+          await supabase.auth.getUser();
+        if (userError) throw userError;
+
+        const { data, error } = await supabase
+          .from('board_comment')
+          .insert({
+            board_id: singleData.id,
+            user_id: userData.user.id,
+            comment: message,
+          })
+          .select('id, comment, create_at, users:user_id (username)')
+          .single();
 
         if (error) throw error;
 
-        const processedData = data.map((comment) => ({
-          ...comment,
-          id: comment.id.toString(),
-        }));
+        setComments((prevComments) => [
+          ...prevComments,
+          { ...data, id: data.id.toString() },
+        ]);
 
-        setComments(processedData);
+        toast.success('댓글이 성공적으로 작성되었습니다.');
       } catch (error) {
-        console.error('Error fetching comments:', error);
-        setCommentsError('댓글을 불러오는 데 실패했습니다.');
-      } finally {
-        setLoadingComments(false);
+        console.error('Error sending comment:', error);
+        toast.error('댓글 작성에 실패했습니다.');
       }
-    }
-
-    fetchComments();
-  }, [singleData]);
+    },
+    [singleData]
+  );
 
   const handleLikeButton = () => {
     console.log('저장 버튼 클릭');
@@ -140,7 +174,7 @@ function BoardDetail() {
             <CommentsList comments={comments} />
           )}
         </section>
-        <SendMessage />
+        <SendMessage onSendMessage={handleSendMessage} />
       </main>
     </>
   );

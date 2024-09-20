@@ -3,18 +3,12 @@ import { SendImg } from './Icone/SnedImg';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import S from './SendMessage.module.css';
 import IconButton from '@/components/IconButton/IconButton';
-import { useStore } from '@/stores/chatStore';
+import PropTypes from 'prop-types';
 
-function SendMessage() {
+function SendMessage({ onSendMessage }) {
   const [active, setActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    setNewMessage,
-    newMessage,
-    fetchOrCreateChatRoom,
-    sendMessage,
-    sendingMessage,
-  } = useStore();
+  const [newMessage, setNewMessage] = useState('');
   const inputRef = useRef(null);
   const focusTimeoutRef = useRef(null);
 
@@ -22,12 +16,9 @@ function SendMessage() {
     setActive((prev) => !prev);
   }, []);
 
-  const onChange = useCallback(
-    (e) => {
-      setNewMessage(e.target.value);
-    },
-    [setNewMessage]
-  );
+  const onChange = useCallback((e) => {
+    setNewMessage(e.target.value);
+  }, []);
 
   const focusInput = useCallback(() => {
     if (inputRef.current) {
@@ -43,27 +34,14 @@ function SendMessage() {
   }, []);
 
   const handleSendClick = useCallback(async () => {
-    if (newMessage.trim() && !sendingMessage && !isSubmitting) {
+    if (newMessage.trim() && !isSubmitting) {
       setIsSubmitting(true);
-      console.log('Sending message...');
-      const room = await fetchOrCreateChatRoom();
-      console.log(room);
-
-      if (room) {
-        await sendMessage();
-        console.log('Message sent, attempting to focus');
-        focusInput();
-      }
+      await onSendMessage(newMessage);
+      setNewMessage('');
       setIsSubmitting(false);
+      focusInput();
     }
-  }, [
-    fetchOrCreateChatRoom,
-    sendMessage,
-    newMessage,
-    sendingMessage,
-    isSubmitting,
-    focusInput,
-  ]);
+  }, [newMessage, isSubmitting, onSendMessage, focusInput]);
 
   useEffect(() => {
     console.log('Component mounted, focusing input');
@@ -75,38 +53,14 @@ function SendMessage() {
     };
   }, [focusInput]);
 
-  useEffect(() => {
-    if (newMessage === '') {
-      console.log('New message is empty, focusing input');
-      focusInput();
-    }
-  }, [focusInput, newMessage]);
-
-  useEffect(() => {
-    let timer;
-    if (isSubmitting) {
-      timer = setTimeout(() => {
-        setIsSubmitting(false);
-        console.log('isSubmitting set to false, focusing input');
-        focusInput();
-      }, 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [isSubmitting, focusInput]);
-
   const handleKeyDown = useCallback(
     (e) => {
-      if (
-        e.key === 'Enter' &&
-        !e.shiftKey &&
-        !sendingMessage &&
-        !isSubmitting
-      ) {
+      if (e.key === 'Enter' && !e.shiftKey && !isSubmitting) {
         e.preventDefault();
         handleSendClick();
       }
     },
-    [handleSendClick, sendingMessage, isSubmitting]
+    [handleSendClick, isSubmitting]
   );
 
   return (
@@ -121,7 +75,7 @@ function SendMessage() {
             onChange={onChange}
             value={newMessage}
             onKeyDown={handleKeyDown}
-            disabled={sendingMessage || isSubmitting}
+            disabled={isSubmitting}
           />
           <SendEmoji onClick={handleClick} />
         </div>
@@ -129,12 +83,16 @@ function SendMessage() {
           title="메시지 보내기"
           className="i_send"
           onClick={handleSendClick}
-          disabled={sendingMessage || isSubmitting || !newMessage.trim()}
+          disabled={isSubmitting || !newMessage.trim()}
         />
       </div>
       <div className={active ? S.block : S.none}>UnifiedComponent 코드...</div>
     </div>
   );
 }
+
+SendMessage.propTypes = {
+  onSendMessage: PropTypes.func.isRequired,
+};
 
 export default SendMessage;
