@@ -81,6 +81,47 @@ export const usePartyStore = create((set, get) => ({
 
     console.log('해당 userId에 대한 비어있는 join 필드가 없습니다.');
   },
+  cancelData: async (partyId, userId) => {
+    // party_detail에서 partyId에 해당하는 데이터 가져오기
+    const { data, error } = await supabase
+      .from('party_detail')
+      .select('*')
+      .eq('id', partyId)
+      .single();
+
+    if (error) {
+      console.error('파티 데이터를 가져오는 중 오류 발생:', error);
+      return;
+    }
+
+    console.log('가져온 데이터:', data); // 가져온 데이터 확인
+
+    // pending_1부터 pending_6까지 순회하여 userId와 동일한 값을 찾기
+    for (let i = 1; i <= 6; i++) {
+      const pendingKey = `pending_${i}`;
+
+      if (data[pendingKey] === userId) {
+        // 동일한 값이 있으면 해당 pending 값을 null로 변경
+        const { error: updateError } = await supabase
+          .from('party_detail')
+          .update({ [pendingKey]: null })
+          .eq('id', partyId);
+
+        if (updateError) {
+          console.error(
+            'pending 값을 null로 변경하는 중 오류 발생:',
+            updateError
+          );
+          return;
+        }
+
+        console.log(`${pendingKey}의 값이 성공적으로 null로 변경되었습니다.`);
+        return; // 업데이트 완료 후 함수 종료
+      }
+    }
+
+    console.log('해당 userId와 일치하는 pending 값이 없습니다.');
+  },
 }));
 
 async function fetchPartyData(partyId) {

@@ -18,6 +18,7 @@ export function PendingList({ join = 1 }) {
     fetchAndSetPartyData,
     pendingUsers,
     moveTopending,
+    cancelData,
   } = usePartyStore();
   const { setCurrentUser, currentUser } = useStore();
 
@@ -53,6 +54,17 @@ export function PendingList({ join = 1 }) {
     console.log(id);
   };
 
+  const cancelClick = (singleDataId, id) => {
+    cancelData(singleDataId, id);
+    const fatch = async () => {
+      await fetchAndSetPartyData(singleData.id);
+    };
+    setTimeout(() => {
+      fatch();
+    }, 500);
+    console.log(id);
+  };
+
   return (
     <div className={`${S.component}`}>
       <h3 className="lbl-md">
@@ -71,6 +83,9 @@ export function PendingList({ join = 1 }) {
             writer={singleData.user_id}
             onClick={() => {
               handleClick(singleData.id, item.id);
+            }}
+            cancelClick={() => {
+              cancelClick(singleData.id, item.id);
             }}
           />
         );

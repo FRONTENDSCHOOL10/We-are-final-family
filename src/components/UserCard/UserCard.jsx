@@ -8,6 +8,7 @@ function UserCard({
   userId,
   states,
   onClick,
+  cancelClick,
   image,
   username,
   postCount,
@@ -31,7 +32,12 @@ function UserCard({
                   >
                     승인
                   </button>
-                  <button className={`${S.disagree} lbl-sm`}>거절</button>
+                  <button
+                    onClick={cancelClick}
+                    className={`${S.disagree} lbl-sm`}
+                  >
+                    거절
+                  </button>
                 </div>
               ) : (
                 ''
@@ -97,6 +103,7 @@ function UserCard({
 UserCard.propTypes = {
   description: node || string,
   userId: string,
+  cancelClick: func,
   states: string.isRequired,
   onClick: func,
   image: string,
