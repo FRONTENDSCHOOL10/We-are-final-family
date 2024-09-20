@@ -1,0 +1,14 @@
+.homeWrite {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.writeWrap {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.5rem;
+}

@@ -16,10 +16,11 @@ export function Toggle({ toggleName, onChange, isOn = false }) {
     setIsActive(isOn);
   }, [isOn]);
 
-  const handleChange = (newState) => {
-    setIsActive(newState);
+  const handleChange = (e) => {
+    const state = e.target.checked;
+    setIsActive(state);
     if (onChange) {
-      onChange(newState);
+      onChange(state);
     }
   };
 
@@ -35,7 +36,7 @@ export function Toggle({ toggleName, onChange, isOn = false }) {
           onChange={handleChange}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              handleChange(!isActive);
+              handleChange({ target: { checked: !isActive } });
             }
           }}
         />

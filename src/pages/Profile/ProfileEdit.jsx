@@ -25,7 +25,8 @@ function ProfileEdit() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', desc: '' });
   const [isGenderPublic, setIsGenderPublic] = useState();
-  const [isAgePublic, setIsAgePublic] = useState();
+  // const [isAgePublic, setIsAgePublic] = useState();
+  const [isAgePublic, setIsAgePublic] = useState(false);
   const [childData, setChildData] = useState('');
 
   const isAllTrue = Array.isArray(childData) && childData.every((data) => data);
