@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import S from './Calender.module.css';
 import IconButton from '@/components/IconButton/IconButton';
 
 function Calendar({ selectedDate, onChange, onClose, isOpen }) {
-  const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate));
+  // selectedDate를 Date 객체로 확실히 변환
+  const [currentMonth, setCurrentMonth] = useState(
+    new Date(selectedDate || new Date())
+  );
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  // selectedDate를 Date 객체로 변환
+  const selectedDateObj = new Date(selectedDate || new Date());
 
   useEffect(() => {
     if (isOpen) {
@@ -47,13 +54,15 @@ function Calendar({ selectedDate, onChange, onClose, isOpen }) {
           key={i}
           type="button"
           className={`${S.day} ${
-            date.toDateString() === selectedDate.toDateString()
+            date.toDateString() === selectedDateObj.toDateString()
               ? S.selected
               : ''
           } ${isPastDate ? S.pastDate : ''}`}
           onClick={() => {
             if (!isPastDate) {
-              onChange(date);
+              onChange(
+                new Date(date.getFullYear(), date.getMonth(), date.getDate())
+              );
               onClose();
             }
           }}
@@ -125,5 +134,15 @@ function Calendar({ selectedDate, onChange, onClose, isOpen }) {
     </div>
   );
 }
+
+Calendar.propTypes = {
+  selectedDate: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]),
+  onChange: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+};
 
 export default Calendar;

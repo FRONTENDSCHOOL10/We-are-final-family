@@ -1,14 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import S from './ListSelect.module.css';
-import { CategoryOptions as CategorySelectData } from './data/CategorySelectData';
-import { CategoryOptions as TitleSelectData } from './data/TitleSelectData';
+import { fetchListData } from '@/utils/fetchListData';
 
-function ListSelect({ title = '카테고리를 선택해주세요', dataSource }) {
-  const [selectedOption, setSelectedOption] = useState('');
+function ListSelect({
+  title = '카테고리를 선택해주세요',
+  type = 'A',
+  value,
+  onChange,
+}) {
+  const [selectedOption, setSelectedOption] = useState(value || '');
   const [isOpen, setIsOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const selectRef = useRef(null);
 
-  const options = dataSource === 'title' ? TitleSelectData : CategorySelectData;
+  useEffect(() => {
+    async function loadData() {
+      setIsLoading(true);
+      const data = await fetchListData(type);
+      setOptions(data);
+      setIsLoading(false);
+    }
+    loadData();
+  }, [type]);
+
+  useEffect(() => {
+    setSelectedOption(value || '');
+  }, [value]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -38,8 +57,9 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
     };
   }, [isOpen]);
 
-  function handleChange(value) {
+  function handleChange(value, label) {
     setSelectedOption(value);
+    onChange(label);
     setIsOpen(false);
   }
 
@@ -65,7 +85,8 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
         >
           <div className={S.selectedOption}>
             {selectedOption
-              ? options.find((opt) => opt.value === selectedOption)?.label
+              ? options.find((opt) => opt.value === selectedOption)?.label ||
+                selectedOption
               : title}
           </div>
           <span
@@ -86,21 +107,29 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
               </button>
             </div>
             <ul className={S.optionList}>
-              {options.map((option) => (
-                <li
-                  key={option.value}
-                  className={S.optionItem}
-                  tabIndex="0"
-                  onClick={() => handleChange(option.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      handleChange(option.value);
-                    }
-                  }}
-                >
-                  {option.label}
-                </li>
-              ))}
+              {isLoading ? (
+                <li className={S.loadingItem}>데이터 로딩 중...</li>
+              ) : options.length === 0 ? (
+                <li className={S.noDataItem}>데이터가 없습니다.</li>
+              ) : (
+                options.map((option) => (
+                  <li
+                    key={option.value}
+                    className={`${S.optionItem} ${
+                      option.value === selectedOption ? S.selected : ''
+                    }`}
+                    tabIndex="0"
+                    onClick={() => handleChange(option.value, option.label)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        handleChange(option.value, option.label);
+                      }
+                    }}
+                  >
+                    {option.label}
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         )}
@@ -108,5 +137,12 @@ function ListSelect({ title = '카테고리를 선택해주세요', dataSource }
     </>
   );
 }
+
+ListSelect.propTypes = {
+  title: PropTypes.string,
+  type: PropTypes.oneOf(['A', 'B']),
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default ListSelect;

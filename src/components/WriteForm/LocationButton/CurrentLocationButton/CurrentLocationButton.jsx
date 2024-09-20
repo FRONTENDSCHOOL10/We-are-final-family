@@ -19,22 +19,47 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
     }
   };
 
-  const getAddressFromCoords = async (latitude, longitude) => {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+  const getRegionName = (latitude, longitude) => {
+    const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
+    const url = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${longitude}&y=${latitude}`;
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      return (
-        data.address.suburb ||
-        data.address.town ||
-        data.address.village ||
-        '주소를 찾을 수 없습니다'
-      );
-    } catch (error) {
-      console.error('Error fetching address:', error);
-      return '주소 변환 중 오류가 발생했습니다';
-    }
+    fetch(url, {
+      headers: {
+        Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.documents && data.documents.length > 0) {
+          const region2depthName = data.documents[0].region_2depth_name;
+          const region3depthName = data.documents[0].region_3depth_name;
+          const region4depthName = data.documents[0].region_4depth_name;
+
+          // 전체 지역 이름 조합 (예: 서울특별시 강남구 삼성동)
+          const fullRegionName = `${region4depthName}`.trim();
+
+          // 버튼에 표시할 지역 이름 (region4depthName)
+          setButtonText(region4depthName);
+          setIsLocationSet(true);
+
+          // 로컬 스토리지에 region2depthName와 region3depthName 저장
+          localStorage.setItem('region2depthName', region2depthName);
+          localStorage.setItem('region3depthName', region3depthName);
+
+          if (onLocationUpdate) {
+            onLocationUpdate(fullRegionName, region4depthName);
+          }
+        } else {
+          setButtonText('위치 이름을 가져올 수 없음');
+        }
+      })
+      .catch((error) => {
+        console.error('위치 이름을 가져오는 중 오류 발생:', error);
+        setButtonText('위치 이름을 가져오는 중 오류 발생');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const requestLocation = () => {
@@ -42,15 +67,9 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
       setIsLoading(true);
       setButtonText('로딩 중...');
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
+        (position) => {
           const { latitude, longitude } = position.coords;
-          const address = await getAddressFromCoords(latitude, longitude);
-          setButtonText(address);
-          setIsLocationSet(true);
-          if (onLocationUpdate) {
-            onLocationUpdate(address);
-          }
-          setIsLoading(false);
+          getRegionName(latitude, longitude);
         },
         (error) => {
           console.error('Error getting location:', error);

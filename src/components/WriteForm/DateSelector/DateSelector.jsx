@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import S from './DateSelector.module.css';
 import Calendar from './Calender/Calender';
 
-function DateSelector({ label }) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+function DateSelector({ label, value, onChange }) {
+  const [selectedDate, setSelectedDate] = useState(value || new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isIconFilled, setIsIconFilled] = useState(false);
@@ -63,6 +64,7 @@ function DateSelector({ label }) {
 
   function handleDateChange(date) {
     setSelectedDate(date);
+    onChange(date);
     setIsCalendarOpen(false);
     setIsIconFilled(false);
   }
@@ -103,5 +105,11 @@ function DateSelector({ label }) {
     </div>
   );
 }
+
+DateSelector.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.instanceOf(Date),
+  onChange: PropTypes.func.isRequired,
+};
 
 export default DateSelector;

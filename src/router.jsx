@@ -10,6 +10,7 @@ import {
   Home,
   HomeDetail,
   HomeWrite,
+  HomeWriteNext,
   Board,
   BoardDetail,
   BoardWrite,
@@ -54,6 +55,11 @@ export const routes = [
           { index: true, text: '파티모집', element: <Home /> },
           { path: 'detail', text: '파티모집 상세', element: <HomeDetail /> },
           { path: 'write', text: '파티모집 글 쓰기', element: <HomeWrite /> },
+          {
+            path: 'writenext',
+            text: '파티모집 글 쓰기',
+            element: <HomeWriteNext />,
+          },
         ],
       },
       {
