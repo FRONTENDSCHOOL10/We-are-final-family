@@ -115,29 +115,23 @@ function HomeWriteNext() {
       <Header back={true} />
       <main className={S.homeWrite}>
         <div className={S.writeWrap}>
-          <h2>어떤 파티원과 함께 할까요?</h2>
-          <div className="imgBox"></div>
+          <h2 className="hdg-lg">어떤 파티원과 함께 할까요?</h2>
+          {/* <div className="imgBox"></div> */}
 
-          <ul>
-            <li>
-              <ButtonSelector
-                data={GenderData}
-                label="성별"
-                title="on"
-                btnValue={gender}
-                onChange={setGender}
-              />
-            </li>
-            <li>
-              <ButtonSelector
-                data={AgeData}
-                label="연령"
-                title="on"
-                btnValue={age}
-                onChange={setAge}
-              />
-            </li>
-          </ul>
+          <ButtonSelector
+            data={GenderData}
+            label="성별"
+            title="on"
+            btnValue={gender}
+            onChange={setGender}
+          />
+          <ButtonSelector
+            data={AgeData}
+            label="연령"
+            title="on"
+            btnValue={age}
+            onChange={setAge}
+          />
         </div>
         <footer>
           <Button color="black" onClick={handleSubmit}>
@@ -152,7 +146,7 @@ function HomeWriteNext() {
           buttons={[
             {
               type: 'button',
-              color: 'primary',
+              color: 'black',
               label: '확인',
               action: 'confirm',
             },

@@ -183,7 +183,6 @@ function Profile() {
     <>
       <main className={S.profile}>
         <UserCard
-          userId={1}
           states="profile"
           onClick={handleProfileImg}
           image={profileImgUrl}
