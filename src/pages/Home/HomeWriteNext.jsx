@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
 import ButtonSelector from '@/components/WriteForm/ButtonSelector/ButtonSelector';
@@ -25,10 +25,19 @@ function HomeWriteNext() {
     date,
     time,
     location,
-    reset, // reset 함수 추가
+    reset,
   } = useHomeWriteStore();
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', desc: '' });
+  const [region2depthName, setRegion2depthName] = useState('');
+  const [region3depthName, setRegion3depthName] = useState('');
+
+  useEffect(() => {
+    const region2 = localStorage.getItem('region2depthName');
+    const region3 = localStorage.getItem('region3depthName');
+    if (region2) setRegion2depthName(region2);
+    if (region3) setRegion3depthName(region3);
+  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -39,7 +48,6 @@ function HomeWriteNext() {
         throw new Error('User not authenticated');
       }
 
-      // user_id에 해당하는 username 가져오기
       const { data: userData, error: userError } = await supabase
         .from('users')
         .select('username')
@@ -51,7 +59,6 @@ function HomeWriteNext() {
 
       const username = userData[0].username;
 
-      // 날짜와 시간을 결합
       const dateTime = new Date(date);
       const [hours, minutes] = time.split(' ')[1].split(':');
       dateTime.setHours(
@@ -72,9 +79,14 @@ function HomeWriteNext() {
         age,
         gender,
         update_at: new Date().toISOString(),
+        location_1: region2depthName,
+        location_2: region3depthName,
       });
 
       if (error) throw error;
+
+      localStorage.removeItem('region2depthName');
+      localStorage.removeItem('region3depthName');
 
       setModalContent({
         title: '성공',
