@@ -3,6 +3,8 @@ import S from './ListItem.module.css';
 import { string, number, func } from 'prop-types';
 import { formatDateWithYear, formatTimeAgo } from '@/utils/formatDate';
 import { Link } from 'react-router-dom';
+import useViewCountStore from '@/stores/useViewCountStore';
+import { useEffect } from 'react';
 
 ListItem.propTypes = {
   id: string,
@@ -16,7 +18,7 @@ ListItem.propTypes = {
   place: string,
   createDate: string,
   onClick: func,
-  boardImg: string, // 새로운 prop 추가
+  boardImg: string,
 };
 
 function ListItem({
@@ -33,6 +35,15 @@ function ListItem({
   onClick,
   boardImg,
 }) {
+  const { viewCounts, fetchViewCount, incrementViewCount } =
+    useViewCountStore();
+
+  useEffect(() => {
+    if (type === 'board') {
+      fetchViewCount(id);
+    }
+  }, [type, id, fetchViewCount]);
+
   const badgePartyVariant =
     type === 'party'
       ? state === '모집중'
@@ -49,12 +60,20 @@ function ListItem({
   const formattedDate = formatDateWithYear(date);
 
   const timeSincePost = formatTimeAgo(createDate);
-  const viewCount = 0; // 수정 필요
+  const viewCount = viewCounts[id] || 0;
 
   const encodedId = btoa(id);
 
+  const handleClick = (e) => {
+    if (type === 'board') {
+      incrementViewCount(id);
+    }
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   if (type === 'party') {
-    // Party 타입에 대한 렌더링
     return (
       <li role="listitem" className={S.listItem} onClick={onClick}>
         <Link to={`/home/detail?q=${encodedId}`}>
@@ -93,12 +112,11 @@ function ListItem({
   }
 
   if (type === 'board') {
-    // Board 타입에 대한 렌더링
     return (
       <li
         role="listitem"
         className={`${S.listItem} ${S.boardItem}`}
-        onClick={onClick}
+        onClick={handleClick}
       >
         <Link to={`/board/detail?q=${encodedId}`}>
           <div className={S.content}>
@@ -130,7 +148,6 @@ function ListItem({
     );
   }
 
-  // 기본 렌더링 (필요한 경우 추가)
   return null;
 }
 

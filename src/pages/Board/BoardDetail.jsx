@@ -20,8 +20,22 @@ function BoardDetail() {
   const [loadingComments, setLoadingComments] = useState(true);
   const [commentsError, setCommentsError] = useState(null);
 
+  const { singleData, error, isLoading, fetchData } = useListStore();
+
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const encodedId = query.get('q');
+  const id = atob(encodedId);
+
+  useEffect(() => {
+    fetchData('board', id);
+  }, [id, fetchData]);
+
   useEffect(() => {
     async function fetchComments() {
+      if (!singleData || !singleData.id) return;
+
+      setLoadingComments(true);
       try {
         const { data, error } = await supabase
           .from('board_comment')
@@ -33,10 +47,11 @@ function BoardDetail() {
             users:user_id (username)
           `
           )
+          .eq('board_id', singleData.id)
           .order('create_at', { ascending: true });
 
         if (error) throw error;
-        // id를 문자열로 변환
+
         const processedData = data.map((comment) => ({
           ...comment,
           id: comment.id.toString(),
@@ -52,7 +67,7 @@ function BoardDetail() {
     }
 
     fetchComments();
-  }, []);
+  }, [singleData]);
 
   const handleLikeButton = () => {
     console.log('저장 버튼 클릭');
@@ -72,17 +87,6 @@ function BoardDetail() {
     console.log('옵션 버튼 클릭');
     setIsOptionPopupActive((prevState) => !prevState);
   };
-
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const encodedId = query.get('q');
-  const id = atob(encodedId); // base64 디코딩된 id 값
-
-  const { singleData, error, isLoading, fetchData } = useListStore(); // Zustand 사용
-
-  useEffect(() => {
-    fetchData('board', id); // 'board' 테이블에서 특정 id의 데이터 조회
-  }, [id, fetchData]);
 
   if (isLoading) return <Fallback />;
   if (error) return <Error />;
