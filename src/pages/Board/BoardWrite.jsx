@@ -180,17 +180,17 @@ function BoardWrite() {
             value={selectedCategory}
             onChange={handleCategoryChange}
           />
-          {imagePreview && (
-            <div className={S.imagePreview}>
-              <img src={imagePreview} alt="Preview" />
-            </div>
-          )}
           <textarea
             className={`${S.textArea} para-md`}
             placeholder="내용을 입력하세요"
             value={content}
             onChange={handleContentChange}
           ></textarea>
+          {imagePreview && (
+            <div className={S.imagePreview}>
+              <img src={imagePreview} alt="Preview" />
+            </div>
+          )}
         </div>
         <footer>
           <Button color="black" onClick={handleSubmit}>

@@ -38,6 +38,10 @@ function Login() {
         console.error('Supabase auth error:', authError);
         if (authError.message === 'Invalid login credentials') {
           setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+        } else if (authError.message === 'Email not confirmed') {
+          setError(
+            '이메일 인증이 완료되지 않았습니다. 이메일을 확인해 주세요.'
+          );
         } else {
           setError(`로그인 오류: ${authError.message}`);
         }

@@ -118,6 +118,7 @@ function List({
               place={item.place || '장소를 불러올 수 없습니다.'}
               createDate={item.create_at}
               onClick={() => console.log(`${item.id} 클릭됨`)}
+              boardImg={item.board_img} // board_img 추가
             />
           );
         })}

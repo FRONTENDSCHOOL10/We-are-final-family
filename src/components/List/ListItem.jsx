@@ -3,6 +3,9 @@ import S from './ListItem.module.css';
 import { string, number, func } from 'prop-types';
 import { formatDateWithYear, formatTimeAgo } from '@/utils/formatDate';
 import { Link } from 'react-router-dom';
+import useViewCountStore from '@/stores/useViewCountStore';
+import useCommentCountStore from '@/stores/useCommentCountStore';
+import { useEffect } from 'react';
 
 ListItem.propTypes = {
   id: string,
@@ -16,6 +19,7 @@ ListItem.propTypes = {
   place: string,
   createDate: string,
   onClick: func,
+  boardImg: string,
 };
 
 function ListItem({
@@ -30,7 +34,19 @@ function ListItem({
   place,
   createDate,
   onClick,
+  boardImg,
 }) {
+  const { viewCounts, fetchViewCount, incrementViewCount } =
+    useViewCountStore();
+  const { commentCounts, fetchCommentCount } = useCommentCountStore();
+
+  useEffect(() => {
+    if (type === 'board') {
+      fetchViewCount(id);
+      fetchCommentCount(id);
+    }
+  }, [type, id, fetchViewCount]);
+
   const badgePartyVariant =
     type === 'party'
       ? state === '모집중'
@@ -47,12 +63,21 @@ function ListItem({
   const formattedDate = formatDateWithYear(date);
 
   const timeSincePost = formatTimeAgo(createDate);
-  const viewCount = 0; // 수정 필요
+  const viewCount = viewCounts[id] || 0;
+  const commentCount = commentCounts[id] || 0;
 
   const encodedId = btoa(id);
 
+  const handleClick = (e) => {
+    if (type === 'board') {
+      incrementViewCount(id);
+    }
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   if (type === 'party') {
-    // Party 타입에 대한 렌더링
     return (
       <li role="listitem" className={S.listItem} onClick={onClick}>
         <Link to={`/home/detail?q=${encodedId}`}>
@@ -91,12 +116,11 @@ function ListItem({
   }
 
   if (type === 'board') {
-    // Board 타입에 대한 렌더링
     return (
       <li
         role="listitem"
         className={`${S.listItem} ${S.boardItem}`}
-        onClick={onClick}
+        onClick={handleClick}
       >
         <Link to={`/board/detail?q=${encodedId}`}>
           <div className={S.content}>
@@ -113,21 +137,22 @@ function ListItem({
                 <span>{timeSincePost}</span>
                 <span aria-hidden="true">&middot;</span>
                 <span>조회 {viewCount}</span>
+                <span>댓글 {commentCount}</span>
               </p>
             </div>
           </div>
           <div className={S.thumbnail}>
-            <img
-              src="/src/assets/testImg/bonobobono.jpeg"
-              alt="보노보노 이미지"
-            />
+            {boardImg ? (
+              <img src={boardImg} alt={title} />
+            ) : (
+              <div className={S.noImage}></div>
+            )}
           </div>
         </Link>
       </li>
     );
   }
 
-  // 기본 렌더링 (필요한 경우 추가)
   return null;
 }
 
