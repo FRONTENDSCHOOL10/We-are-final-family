@@ -74,7 +74,7 @@ export const routes = [
         path: 'chat',
         children: [
           { index: true, element: <Chat /> },
-          { path: 'room', element: <ChatRoom /> },
+          { path: 'room/:id', element: <ChatRoom /> },
         ],
       },
       {

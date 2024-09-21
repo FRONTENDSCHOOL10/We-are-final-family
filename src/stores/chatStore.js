@@ -111,6 +111,7 @@ export const useStore = create((set, get) => ({
       }
 
       // 새로 생성된 채팅방 설정 및 반환
+
       set({ currentRoom: newRoom });
       return newRoom;
     } catch (error) {
@@ -181,19 +182,22 @@ export const useStore = create((set, get) => ({
     const { currentRoom } = get();
     if (!currentRoom) return;
 
+    // currentRoom이 객체인지 문자열인지 확인하고 적절한 값을 사용
+    const roomId =
+      typeof currentRoom === 'object' ? currentRoom.id : currentRoom;
+
     const channel = supabase
-      .channel(`room-${currentRoom}`)
+      .channel(`room-${roomId}`)
       .on(
         'postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
           table: 'chat_messages',
-          filter: `room_id=eq.${currentRoom}`, // room_id 칼럼 필터 적용
+          filter: `room_id=eq.${roomId}`, // room_id 칼럼 필터 적용
         },
         (payload) => {
           console.log('실시간 데이터 업데이트', payload.new);
-          console.log(currentRoom);
 
           // 여기서 상태 업데이트
           set(
@@ -209,16 +213,18 @@ export const useStore = create((set, get) => ({
         }
       )
       .subscribe();
+
     console.log('구독성공');
 
     return () => {
+      console.log('구독 취소 시작, roomId:', roomId);
       supabase.removeChannel(channel);
-      console.log('구독 취소');
+      console.log('구독 취소 완료');
     };
   },
 
   //채팅룸 패치 함수
-  fetchChatRooms1: async () => {
+  fetchChatRooms: async () => {
     const currentUser = get().currentUser;
     if (!currentUser) {
       console.error('currentUser가 없습니다');
@@ -232,8 +238,8 @@ export const useStore = create((set, get) => ({
       .select(
         `
         *,
-        user1:users!chat_rooms_user1_id_fkey(id),
-        user2:users!chat_rooms_user2_id_fkey(id)
+        user1:users!chat_rooms_user1_id_fkey(id, username),
+        user2:users!chat_rooms_user2_id_fkey(id, username)
       `
       )
       .or(`user1_id.eq.${currentUser},user2_id.eq.${currentUser}`);
@@ -251,6 +257,49 @@ export const useStore = create((set, get) => ({
 
       set({ chatRooms: processedChatRooms });
       console.log('chatRooms 상태가 업데이트됨:', get().chatRooms);
+    }
+  },
+  fetchChatRoomById: async (roomId) => {
+    if (!roomId) {
+      console.error('roomId가 제공되지 않았습니다.');
+      return null;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('chat_rooms')
+        .select(
+          `
+          *,
+          user1:users!chat_rooms_user1_id_fkey(id, username),
+          user2:users!chat_rooms_user2_id_fkey(id, username)
+        `
+        )
+        .eq('id', roomId)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        console.error('채팅방을 찾을 수 없습니다.');
+        return null;
+      }
+
+      const currentUser = get().currentUser;
+      const processedRoom = {
+        ...data,
+        otherUser: data.user1_id === currentUser ? data.user2 : data.user1,
+      };
+
+      set({ currentRoom: processedRoom });
+      console.log('currentRoom 상태가 업데이트됨:', processedRoom);
+
+      return processedRoom;
+    } catch (error) {
+      console.error('채팅방 가져오기 오류:', error.message);
+      return null;
     }
   },
 }));

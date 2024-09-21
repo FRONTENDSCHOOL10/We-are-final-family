@@ -13,8 +13,9 @@ function Chat() {
     setSelectedUser,
     setCurrentRoom,
     chatRooms,
-    fetchChatRooms1,
+    fetchChatRooms,
     setCurrentUser,
+    fetchChatRoomById,
   } = useStore();
   const navigate = useNavigate();
   useEffect(() => {
@@ -27,20 +28,20 @@ function Chat() {
   };
 
   useEffect(() => {
-    fetchChatRooms1();
+    fetchChatRooms();
 
     if (currentUser) {
       console.log('currentUser가 설정됨:', currentUser);
     } else {
       console.log('currentUser가 아직 설정되지 않음');
     }
-  }, [currentUser, fetchChatRooms1]);
+  }, [currentUser, fetchChatRooms]);
 
   function handleClick(selectedUser, currentRoom) {
     setSelectedUser(selectedUser);
     setCurrentRoom(currentRoom);
-    fetchChatRooms1();
-    navigate('/chat/room');
+    fetchChatRoomById(currentRoom.id);
+    navigate(`/chat/room/${currentRoom.id}`);
   } //여기 손봐야됨
   return (
     <>
@@ -56,9 +57,10 @@ function Chat() {
                 <ChatProfileCard
                   user={room.otherUser}
                   onClick={() => {
-                    handleClick(room.otherUser.id, room.id);
+                    handleClick(room.otherUser.id, room);
                   }}
                   id={room.otherUser}
+                  name={room.otherUser.username}
                 />
               </li>
             ))

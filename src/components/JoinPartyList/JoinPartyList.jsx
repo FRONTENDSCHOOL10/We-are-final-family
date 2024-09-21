@@ -21,6 +21,7 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
     // updatePendingArray,
     // movePendingToJoin,
     fetchAndSetPartyData,
+    updateJoinUsers,
   } = usePartyStore();
 
   console.log(joinArray);
@@ -33,9 +34,9 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
 
   useEffect(() => {
     return () => {
-      updateJoinArray(null);
+      updateJoinUsers([]);
     };
-  }, [updateJoinArray]);
+  }, [updateJoinUsers]);
   console.log(joinUsers);
 
   join = joinUsers.length;
