@@ -150,7 +150,13 @@ function BoardWrite() {
       toast.error(`게시글 작성 중 오류가 발생했습니다: ${error.message}`);
     }
   };
-
+  const handleRemoveImage = () => {
+    setImageFile(null);
+    setImagePreview('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
   return (
     <>
       <Toaster />
@@ -189,6 +195,9 @@ function BoardWrite() {
           {imagePreview && (
             <div className={S.imagePreview}>
               <img src={imagePreview} alt="Preview" />
+              <button className={S.removeImageBtn} onClick={handleRemoveImage}>
+                <span className="i_close" />
+              </button>
             </div>
           )}
         </div>
