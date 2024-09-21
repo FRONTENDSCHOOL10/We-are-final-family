@@ -4,7 +4,6 @@ import S from './Login.module.css';
 import Button from '@/components/Button/Button';
 import ValidationInput from '@/components/ValidationInput/ValidationInput';
 import { supabase } from '@/api/supabase';
-import useInterestStore from '@/stores/InterestStore';
 import { getData } from '@/api/DataService';
 import { useStore } from '@/stores/chatStore';
 
@@ -14,7 +13,6 @@ function Login() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const { clearInterests } = useInterestStore();
   const passwordInputRef = useRef(null);
   const { setCurrentUser } = useStore();
 
@@ -66,7 +64,6 @@ function Login() {
           if (currentUser) {
             console.log('Current user found:', currentUser);
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            clearInterests();
             navigate('/home');
           } else {
             console.error('User not found in the users table');

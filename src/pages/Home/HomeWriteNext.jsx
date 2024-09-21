@@ -30,13 +30,11 @@ function HomeWriteNext() {
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', desc: '' });
   const [region2depthName, setRegion2depthName] = useState('');
-  const [region3depthName, setRegion3depthName] = useState('');
 
   useEffect(() => {
     const region2 = localStorage.getItem('region2depthName');
-    const region3 = localStorage.getItem('region3depthName');
+
     if (region2) setRegion2depthName(region2);
-    if (region3) setRegion3depthName(region3);
   }, []);
 
   const handleSubmit = async () => {
@@ -75,18 +73,17 @@ function HomeWriteNext() {
         description,
         people: personnel,
         meet_date: dateTime.toISOString(),
-        place: location,
+        location_1: region2depthName, // 추가된 부분
+        location_2: location,
+
         age,
         gender,
         update_at: new Date().toISOString(),
-        location_1: region2depthName,
-        location_2: region3depthName,
       });
 
       if (error) throw error;
 
       localStorage.removeItem('region2depthName');
-      localStorage.removeItem('region3depthName');
 
       setModalContent({
         title: '성공',
