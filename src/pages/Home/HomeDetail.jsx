@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import useListStore from '@/stores/useListStore';
 import { formatDateWithTime } from '@/utils/formatDate';
+import { usePartyStore } from '@/stores/usePartyStore';
 
 function HomeDetail() {
   const [isLiked, setIsLiked] = useState(false);
@@ -23,6 +24,7 @@ function HomeDetail() {
 
   const [isOptionPopupActive, setIsOptionPopupActive] = useState(false);
   const { setSingleData } = useListStore();
+  const { updatePendingArray } = usePartyStore();
 
   const menuOptions = [
     { label: '모집완료', onClick: () => console.log('모집완료 클릭!') },
@@ -50,7 +52,7 @@ function HomeDetail() {
     return () => {
       setSingleData(null);
     };
-  }, [setSingleData]);
+  }, [setSingleData, updatePendingArray]);
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>에러: {error}</p>;

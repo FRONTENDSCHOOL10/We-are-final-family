@@ -30,15 +30,15 @@ export function PendingList({ join = 1 }) {
   }, [singleData.id, fetchAndSetPartyData, updatePendingUsers, moveTopending]);
 
   useEffect(() => {
-    return () => {
-      updatePendingUsers(null);
-    };
-  }, [updatePendingUsers]);
-
-  useEffect(() => {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     setCurrentUser(user.id);
   }, [setCurrentUser]);
+
+  useEffect(() => {
+    return () => {
+      updatePendingUsers([]);
+    };
+  }, [updatePendingUsers]);
 
   join = pendingUsers.length;
 
