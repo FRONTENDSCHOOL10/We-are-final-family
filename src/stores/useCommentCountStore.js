@@ -15,11 +15,22 @@ const useCommentCountStore = create((set) => ({
       set((state) => ({
         commentCounts: {
           ...state.commentCounts,
-          [boardId]: count,
+          [boardId]: count || 0, // 댓글이 없는 경우 0으로 설정
         },
       }));
     } catch (error) {
-      console.error('Error fetching comment count:', error);
+      console.error(
+        'Error fetching comment count:',
+        error.message,
+        error.details
+      );
+      // 에러가 발생해도 댓글 수를 0으로 설정
+      set((state) => ({
+        commentCounts: {
+          ...state.commentCounts,
+          [boardId]: 0,
+        },
+      }));
     }
   },
 }));

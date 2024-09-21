@@ -13,44 +13,37 @@ import Fallback from '@/pages/Fallback';
 import Error from '@/pages/Error';
 import NoneData from '@/pages/NoneData';
 import toast from 'react-hot-toast';
+import { retryFetch } from '@/utils/retryFetch';
 
 function BoardDetail() {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isOptionPopupActive, setIsOptionPopupActive] = useState(false);
   const [comments, setComments] = useState([]);
   const [loadingComments, setLoadingComments] = useState(true);
   const [commentsError, setCommentsError] = useState(null);
-
-  const { singleData, error, isLoading, fetchData } = useListStore();
-
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const encodedId = query.get('q');
-  const id = atob(encodedId);
-
-  useEffect(() => {
-    fetchData('board', id);
-  }, [id, fetchData]);
 
   const fetchComments = useCallback(async () => {
     if (!singleData || !singleData.id) return;
 
     setLoadingComments(true);
     try {
-      const { data, error } = await supabase
-        .from('board_comment')
-        .select(
-          `
+      const fetchCommentsData = async () => {
+        const { data, error } = await supabase
+          .from('board_comment')
+          .select(
+            `
             id,
             comment,
             create_at,
             users:user_id (username)
           `
-        )
-        .eq('board_id', singleData.id)
-        .order('create_at', { ascending: true });
+          )
+          .eq('board_id', singleData.id)
+          .order('create_at', { ascending: true });
 
-      if (error) throw error;
+        if (error) throw error;
+        return data;
+      };
+
+      const data = await retryFetch(fetchCommentsData);
 
       const processedData = data.map((comment) => ({
         ...comment,
@@ -60,11 +53,30 @@ function BoardDetail() {
       setComments(processedData);
     } catch (error) {
       console.error('Error fetching comments:', error);
-      setCommentsError('댓글을 불러오는 데 실패했습니다.');
+      if (
+        error.message.includes('upstream connect error') ||
+        error.message.includes('connection termination')
+      ) {
+        setCommentsError(
+          '서버와의 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.'
+        );
+        toast.error('서버 연결 오류. 재연결을 시도합니다.');
+        try {
+          await reconnectSupabase();
+          toast.success('서버에 재연결되었습니다. 페이지를 새로고침해주세요.');
+        } catch (reconnectError) {
+          toast.error('서버 재연결에 실패했습니다. 나중에 다시 시도해주세요.');
+        }
+      } else {
+        setCommentsError(
+          '댓글을 불러오는 데 실패했습니다. 잠시 후 다시 시도해주세요.'
+        );
+        toast.error('댓글 로딩 중 오류가 발생했습니다.');
+      }
     } finally {
       setLoadingComments(false);
     }
-  }, [singleData]);
+  }, [singleData, setComments, setLoadingComments, setCommentsError]);
 
   useEffect(() => {
     fetchComments();

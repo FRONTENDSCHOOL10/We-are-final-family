@@ -49,7 +49,7 @@ function List({
 
   if (location) {
     filteredData = filteredData.filter((item) =>
-      item.place ? item.place.includes(location) : false
+      item.location_1 ? item.location_1.includes(location) : false
     );
   }
 
@@ -115,7 +115,7 @@ function List({
               currentPeopleCount={item.people}
               peopleCount={item.people}
               date={item.meet_date || '날짜를 불러올 수 없습니다.'}
-              place={item.place || '장소를 불러올 수 없습니다.'}
+              place={item.location_2 || '장소를 불러올 수 없습니다.'}
               createDate={item.create_at}
               onClick={() => console.log(`${item.id} 클릭됨`)}
               boardImg={item.board_img} // board_img 추가
