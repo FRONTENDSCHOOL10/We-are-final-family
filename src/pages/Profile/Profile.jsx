@@ -7,8 +7,7 @@ import { supabase } from '@/api/supabase';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useUserRecordsCount } from '@/stores/useUserRecordsCount';
-
+import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
 import { clearLocalStorage } from '@/utils/clearLocalStorage';
 import Modal from '@/components/Modal/Modal';
 

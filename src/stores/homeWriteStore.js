@@ -25,7 +25,7 @@ const useHomeWriteStore = create(
       setLocation: (location) => set({ location }),
       setGender: (gender) => set({ gender }),
       setAge: (age) => set({ age }),
-
+      image: null,
       setImage: (image) => set({ image }),
 
       reset: () => {
