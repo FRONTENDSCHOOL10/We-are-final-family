@@ -224,7 +224,7 @@ export const useStore = create((set, get) => ({
   },
 
   //채팅룸 패치 함수
-  fetchChatRooms1: async () => {
+  fetchChatRooms: async () => {
     const currentUser = get().currentUser;
     if (!currentUser) {
       console.error('currentUser가 없습니다');
@@ -238,8 +238,8 @@ export const useStore = create((set, get) => ({
       .select(
         `
         *,
-        user1:users!chat_rooms_user1_id_fkey(id),
-        user2:users!chat_rooms_user2_id_fkey(id)
+        user1:users!chat_rooms_user1_id_fkey(id, username),
+        user2:users!chat_rooms_user2_id_fkey(id, username)
       `
       )
       .or(`user1_id.eq.${currentUser},user2_id.eq.${currentUser}`);
@@ -257,6 +257,49 @@ export const useStore = create((set, get) => ({
 
       set({ chatRooms: processedChatRooms });
       console.log('chatRooms 상태가 업데이트됨:', get().chatRooms);
+    }
+  },
+  fetchChatRoomById: async (roomId) => {
+    if (!roomId) {
+      console.error('roomId가 제공되지 않았습니다.');
+      return null;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('chat_rooms')
+        .select(
+          `
+          *,
+          user1:users!chat_rooms_user1_id_fkey(id, username),
+          user2:users!chat_rooms_user2_id_fkey(id, username)
+        `
+        )
+        .eq('id', roomId)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data) {
+        console.error('채팅방을 찾을 수 없습니다.');
+        return null;
+      }
+
+      const currentUser = get().currentUser;
+      const processedRoom = {
+        ...data,
+        otherUser: data.user1_id === currentUser ? data.user2 : data.user1,
+      };
+
+      set({ currentRoom: processedRoom });
+      console.log('currentRoom 상태가 업데이트됨:', processedRoom);
+
+      return processedRoom;
+    } catch (error) {
+      console.error('채팅방 가져오기 오류:', error.message);
+      return null;
     }
   },
 }));
