@@ -8,7 +8,8 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useUserRecordsCount } from '@/utils/useUserRecordsCount';
-import { clearLocalStorage } from '@/utils/clearLocalStorage'; // clearLocalStorage 함수 import
+import { clearLocalStorage } from '@/utils/clearLocalStorage';
+import Modal from '@/components/Modal/Modal';
 
 function Profile() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Profile() {
   const [profileImgUrl, setProfileImgUrl] = useState('');
   const { count } = useUserRecordsCount();
   const [isLoading, setIsLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -27,8 +29,8 @@ function Profile() {
   }, []);
 
   function handleLogout() {
-    clearLocalStorage(); // 로컬 스토리지 초기화
-    navigate('/'); // 인트로 페이지로 이동
+    clearLocalStorage();
+    navigate('/');
     toast.success('로그아웃되었습니다.');
   }
 
@@ -148,6 +150,49 @@ function Profile() {
     }
   }
 
+  async function handleDeleteAccount() {
+    try {
+      setIsLoading(true);
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError) throw userError;
+
+      // 사용자 관련 데이터 삭제
+      await Promise.all([
+        supabase.from('users').delete().eq('id', user.id),
+        supabase.from('users_profile').delete().eq('user_id', user.id),
+        supabase.from('interest_selected').delete().eq('id', user.id),
+        supabase.from('party').delete().eq('user_id', user.id),
+        supabase.from('board').delete().eq('user_id', user.id),
+        supabase.from('board_comment').delete().eq('user_id', user.id),
+      ]);
+
+      // 프로필 이미지 삭제
+      const { error: storageError } = await supabase.storage
+        .from('profile_img')
+        .remove([`${user.id}/${user.id}.jpg`]);
+      if (storageError) console.error('프로필 이미지 삭제 실패:', storageError);
+
+      // Supabase 사용자 계정 삭제
+      const { error: deleteError } = await supabase.auth.admin.deleteUser(
+        user.id
+      );
+      if (deleteError) throw deleteError;
+
+      clearLocalStorage();
+      navigate('/');
+      toast.success('계정이 성공적으로 삭제되었습니다.');
+    } catch (error) {
+      console.error('계정 삭제 중 오류 발생:', error);
+      toast.error('계정 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
+      setShowDeleteModal(false);
+    }
+  }
+
   if (isLoading) {
     return <Fallback />;
   }
@@ -172,11 +217,19 @@ function Profile() {
   ];
 
   const settingItems = [
-    { label: '설정', onClick: () => console.log('설정 클릭') },
+    {
+      label: '관심분야 설정',
+      onClick: () => navigate('/interest', { state: { from: 'profile' } }),
+    },
+    { label: '라이트&다크 모드', onClick: () => console.log('설정 클릭') },
     { label: '공지사항', onClick: () => console.log('공지사항 클릭') },
     { label: '서비스 정보', onClick: () => console.log('서비스 정보 클릭') },
     { label: '로그아웃', onClick: handleLogout, className: S.logout },
-    { label: '탈퇴하기', onClick: () => console.log('탈퇴하기 클릭') },
+    {
+      label: '탈퇴하기',
+      onClick: () => setShowDeleteModal(true),
+      className: S.delete,
+    },
   ];
 
   return (
@@ -218,6 +271,29 @@ function Profile() {
         </ul>
       </main>
       <Navigation />
+      {showDeleteModal && (
+        <Modal
+          title="계정 탈퇴"
+          desc="정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+          buttons={[
+            {
+              type: 'button',
+              color: 'negative',
+              label: '탈퇴하기',
+              action: 'confirm',
+            },
+            {
+              type: 'button',
+              color: 'white',
+              label: '취소',
+              action: 'cancel',
+            },
+          ]}
+          onConfirm={handleDeleteAccount}
+          onCancel={() => setShowDeleteModal(false)}
+          onClose={() => setShowDeleteModal(false)}
+        />
+      )}
     </>
   );
 }

@@ -41,6 +41,7 @@ export const routes = [
           { path: '2', element: <Register /> },
         ],
       },
+      { path: 'interest', element: <Interest /> },
       {
         path: 'search',
         text: '검색',
