@@ -25,6 +25,7 @@ function HomeWriteNext() {
     date,
     time,
     location,
+    image,
     reset,
   } = useHomeWriteStore();
   const [showModal, setShowModal] = useState(false);
@@ -37,25 +38,47 @@ function HomeWriteNext() {
     if (region2) setRegion2depthName(region2);
   }, []);
 
+  const uploadImage = async (userId, partyId) => {
+    if (!image) return null;
+
+    const imageData = image.split(',')[1]; // Base64 데이터 추출
+    const byteCharacters = atob(imageData);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+    const fileName = `${partyId}.jpg`;
+    const filePath = `${userId}/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('party_img')
+      .upload(filePath, blob);
+
+    if (uploadError) throw uploadError;
+
+    const { data } = supabase.storage.from('party_img').getPublicUrl(filePath);
+    return data.publicUrl;
+  };
+
   const handleSubmit = async () => {
     try {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
+      if (!user) throw new Error('User not authenticated');
 
       const { data: userData, error: userError } = await supabase
         .from('users')
         .select('username')
-        .eq('id', user.id);
+        .eq('id', user.id)
+        .single();
 
-      if (userError || !userData.length) {
-        throw new Error('Failed to fetch username');
-      }
+      if (userError) throw userError;
 
-      const username = userData[0].username;
+      const username = userData.username;
 
       const dateTime = new Date(date);
       const [hours, minutes] = time.split(' ')[1].split(':');
@@ -64,26 +87,42 @@ function HomeWriteNext() {
         parseInt(minutes)
       );
 
-      const { error } = await supabase.from('party').insert({
-        user_id: user.id,
-        username,
-        title,
-        interest,
-        category,
-        description,
-        people: personnel,
-        meet_date: dateTime.toISOString(),
-        location_1: region2depthName, // 추가된 부분
-        location_2: location,
+      const { data: partyData, error: partyError } = await supabase
+        .from('party')
+        .insert({
+          user_id: user.id,
+          username,
+          title,
+          interest,
+          category,
+          description,
+          people: personnel,
+          meet_date: dateTime.toISOString(),
+          location_1: region2depthName,
+          location_2: location,
 
-        age,
-        gender,
-        update_at: new Date().toISOString(),
-      });
+          age,
+          gender,
+          update_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (partyError) throw partyError;
+
+      const imageUrl = await uploadImage(user.id, partyData.id);
+
+      if (imageUrl) {
+        const { error: updateError } = await supabase
+          .from('party')
+          .update({ party_img: imageUrl })
+          .eq('id', partyData.id);
+
+        if (updateError) throw updateError;
+      }
 
       localStorage.removeItem('region2depthName');
+      localStorage.removeItem('home-write-storage');
 
       setModalContent({
         title: '성공',
