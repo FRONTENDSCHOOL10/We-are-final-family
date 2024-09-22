@@ -122,7 +122,7 @@ function HomeDetail() {
           </section>
         </div>
         <footer>
-          <Button color="black">채팅방으로 이동</Button>
+          <Button color="black">파티 신청</Button>
         </footer>
       </main>
     </>

@@ -60,6 +60,9 @@ export function JoinPartyList({ join = 1, maxparty = 4 }) {
             key={item.id}
             userId={item.id}
             username={item.username}
+            showModal={() => {
+              console.log(item.id);
+            }}
           />
         );
       })}

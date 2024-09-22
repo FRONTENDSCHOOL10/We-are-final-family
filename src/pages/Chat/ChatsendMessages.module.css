@@ -1,0 +1,42 @@
+.componentWrap {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.component {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  box-sizing: border-box;
+  background: var(--white);
+}
+
+.textInputWrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.input {
+  flex: 1;
+  padding: 0.25rem 2.25rem 0.25rem 1rem;
+  background-color: var(--gray-100);
+  border-radius: 2.25rem;
+  border: 0;
+
+  &:focus {
+    outline-offset: 2px;
+    outline: 2px solid var(--secondary);
+  }
+}
+
+.none {
+  display: none;
+}
+
+/* 이모티콘 추가 시 수정 필요 */
+.block {
+  display: block;
+  background-color: var(--gray-300);
+}
