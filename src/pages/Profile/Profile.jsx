@@ -7,7 +7,7 @@ import { supabase } from '@/api/supabase';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
+import useThemeStore from '@/stores/useThemeStore';
 import { clearLocalStorage } from '@/utils/clearLocalStorage';
 import Modal from '@/components/Modal/Modal';
 import { useUserRecordsCount } from '@/stores/useUserRecordsCount';
@@ -20,10 +20,16 @@ function Profile() {
   const { count } = useUserRecordsCount();
   const [isLoading, setIsLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { theme, toggleTheme } = useThemeStore();
+  const [selectedInterests, setSelectedInterests] = useState([]);
 
   useEffect(() => {
     async function loadData() {
-      await Promise.all([fetchUserName(), fetchProfileImage()]);
+      await Promise.all([
+        fetchUserName(),
+        fetchProfileImage(),
+        fetchSelectedInterests(),
+      ]);
       setIsLoading(false);
     }
     loadData();
@@ -54,7 +60,7 @@ function Profile() {
         }
       }
     } catch (error) {
-      console.error('Error fetching profile image:', error);
+      console.error('Error fetching username:', error);
     }
   }
 
@@ -78,6 +84,32 @@ function Profile() {
       }
     } catch (error) {
       console.error('Error fetching profile image:', error);
+    }
+  }
+
+  async function fetchSelectedInterests() {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const { data, error } = await supabase
+          .from('interest_selected')
+          .select(
+            'interest_1, interest_2, interest_3, interest_4, interest_5, interest_6'
+          )
+          .eq('id', user.id)
+          .single();
+
+        if (error) throw error;
+
+        const interests = Object.values(data).filter(
+          (interest) => interest !== null && interest !== ''
+        );
+        setSelectedInterests(interests);
+      }
+    } catch (error) {
+      console.error('Error fetching selected interests:', error);
     }
   }
 
@@ -151,6 +183,28 @@ function Profile() {
     }
   }
 
+  async function handleTestLocation() {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError) throw userError;
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ location: '종로구' })
+        .eq('id', user.id);
+
+      if (updateError) throw updateError;
+
+      toast.success('위치가 종로구로 설정되었습니다.');
+    } catch (error) {
+      console.error('위치 업데이트 중 오류 발생:', error);
+      toast.error('위치 업데이트에 실패했습니다.');
+    }
+  }
+
   async function handleDeleteAccount() {
     try {
       setIsLoading(true);
@@ -198,7 +252,6 @@ function Profile() {
     return <Fallback />;
   }
 
-  // JSX를 깔곰하게~
   const menuItems = [
     {
       label: '저장한 글',
@@ -222,7 +275,13 @@ function Profile() {
       label: '관심분야 설정',
       onClick: () => navigate('/interest', { state: { from: 'profile' } }),
     },
-    { label: '라이트&다크 모드', onClick: () => console.log('설정 클릭') },
+    {
+      label: `${theme === 'light' ? '다크' : '라이트'} 모드`,
+      onClick: () => {
+        toggleTheme();
+        document.body.classList.toggle('dark-mode', theme === 'light');
+      },
+    },
     { label: '공지사항', onClick: () => console.log('공지사항 클릭') },
     { label: '서비스 정보', onClick: () => console.log('서비스 정보 클릭') },
     { label: '로그아웃', onClick: handleLogout, className: S.logout },
@@ -230,6 +289,10 @@ function Profile() {
       label: '탈퇴하기',
       onClick: () => setShowDeleteModal(true),
       className: S.delete,
+    },
+    {
+      label: 'Test-Location',
+      onClick: handleTestLocation,
     },
   ];
 
@@ -258,6 +321,13 @@ function Profile() {
               icon={item.icon}
               onClick={item.onClick}
             />
+          ))}
+        </ul>
+        <ul className={`${S.interestList} para-sm`}>
+          {selectedInterests.map((interest, index) => (
+            <li key={index} className={S.interestItem}>
+              {interest}
+            </li>
           ))}
         </ul>
         <ul className={`${S.settingMenu} para-md`}>

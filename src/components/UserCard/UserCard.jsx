@@ -13,9 +13,11 @@ function UserCard({
   username,
   postCount,
   writer,
-  currentuser,
+  currentUser,
   ...props
 }) {
+  const isWriter = currentUser === writer;
+
   switch (states) {
     case 'pending':
       return (
@@ -23,7 +25,7 @@ function UserCard({
           <ProfileImg></ProfileImg>
           <div className={S.component}>
             <ProfileTitle name={username} className={'lbl-md'}>
-              {currentuser === writer ? (
+              {isWriter && (
                 <div className={S.actions}>
                   <button
                     type="submit"
@@ -39,8 +41,6 @@ function UserCard({
                     거절
                   </button>
                 </div>
-              ) : (
-                ''
               )}
             </ProfileTitle>
           </div>
@@ -110,7 +110,7 @@ UserCard.propTypes = {
   username: string,
   postCount: number,
   writer: string,
-  currentuser: string,
+  currentUser: string,
 };
 
 export default UserCard;

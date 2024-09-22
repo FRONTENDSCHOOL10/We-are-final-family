@@ -20,7 +20,6 @@
     display: flex;
     flex-flow: column nowrap;
     gap: 1rem;
-    color: var(--gray-900);
   }
 
   p {

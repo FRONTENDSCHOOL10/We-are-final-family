@@ -15,13 +15,23 @@
   --gray-800: #333333;
   --gray-900: #212121;
 
+  /* 라이트 모드 (기본) */
+  --bg-color: var(--white);
+  --text-color: var(--gray-900);
+  /* --border-color: var(--gray-200); */
+
+  /* 다크 모드 */
+  --bg-color-dark: var(--gray-900);
+  --text-color-dark: var(--white);
+  /* --border-color-dark: var(--gray-700); */
+
   --base-font: 'Pretendard Variable', Pretendard, -apple-system,
     BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
 
   --icon-color-white: var(--white);
-  --icon-color-black: var(--gray-900);
+  --icon-color-black: var(--gray-800);
   --icon-color-primary: var(--primary);
 
   /* line-height */
@@ -45,6 +55,39 @@
   --fw-regular: 400; /* Regular */
   --fw-semibold: 600; /* SemiBold */
   --fw-bold: 700; /* Bold */
+
+  /* 새로운 변수 추가 */
+  --menu-icon-color: var(--gray-700);
+}
+
+body.dark-mode {
+  /* 다크모드에서의 변수 값 변경 */
+  --menu-icon-color: var(--gray-300); /* 또는 다크모드에 적합한 다른 색상 */
+}
+
+body.dark-mode {
+  --bg-color: var(--bg-color-dark);
+  --text-color: var(--text-color-dark);
+  --border-color: var(--border-color-dark);
+}
+
+.hdg-sm,
+.hdg-md,
+.hdg-lg,
+.hdg-xl,
+.hdg-xxl,
+.hdg-xxxl,
+.lbl-sm,
+.lbl-md,
+.lbl-lg,
+.lbl-xl,
+.lbl-xxl,
+.para-util,
+.para-sm,
+.para-md,
+.para-lg,
+.para-xl {
+  color: var(--text-color);
 }
 
 .sr-only {
@@ -115,10 +158,10 @@
   font-weight: var(--fw-bold);
   font-family: var(--base-font);
 }
-.hdg-xxl {
+.hdg-xxxl {
   letter-spacing: var(--ls);
   line-height: var(--lh-hdg);
-  font-size: var(--fs-xxl);
+  font-size: var(--fs-xxxl);
   font-weight: var(--fw-bold);
   font-family: var(--base-font);
 }
@@ -195,4 +238,13 @@
   font-size: var(--fs-xl);
   font-weight: var(--fw-regular);
   font-family: var(--base-font);
+}
+
+body.dark-mode {
+  background-color: var(--bg-color);
+}
+
+/* 필요한 경우 특정 요소에 대한 추가 스타일 */
+body.dark-mode .some-specific-element {
+  border-color: var(--border-color);
 }

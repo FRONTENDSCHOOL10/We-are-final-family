@@ -22,10 +22,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0;
-    color: var(--gray-900);
+    /* color: var(--gray-900); */
     cursor: pointer;
     span {
-      color: var(--gray-800);
+      color: var(--menu-icon-color);
     }
     &:focus {
       outline-offset: -2px;
@@ -45,7 +45,7 @@
   flex-flow: column nowrap;
   li {
     padding: 0.75rem 1rem;
-    color: var(--gray-900);
+    color: var(--text-color);
     border-bottom: 1px solid var(--gray-100);
     cursor: pointer;
     &:focus {
@@ -145,4 +145,19 @@
   &:focus {
     outline-color: var(--secondary);
   }
+}
+.interestList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  list-style-type: none;
+}
+
+.interestItem {
+  background-color: var(--secondary);
+
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
 }

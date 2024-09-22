@@ -11,7 +11,7 @@ JoinPartyList.propTypes = {
   maxparty: number,
 };
 
-export function JoinPartyList({ join = 1, maxparty = 4 }) {
+export function JoinPartyList({ join = 1, maxparty }) {
   const { currentUser } = useStore();
   const { singleData } = useListStore();
   const {
