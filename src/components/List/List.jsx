@@ -1,11 +1,11 @@
+import { useEffect, useCallback, useRef, useState } from 'react';
 import ListItem from '@/components/List/ListItem';
-// import { supabase } from '@/api/supabase';
-import { useEffect } from 'react';
 import { string, bool, arrayOf } from 'prop-types';
 import Error from '@/pages/Error';
 import Fallback from '@/pages/Fallback';
 import NoneData from '@/pages/NoneData';
 import useListStore from '@/stores/useListStore';
+// import { supabase } from '@/api/supabase';
 
 // 사용 방법
 // <List type="party" />
@@ -32,13 +32,43 @@ function List({
   gender,
   age,
 }) {
-  const { data, error, isLoading, fetchData } = useListStore();
+  const { data, error, isLoading, fetchData, hasMore, resetPagination } =
+    useListStore();
+  const observer = useRef();
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const lastElementRef = useCallback(
+    (node) => {
+      if (isLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
+          setIsLoadingMore(true);
+          fetchData(type === 'party' ? 'party' : 'board').then(() => {
+            setIsLoadingMore(false);
+          });
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isLoading, hasMore, fetchData, type, isLoadingMore]
+  );
 
   useEffect(() => {
-    const tableName = type === 'party' ? 'party' : 'board';
-
-    fetchData(tableName);
-  }, [type, fetchData]);
+    resetPagination();
+    fetchData(type === 'party' ? 'party' : 'board');
+  }, [
+    type,
+    category,
+    location,
+    sortByInterest,
+    sortByLatest,
+    sortByRecruiting,
+    gender,
+    age,
+    fetchData,
+    resetPagination,
+  ]);
 
   // 필터링과 정렬 적용
   let filteredData = data;
@@ -77,7 +107,7 @@ function List({
     filteredData = filteredData.filter((item) => item.age === age);
   }
 
-  if (isLoading) return <Fallback />;
+  if (isLoading && filteredData.length === 0) return <Fallback />;
   if (error) return <Error />;
 
   const noneDataText =
@@ -96,33 +126,60 @@ function List({
   return (
     <>
       <ul role="group">
-        {/* 데이터 리스트 렌더링 */}
-        {filteredData.map((item) => {
-          return (
-            <ListItem
-              key={item.id}
-              id={item.id}
-              type={type}
-              state={
-                type === 'party'
-                  ? item.state
-                    ? '모집중'
-                    : '모집마감'
-                  : undefined
-              }
-              category={item.category}
-              title={item.title}
-              currentPeopleCount={item.people}
-              peopleCount={item.people}
-              date={item.meet_date || '날짜를 불러올 수 없습니다.'}
-              place={item.location_2 || '장소를 불러올 수 없습니다.'}
-              createDate={item.create_at}
-              onClick={() => console.log(`${item.id} 클릭됨`)}
-              boardImg={item.board_img} // board_img 추가
-            />
-          );
+        {filteredData.map((item, index) => {
+          if (filteredData.length === index + 1) {
+            return (
+              <div ref={lastElementRef} key={item.id}>
+                <ListItem
+                  id={item.id}
+                  type={type}
+                  state={
+                    type === 'party'
+                      ? item.state
+                        ? '모집중'
+                        : '모집마감'
+                      : undefined
+                  }
+                  category={item.category}
+                  title={item.title}
+                  currentPeopleCount={item.people}
+                  peopleCount={item.people}
+                  date={item.meet_date || '날짜를 불러올 수 없습니다.'}
+                  place={item.location_2 || '장소를 불러올 수 없습니다.'}
+                  createDate={item.create_at}
+                  onClick={() => console.log(`${item.id} 클릭됨`)}
+                  boardImg={item.board_img}
+                />
+              </div>
+            );
+          } else {
+            return (
+              <ListItem
+                key={item.id}
+                id={item.id}
+                type={type}
+                state={
+                  type === 'party'
+                    ? item.state
+                      ? '모집중'
+                      : '모집마감'
+                    : undefined
+                }
+                category={item.category}
+                title={item.title}
+                currentPeopleCount={item.people}
+                peopleCount={item.people}
+                date={item.meet_date || '날짜를 불러올 수 없습니다.'}
+                place={item.location_2 || '장소를 불러올 수 없습니다.'}
+                createDate={item.create_at}
+                onClick={() => console.log(`${item.id} 클릭됨`)}
+                boardImg={item.board_img}
+              />
+            );
+          }
         })}
       </ul>
+      {isLoadingMore && <Fallback />}
     </>
   );
 }

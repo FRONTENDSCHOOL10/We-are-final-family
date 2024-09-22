@@ -28,7 +28,7 @@ function ListItem({
   const memoizedFetchCounts = useCallback(() => {
     if (type === 'board') {
       fetchViewCount(id);
-      fetchCommentCount(id);
+      // fetchCommentCount(id);
     }
   }, [type, id, fetchViewCount, fetchCommentCount]);
 
