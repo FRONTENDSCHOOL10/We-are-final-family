@@ -37,6 +37,8 @@ export const useStore = create((set, get) => ({
 
       if (existingRoom && existingRoom.length > 0) {
         set({ currentRoom: existingRoom[0] });
+        console.log(existingRoom);
+
         return existingRoom[0];
       } else {
         set({ currentRoom: null });
@@ -58,28 +60,50 @@ export const useStore = create((set, get) => ({
     try {
       const { data: existingRoom, error: fetchError } = await supabase
         .from('chat_rooms')
-        .select('*')
+        .select(
+          '*, user1:users!chat_rooms_user1_id_fkey(username), user2:users!chat_rooms_user2_id_fkey(username)'
+        )
         .or(`user1_id.eq.${currentUser},user2_id.eq.${currentUser}`)
         .or(`user1_id.eq.${selectedUser},user2_id.eq.${selectedUser}`)
         .limit(1);
 
       if (fetchError) throw new Error('채팅방을 불러오는 중 오류 발생');
 
+      // 채팅방이 있을 경우 otherUser 정보 추가 후 반환
       if (existingRoom && existingRoom.length > 0) {
-        set({ currentRoom: existingRoom[0] });
-        return existingRoom[0];
+        const processedRoom = {
+          ...existingRoom[0],
+          otherUser:
+            existingRoom[0].user1_id === currentUser
+              ? existingRoom[0].user2
+              : existingRoom[0].user1,
+        };
+
+        set({ currentRoom: processedRoom });
+        return processedRoom;
       }
 
       const { data: newRoom, error: insertError } = await supabase
         .from('chat_rooms')
         .insert([{ user1_id: currentUser, user2_id: selectedUser }])
-        .select()
+        .select(
+          '*, user1:users!chat_rooms_user1_id_fkey(username), user2:users!chat_rooms_user2_id_fkey(username)'
+        )
         .single();
 
-      if (insertError) throw new Error('채팅방 생성 오류');
+      if (insertError) {
+        throw new Error('채팅방 생성 오류');
+      }
 
-      set({ currentRoom: newRoom });
-      return newRoom;
+      // otherUser 정보를 포함한 새로 생성된 채팅방 설정 및 반환
+      const processedNewRoom = {
+        ...newRoom,
+        otherUser:
+          newRoom.user1_id === currentUser ? newRoom.user2 : newRoom.user1,
+      };
+
+      set({ currentRoom: processedNewRoom });
+      return processedNewRoom;
     } catch (error) {
       console.error('Error in fetchOrCreateChatRoom:', error.message);
       return null;

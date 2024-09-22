@@ -9,7 +9,7 @@ ProfileTitle.propTypes = {
 export function ProfileTitle({ children, name = '이름', className }) {
   return (
     <>
-      <div className={`${S.component} ${S.dw} lbl-md`}>
+      <div className={`${S.component} lbl-md`} style={{ position: 'relative' }}>
         <div className={className}>{name}</div>
         <span className="para-util">{children}</span>
       </div>

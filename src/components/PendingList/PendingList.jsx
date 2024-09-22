@@ -81,8 +81,15 @@ export function PendingList({ join = 1 }) {
             userId={item.id}
             currentUser={currentUser}
             writer={singleData.user_id}
-            onClick={() => handleClick(singleData.id, item.id)}
-            cancelClick={() => cancelClick(singleData.id, item.id)}
+            onClick={() => {
+              handleClick(singleData.id, item.id);
+            }}
+            cancelClick={() => {
+              cancelClick(singleData.id, item.id);
+            }}
+            showModal={() => {
+              console.log(item);
+            }}
           />
         );
       })}
