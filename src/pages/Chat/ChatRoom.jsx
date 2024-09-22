@@ -4,10 +4,10 @@ import { AutoSizer, List } from 'react-virtualized';
 import S from './ChatRoom.module.css';
 import Header from '@/components/App/Header';
 import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
-import SendMessage from '@/components/SendMessage/SendMessage';
 import { useStore } from '@/stores/chatStore';
 import { formatDate } from '@/utils/formatDate';
 import Spinner from '@/components/App/Spinner';
+import ChatSendMessages from './ChatSendMessages';
 
 function ChatRoom() {
   const {
@@ -24,6 +24,7 @@ function ChatRoom() {
   const listRef = useRef();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [isNewRoom, setIsNewRoom] = useState(false); // 새 방인지 여부 확인
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -32,23 +33,28 @@ function ChatRoom() {
 
   useEffect(() => {
     const loadRoom = async () => {
-      if (id) {
+      if (id === 'new') {
+        // 'new'인 경우 새로운 채팅방 생성 준비
+        setIsNewRoom(true);
+        setIsLoading(false);
+      } else if (id) {
         setIsLoading(true);
         await fetchChatRoomById(id);
         setIsLoading(false);
       }
     };
+
     loadRoom();
   }, [id, fetchChatRoomById]);
 
   useEffect(() => {
     const loadMessages = async () => {
-      if (currentRoom) {
+      if (currentRoom && !isNewRoom) {
         await fetchMessages();
       }
     };
     loadMessages();
-  }, [currentRoom, fetchMessages]);
+  }, [currentRoom, fetchMessages, isNewRoom]);
 
   useEffect(() => {
     const unsubscribe = subscribeToMessages();
@@ -94,15 +100,16 @@ function ChatRoom() {
     return <Spinner />;
   }
 
-  if (!currentRoom) {
+  if (!currentRoom && !isNewRoom) {
     return <div>채팅방을 찾을 수 없습니다.</div>;
   }
+  console.log(currentRoom);
 
   return (
     <>
       <Header
         back={true}
-        contactName={currentRoom.otherUser?.username || '알 수 없음'}
+        contactName={currentRoom?.otherUser?.username || '알 수 없음'}
         actions={[{ icon: 'i_search', onClick: handleSearchButton }]}
       />
 
@@ -120,7 +127,7 @@ function ChatRoom() {
             />
           )}
         </AutoSizer>
-        <SendMessage />
+        <ChatSendMessages />
       </main>
     </>
   );

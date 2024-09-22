@@ -87,6 +87,9 @@ export function PendingList({ join = 1 }) {
             cancelClick={() => {
               cancelClick(singleData.id, item.id);
             }}
+            showModal={() => {
+              console.log(item);
+            }}
           />
         );
       })}
