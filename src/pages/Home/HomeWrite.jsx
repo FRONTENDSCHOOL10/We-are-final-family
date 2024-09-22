@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
 import S from './HomeWrite.module.css';
 import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
@@ -12,6 +13,7 @@ import { toKoreanTime, fromKoreanTime } from '@/utils/formatDate';
 
 function HomeWrite() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
   const {
     title,
     interest,
@@ -21,6 +23,7 @@ function HomeWrite() {
     date,
     time,
     location,
+    image,
     setTitle,
     setInterest,
     setCategory,
@@ -29,16 +32,35 @@ function HomeWrite() {
     setDate,
     setTime,
     setLocation,
+    setImage,
     isFormValid,
   } = useHomeWriteStore();
 
   const handlePictureClick = () => {
-    console.log('이미지 업로드 버튼 클릭');
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleNextClick = () => {
     // 여기서 로컬 스토리지 저장은 Zustand의 persist 미들웨어가 자동으로 처리합니다.
-    navigate('/home/writenext');
+    navigate('/home/write/2');
   };
   const dateValue =
     typeof date === 'string'
@@ -50,6 +72,13 @@ function HomeWrite() {
       <Header
         back={true}
         actions={[{ icon: 'i_picture_line', onClick: handlePictureClick }]}
+      />
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+        accept="image/*"
       />
       <main className={S.homeWrite}>
         <div className={S.writeWrap}>
@@ -86,6 +115,16 @@ function HomeWrite() {
             value={description} // content를 description으로 변경
             onChange={(e) => setDescription(e.target.value)} // setContent를 setDescription으로 변경
           ></textarea>
+
+          {image && (
+            <div className={S.imagePreview}>
+              <img src={image} alt="업로드된 이미지" />
+              <button className={S.removeImageBtn} onClick={handleRemoveImage}>
+                <span className="i_close" />
+              </button>
+            </div>
+          )}
+
           <div className="imgBox"></div>
 
           <PersonnelCounter

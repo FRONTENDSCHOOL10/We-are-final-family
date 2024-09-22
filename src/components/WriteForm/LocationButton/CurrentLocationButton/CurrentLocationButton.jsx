@@ -33,21 +33,19 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
         if (data.documents && data.documents.length > 0) {
           const region2depthName = data.documents[0].region_2depth_name;
           const region3depthName = data.documents[0].region_3depth_name;
-          const region4depthName = data.documents[0].region_4depth_name;
 
           // 전체 지역 이름 조합 (예: 서울특별시 강남구 삼성동)
-          const fullRegionName = `${region4depthName}`.trim();
+          const fullRegionName = `${region3depthName}`.trim();
 
           // 버튼에 표시할 지역 이름 (region4depthName)
-          setButtonText(region4depthName);
+
           setIsLocationSet(true);
 
           // 로컬 스토리지에 region2depthName와 region3depthName 저장
           localStorage.setItem('region2depthName', region2depthName);
-          localStorage.setItem('region3depthName', region3depthName);
 
           if (onLocationUpdate) {
-            onLocationUpdate(fullRegionName, region4depthName);
+            onLocationUpdate(fullRegionName);
           }
         } else {
           setButtonText('위치 이름을 가져올 수 없음');

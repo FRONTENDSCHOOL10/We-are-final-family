@@ -14,6 +14,7 @@ const useHomeWriteStore = create(
       location: '',
       gender: '누구나',
       age: '누구나',
+
       setTitle: (title) => set({ title }),
       setInterest: (interest) => set({ interest }),
       setCategory: (category) => set({ category }),
@@ -24,6 +25,8 @@ const useHomeWriteStore = create(
       setLocation: (location) => set({ location }),
       setGender: (gender) => set({ gender }),
       setAge: (age) => set({ age }),
+      image: null,
+      setImage: (image) => set({ image }),
 
       reset: () => {
         set({
@@ -37,6 +40,7 @@ const useHomeWriteStore = create(
           location: '',
           gender: '누구나',
           age: '누구나',
+          image: null,
         });
 
         localStorage.removeItem('home-write-storage');

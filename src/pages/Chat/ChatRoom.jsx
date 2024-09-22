@@ -20,6 +20,7 @@ function ChatRoom() {
     setCurrentRoom,
     setMessages,
     fetchChatRoomById,
+    sendMessage,
   } = useStore();
   const listRef = useRef();
   const { id } = useParams();
@@ -90,6 +91,24 @@ function ChatRoom() {
       );
     },
     [messages, currentUser]
+  );
+
+  const handleSendMessage = useCallback(
+    async (newMessage) => {
+      if (newMessage.trim()) {
+        try {
+          await sendMessage(newMessage);
+          // 메시지 전송 후 스크롤을 맨 아래로 이동
+          if (listRef.current) {
+            listRef.current.scrollToRow(messages.length);
+          }
+        } catch (error) {
+          console.error('Failed to send message:', error);
+          // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+        }
+      }
+    },
+    [sendMessage, messages.length]
   );
 
   const handleSearchButton = () => {
