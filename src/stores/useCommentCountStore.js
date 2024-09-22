@@ -7,7 +7,7 @@ const useCommentCountStore = create((set) => ({
     try {
       const { count, error } = await supabase
         .from('board_comment')
-        .select('*', { count: 'exact', head: true })
+        .select('*', { count: 'exact', head: false })
         .eq('board_id', boardId);
 
       if (error) throw error;
