@@ -1,26 +1,11 @@
+import { useCallback, useEffect } from 'react';
+import { string, number, func } from 'prop-types';
+import { Link } from 'react-router-dom';
 import Badge from '@/components/Badge/Badge';
 import S from './ListItem.module.css';
-import { string, number, func } from 'prop-types';
 import { formatDateWithYear, formatTimeAgo } from '@/utils/formatDate';
-import { Link } from 'react-router-dom';
 import useViewCountStore from '@/stores/useViewCountStore';
 import useCommentCountStore from '@/stores/useCommentCountStore';
-import { useEffect } from 'react';
-
-ListItem.propTypes = {
-  id: string,
-  type: string.isRequired,
-  state: string,
-  category: string,
-  title: string,
-  currentPeopleCount: number,
-  peopleCount: number,
-  date: string,
-  place: string,
-  createDate: string,
-  onClick: func,
-  boardImg: string,
-};
 
 function ListItem({
   id,
@@ -40,12 +25,16 @@ function ListItem({
     useViewCountStore();
   const { commentCounts, fetchCommentCount } = useCommentCountStore();
 
-  useEffect(() => {
+  const memoizedFetchCounts = useCallback(() => {
     if (type === 'board') {
       fetchViewCount(id);
       fetchCommentCount(id);
     }
-  }, [type, id, fetchViewCount]);
+  }, [type, id, fetchViewCount, fetchCommentCount]);
+
+  useEffect(() => {
+    memoizedFetchCounts();
+  }, [memoizedFetchCounts]);
 
   const badgePartyVariant =
     type === 'party'
@@ -155,5 +144,20 @@ function ListItem({
 
   return null;
 }
+
+ListItem.propTypes = {
+  id: string.isRequired,
+  type: string.isRequired,
+  state: string,
+  category: string,
+  title: string,
+  currentPeopleCount: number,
+  peopleCount: number,
+  date: string,
+  place: string,
+  createDate: string,
+  onClick: func,
+  boardImg: string,
+};
 
 export default ListItem;

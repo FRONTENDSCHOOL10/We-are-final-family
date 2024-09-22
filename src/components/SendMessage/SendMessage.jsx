@@ -1,8 +1,8 @@
-import { SendEmoji } from './Icone/SendEmoji';
-import { SendImg } from './Icone/SnedImg';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import S from './SendMessage.module.css';
 import IconButton from '@/components/IconButton/IconButton';
+import { SendEmoji } from './Icone/SendEmoji';
+import { SendImg } from './Icone/SnedImg';
 import PropTypes from 'prop-types';
 
 function SendMessage({ onSendMessage }) {
@@ -23,7 +23,6 @@ function SendMessage({ onSendMessage }) {
   const focusInput = useCallback(() => {
     if (inputRef.current) {
       console.log('Attempting to focus input');
-      // 포커스 설정을 약간 지연시킵니다.
       focusTimeoutRef.current = setTimeout(() => {
         inputRef.current.focus();
         console.log('Focus attempt completed');
@@ -36,10 +35,16 @@ function SendMessage({ onSendMessage }) {
   const handleSendClick = useCallback(async () => {
     if (newMessage.trim() && !isSubmitting) {
       setIsSubmitting(true);
-      await onSendMessage(newMessage);
-      setNewMessage('');
-      setIsSubmitting(false);
-      focusInput();
+      try {
+        await onSendMessage(newMessage);
+        setNewMessage('');
+      } catch (error) {
+        console.error('Failed to send message:', error);
+        // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+      } finally {
+        setIsSubmitting(false);
+        focusInput();
+      }
     }
   }, [newMessage, isSubmitting, onSendMessage, focusInput]);
 
