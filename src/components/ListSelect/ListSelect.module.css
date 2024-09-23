@@ -1,13 +1,10 @@
-.con {
-  /* position: relative; */
-}
-
 .selectWrapper {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
   align-items: center;
   gap: 1rem;
+  color: var(--gray-900);
   border-bottom: 0.0625rem solid var(--gray-100);
   background-color: var(--white);
   cursor: pointer;
@@ -59,24 +56,22 @@
 .title {
   display: flex;
   width: 100%;
+  color: var(--gray-900);
 }
 
 .closeButtonWrapper {
-  display: flex;
-  align-items: c;
   position: sticky;
   top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   width: 100%;
   box-sizing: border-box;
-  gap: 1rem;
-  background-color: white;
-  padding: 0.5rem 1rem;
-  display: flex;
+  padding: 1rem;
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
-  justify-content: space-between;
-  align-items: center;
-  /* z-index: 1; */
+  background-color: var(--white);
 }
 
 .closeButton {
@@ -86,10 +81,11 @@
   border: none;
   cursor: pointer;
   border-radius: 100rem;
+  color: var(--gray-900);
 }
 
 .closeButton:hover {
-  background-color: var(--gray-100);
+  color: var(--primary);
 }
 
 .optionList {
@@ -149,4 +145,64 @@
 }
 .contanierBtn {
   z-index: 1;
+}
+
+[data-theme='dark'] {
+  .selectWrapper {
+    color: var(--gray-100);
+    border-bottom: 0.0625rem solid var(--gray-800);
+    background-color: var(--black);
+  }
+  .selectWrapper:hover {
+    background-color: var(--gray-800);
+  }
+
+  .icon {
+    color: var(--gray-400);
+  }
+
+  .optionListWrapper::before {
+    background-color: rgba(0, 0, 0, 0.75);
+    opacity: 1;
+  }
+
+  .title {
+    color: var(--gray-100);
+  }
+
+  .closeButtonWrapper {
+    background-color: var(--gray-900);
+  }
+
+  .closeButton {
+    color: var(--gray-600);
+  }
+
+  .closeButton:hover {
+    color: var(--gray-100);
+  }
+
+  .optionList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    overflow-y: auto;
+    max-height: calc(80vh - 44px); /* 닫기 버튼 높이를 뺀 값 */
+    position: relative;
+    /* z-index: 1; */
+  }
+  .optionList::before {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .optionItem {
+    color: var(--gray-200);
+    border-bottom: 0.0625rem solid var(--gray-800);
+    background-color: var(--gray-900);
+  }
+
+  .optionItem:hover {
+    color: var(--gray-100);
+    background-color: var(--gray-800);
+  }
 }

@@ -32,3 +32,14 @@
     background-color: var(--primary);
   }
 }
+
+[data-theme='dark'] {
+  .floating_btn {
+    background-color: var(--gray-800);
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.75);
+
+    &:hover {
+      background-color: var(--gray-700);
+    }
+  }
+}

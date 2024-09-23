@@ -59,6 +59,9 @@
 }
 
 .state {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
   padding: 1rem;
 }
 
@@ -76,4 +79,19 @@
   width: 70%;
   height: 100%;
   object-fit: cover;
+}
+
+[data-theme='dark'] {
+  .postContent {
+    ul {
+      li {
+        span {
+          color: var(--gray-400);
+        }
+      }
+    }
+    p {
+      color: var(--gray-200);
+    }
+  }
 }

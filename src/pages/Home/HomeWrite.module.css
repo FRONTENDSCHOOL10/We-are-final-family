@@ -21,7 +21,9 @@
     height: 24vh;
     margin: 0.125rem;
     padding: 0.75rem 1rem;
+    color: var(--gray-900);
     border: none;
+    background-color: transparent;
     &:focus {
       outline-color: var(--secondary);
     }
@@ -36,7 +38,10 @@
   input {
     box-sizing: border-box;
     padding: 1rem 1rem;
+    color: var(--gray-900);
     border: none;
+    background-color: transparent;
+
     &:focus {
       outline-color: var(--secondary);
     }
@@ -96,4 +101,57 @@
 .removeImageBtn span {
   color: var(--gray-900);
   font-size: 1rem;
+}
+
+[data-theme='dark'] {
+  .writeWrap {
+    textarea {
+      color: var(--gray-100);
+      &:focus {
+        outline-color: var(--secondary);
+      }
+    }
+  }
+
+  .inputTitle {
+    input {
+      color: var(--gray-100);
+      &:focus {
+        outline-color: var(--secondary);
+      }
+    }
+  }
+
+  .selectOptions {
+    li {
+      span {
+        color: var(--gray-900);
+      }
+    }
+  }
+
+  .removeImageBtn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--gray-800);
+    transition: background-color 0.3s ease;
+  }
+
+  .removeImageBtn:hover {
+    background-color: var(--gray-600);
+  }
+
+  .removeImageBtn span {
+    color: var(--gray-100);
+    font-size: 1rem;
+  }
 }

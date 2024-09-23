@@ -12,3 +12,13 @@
     }
   }
 }
+
+[data-theme='dark'] {
+  .chat {
+    ul {
+      li {
+        border-bottom: 1px solid var(--gray-800);
+      }
+    }
+  }
+}

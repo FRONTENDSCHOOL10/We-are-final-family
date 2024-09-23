@@ -98,7 +98,7 @@ function ListSelect({
         {isOpen && (
           <div className={S.optionListWrapper}>
             <div className={S.closeButtonWrapper}>
-              <span className={`${S.title} para-md`}>{title}</span>
+              <span className={`${S.title} lbl-md`}>{title}</span>
               <button
                 className={S.closeButton}
                 onClick={() => setIsOpen(false)}

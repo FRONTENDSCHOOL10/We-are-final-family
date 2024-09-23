@@ -19,3 +19,12 @@
     outline: 2px solid var(--secondary);
   }
 }
+
+[data-theme='dark'] {
+  .icon_btn {
+    background-color: var(--black);
+    span {
+      color: var(--gray-200);
+    }
+  }
+}

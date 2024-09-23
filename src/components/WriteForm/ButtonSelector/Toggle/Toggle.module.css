@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.25rem 0rem;
+
+  p {
+    color: var(--gray-900);
+  }
 }
 
 .toggleContainer {
@@ -57,4 +61,27 @@
   left: calc(100% - 50%);
   background: var(--white);
   transition: all 0.2s ease-in;
+}
+
+[data-theme='dark'] {
+  .container {
+    p {
+      color: var(--gray-100);
+    }
+  }
+  .toggleLabel {
+    background-color: var(--gray-700);
+  }
+
+  .toggleButton {
+    background: var(--white);
+  }
+
+  .toggleCheckbox:checked + .toggleLabel {
+    background: var(--primary);
+  }
+
+  .toggleCheckbox:checked + .toggleLabel .toggleButton {
+    background: var(--white);
+  }
 }

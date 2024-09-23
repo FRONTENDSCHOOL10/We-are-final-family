@@ -24,7 +24,7 @@
 }
 
 .closeButton:hover {
-  background-color: var(--secondary);
+  color: var(--primary);
 }
 
 .modalOverlay {
@@ -33,18 +33,18 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: flex-end; /* 변경: 하단 정렬 */
   z-index: 10;
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .modalContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: var(--white);
   padding: 1rem;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
@@ -61,5 +61,40 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+
+[data-theme='dark'] {
+  .container {
+    color: var(--gray-100);
+  }
+  .label {
+    color: var(--gray-100);
+  }
+
+  .locationText {
+    color: var(--gray-100);
+  }
+
+  .closeButton {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 100rem;
+    color: var(--gray-600);
+    cursor: pointer;
+  }
+
+  .closeButton:hover {
+    color: var(--gray-100);
+  }
+
+  .modalOverlay {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+
+  .modalContent {
+    background-color: var(--gray-900);
   }
 }

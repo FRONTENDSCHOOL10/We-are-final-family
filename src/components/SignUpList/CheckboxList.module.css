@@ -90,3 +90,31 @@
 .agreementInfoText {
   color: var(--primary);
 }
+
+[data-theme='dark'] {
+  .checkboxContainer {
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .label {
+    color: var(--gray-200);
+  }
+
+  .icon {
+    color: var(--gray-300);
+    border: 1px solid var(--gray-700);
+    background-color: var(--gray-800);
+  }
+
+  .expandButton {
+    color: var(--secondary);
+  }
+
+  .agreementInfo {
+    color: var(--gray-400);
+  }
+
+  .agreementInfoText {
+    color: var(--secondary);
+  }
+}

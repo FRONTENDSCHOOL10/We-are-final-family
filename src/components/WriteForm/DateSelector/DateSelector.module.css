@@ -5,11 +5,18 @@
   padding: 0.5rem 1rem;
 }
 
+.labelContainer {
+  span {
+    color: var(--gray-900);
+  }
+}
+
 .dateSelector {
   position: relative;
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  color: var(--gray-900);
 }
 
 .icon {
@@ -17,13 +24,32 @@
   cursor: pointer;
 }
 
-.iconFilled {
-  /* color: var(--primary); */
-}
-
 .calendarWrapper {
   position: absolute;
   top: 100%;
   transform: translateX(-100%);
   z-index: 1;
+}
+
+[data-theme='dark'] {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+
+  .labelContainer {
+    span {
+      color: var(--gray-100);
+    }
+  }
+
+  .dateSelector {
+    color: var(--gray-100);
+  }
+
+  .icon {
+    color: var(--gray-500);
+  }
 }

@@ -13,3 +13,14 @@
     }
   }
 }
+
+[data-theme='dark'] {
+  .component {
+    h3 {
+      color: var(--gray-100);
+      span {
+        color: var(--secondary);
+      }
+    }
+  }
+}

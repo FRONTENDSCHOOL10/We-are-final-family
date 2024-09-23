@@ -279,7 +279,8 @@ function Profile() {
       label: `${theme === 'light' ? '다크' : '라이트'} 모드`,
       onClick: () => {
         toggleTheme();
-        document.body.classList.toggle('dark-mode', theme === 'light');
+        // document.body.classList.toggle('dark-mode', theme === 'light');
+        document.documentElement.setAttribute('data-theme', theme);
       },
     },
     { label: '공지사항', onClick: () => console.log('공지사항 클릭') },
@@ -325,7 +326,7 @@ function Profile() {
         </ul>
         <ul className={`${S.interestList} para-sm`}>
           {selectedInterests.map((interest, index) => (
-            <li key={index} className={S.interestItem}>
+            <li key={index} className={`${S.interestItem} para-md`}>
               {interest}
             </li>
           ))}

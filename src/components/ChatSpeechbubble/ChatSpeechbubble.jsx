@@ -15,38 +15,13 @@ export function ChatSpeechbubble({
 }) {
   return userId ? (
     <div className={S.component}>
-      <div
-        className="para-sm"
-        style={{
-          color: 'var(--gray-400)',
-          background: 'white',
-          padding: '0',
-          marginRight: '0.25rem',
-        }}
-      >
-        {time}
-      </div>{' '}
-      <div className="para-md">{mychatdata}</div>
+      <div className={`${S.time} para-sm`}>{time}</div>{' '}
+      <div className={`${S.bubble} para-md`}>{mychatdata}</div>
     </div>
   ) : (
-    <div className={S.othercomponent}>
-      <div
-        style={{ background: 'var(--gray-100)', color: 'var(--black)' }}
-        className="para-md"
-      >
-        {mychatdata}
-      </div>
-      <div
-        className="para-sm"
-        style={{
-          color: 'var(--gray-400)',
-          background: 'white',
-          padding: '0',
-          marginLeft: '0.25rem',
-        }}
-      >
-        {time}
-      </div>
+    <div className={`${S.component} ${S.other}`}>
+      <div className={`${S.bubble} para-md`}>{mychatdata}</div>
+      <div className={`${S.time} para-sm`}>{time}</div>
     </div>
   );
 }

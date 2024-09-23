@@ -35,3 +35,27 @@
     color: var(--primary);
   }
 }
+
+[data-theme='dark'] {
+  .nav {
+    border-top: 1px solid var(--gray-800);
+  }
+
+  .btnCon {
+    color: var(--gray-400);
+
+    &:hover {
+      color: var(--secondary);
+    }
+    &:active {
+      color: var(--secondary);
+    }
+  }
+
+  .activeBtn {
+    color: var(--secondary);
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+}

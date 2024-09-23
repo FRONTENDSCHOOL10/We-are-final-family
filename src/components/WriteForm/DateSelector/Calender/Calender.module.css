@@ -88,6 +88,7 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
+  color: var(--gray-900);
   border: none;
   background-color: var(--white);
   &:focus {
@@ -125,21 +126,62 @@
 }
 
 .pastDate:hover {
-  background-color: transparent;
   color: var(--gray-300);
-}
-
-/* .arrow:hover,
-.closeButton {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
   background-color: transparent;
-  border: none;
-  border-radius: 10rem;
 }
 
-.arrow:hover,
-.closeButton:hover {
-  background-color: var(--secondary);
-} */
+[data-theme='dark'] {
+  .calendarWrapper {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+  .calendar {
+    background-color: var(--gray-900);
+  }
+
+  .closeBtn {
+    button {
+      background-color: rgba(0, 0, 0, 0.5);
+      span {
+        color: var(--white);
+      }
+    }
+  }
+
+  .header {
+    color: var(--gray-100);
+  }
+
+  .weekday {
+    color: var(--gray-200);
+  }
+
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    color: var(--gray-100);
+  }
+
+  .day,
+  .emptyDay {
+    color: var(--gray-100);
+    background-color: var(--gray-800);
+    &:focus {
+      outline-color: var(--secondary);
+    }
+  }
+
+  .day:hover {
+    background-color: var(--secondary);
+    color: var(--white);
+  }
+
+  .pastDate {
+    color: var(--gray-600);
+  }
+
+  .pastDate:hover {
+    color: var(--gray-600);
+    background-color: var(--gray-800);
+  }
+}

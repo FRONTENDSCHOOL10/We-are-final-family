@@ -8,7 +8,8 @@ function App() {
   const { theme } = useThemeStore();
 
   useEffect(() => {
-    document.body.classList.toggle('dark-mode', theme === 'dark');
+    // document.body.classList.toggle('dark-mode', theme === 'dark');
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (

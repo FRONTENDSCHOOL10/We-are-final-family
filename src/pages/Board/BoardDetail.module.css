@@ -69,3 +69,18 @@
   object-fit: cover;
   border-radius: 0.5rem;
 }
+
+[data-theme='dark'] {
+  .postContent {
+    ul {
+      li {
+        span {
+          color: var(--gray-400);
+        }
+      }
+    }
+    p {
+      color: var(--gray-200);
+    }
+  }
+}
