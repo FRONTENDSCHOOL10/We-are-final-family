@@ -83,7 +83,7 @@ function ChatRoom() {
       setCurrentRoom(null);
       console.log(currentRoom);
     };
-  }, [setCurrentRoom]);
+  }, [setCurrentRoom, currentRoom]);
 
   //컴포넌트 언마운트시 메시지값 초기화
   useEffect(() => {

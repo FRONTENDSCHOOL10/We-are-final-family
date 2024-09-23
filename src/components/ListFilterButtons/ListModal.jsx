@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import S from './ListModal.module.css';
 import { CategoryOptions } from '@/components/ListSelect/data/CategorySelectData';
@@ -77,5 +78,10 @@ function CategoryModal({ isOpen, onClose }) {
     </div>
   );
 }
+
+CategoryModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default CategoryModal;
