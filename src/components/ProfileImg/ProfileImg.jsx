@@ -16,11 +16,10 @@ export function ProfileImg({
   display = 'none',
   onClick,
 }) {
-  console.log('🚀 ~ image:', image);
-  const defaultImage = '/src/assets/testImg/bonobobono.jpeg';
+  const defaultImage = '/bonobobono.webp';
 
   const styled = {
-    backgroundImage: `url(${image || defaultImage})`,
+    backgroundImage: `url(${image ? image : defaultImage})`,
     maxWidth: width,
     maxHeight: height,
     backgroundSize: 'cover',
