@@ -203,9 +203,9 @@ function BoardWrite() {
 
     if (error) {
       toast.error(
-        `게시글 ${isEditMode ? '수정' : '작성'} 중 오류가 발생했습니다: ${
-          error.message
-        }`
+        `게시글 
+        ${isEditMode ? '수정' : '작성'} 중 오류가 발생했습니다: ${error.message}
+        `
       );
     }
   };
