@@ -6,8 +6,8 @@ import Header from '@/components/App/Header';
 import { ChatSpeechbubble } from '@/components/ChatSpeechbubble/ChatSpeechbubble';
 import { useStore } from '@/stores/chatStore';
 import { formatDate } from '@/utils/formatDate';
-import Spinner from '@/components/App/Spinner';
 import ChatSendMessages from './ChatSendMessages';
+import { Fallback } from '..';
 
 function ChatRoom() {
   const {
@@ -81,9 +81,8 @@ function ChatRoom() {
   useEffect(() => {
     return () => {
       setCurrentRoom(null);
-      console.log(currentRoom);
     };
-  }, [setCurrentRoom, currentRoom]);
+  }, [setCurrentRoom]);
 
   //컴포넌트 언마운트시 메시지값 초기화
   useEffect(() => {
@@ -119,13 +118,12 @@ function ChatRoom() {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return <Fallback />;
   }
 
   if (!currentRoom && !isNewRoom) {
     return <div>채팅방을 찾을 수 없습니다.</div>;
   }
-  console.log(currentRoom);
 
   return (
     <>

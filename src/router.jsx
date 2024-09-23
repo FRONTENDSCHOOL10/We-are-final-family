@@ -22,14 +22,11 @@ import {
   Error,
 } from '@/pages';
 
-import Test from '@/Test'; // 테스트 완료 시 제거
-
 export const routes = [
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      { path: 'test', element: <Test /> }, // 테스트 완료 시 제거
       { path: '', element: <Intro /> },
       { path: 'login', text: '로그인', element: <Login /> },
       {

@@ -1,7 +1,7 @@
 import S from './SendEmoji.module.css';
 import PropTypes from 'prop-types';
 
-function SendEmoji({ onClick }) {
+export function SendEmoji({ onClick }) {
   return (
     <button
       type="button"
@@ -17,5 +17,3 @@ function SendEmoji({ onClick }) {
 SendEmoji.propTypes = {
   onClick: PropTypes.func,
 };
-
-export default SendEmoji;

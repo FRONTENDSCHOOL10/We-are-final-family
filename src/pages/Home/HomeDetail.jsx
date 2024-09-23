@@ -12,6 +12,7 @@ import { usePartyStore } from '@/stores/usePartyStore';
 import { formatDateWithTime } from '@/utils/formatDate';
 import { supabase } from '@/api/supabase';
 import toast, { Toaster } from 'react-hot-toast';
+import { Fallback } from '..';
 
 function HomeDetail() {
   const [isLiked, setIsLiked] = useState(false);
@@ -56,7 +57,7 @@ function HomeDetail() {
     };
   }, [setSingleData, updatePendingArray]);
 
-  if (isLoading) return <p>로딩 중...</p>;
+  if (isLoading) return <Fallback />;
   if (error) return <p>에러: {error}</p>;
   if (!singleData) return <p>데이터가 없습니다.</p>;
 
