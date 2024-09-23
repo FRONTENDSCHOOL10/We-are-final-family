@@ -56,7 +56,7 @@
 <details><summary>위치기반 서비스</summary>
 
 
-<img src='https://github.com/user-attachments/assets/96dc42a0-89f2-48b1-8562-e2876fcd6fec'  width="375" height="667"
+<img src='https://github.com/user-attachments/assets/96dc42a0-89f2-48b1-8562-e2876fcd6fec'  width="375" height="667" />
 
 
 - 현재위치 기반으로 해당위치 주변 게시글만 랜더링
