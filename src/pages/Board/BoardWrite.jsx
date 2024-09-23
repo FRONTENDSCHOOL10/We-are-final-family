@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import S from './BoardWrite.module.css';
 import Header from '@/components/App/Header';
 import Button from '@/components/Button/Button';
 import ListSelect from '@/components/ListSelect/ListSelect';
 import { supabase } from '@/api/supabase';
 import toast, { Toaster } from 'react-hot-toast';
+import PropTypes from 'prop-types';
 
 function BoardWrite() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -13,33 +14,68 @@ function BoardWrite() {
   const [content, setContent] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const savedData = localStorage.getItem('boardWriteTemp');
-    if (savedData) {
-      const { category, title, content, imagePreview } = JSON.parse(savedData);
-      setSelectedCategory(category);
-      setTitle(title);
-      setContent(content);
-      setImagePreview(imagePreview);
+    const query = new URLSearchParams(location.search);
+    const editId = query.get('edit');
+    if (editId) {
+      setIsEditMode(true);
+      fetchBoardData(atob(editId));
+    } else {
+      const savedData = localStorage.getItem('boardWriteTemp');
+      if (savedData) {
+        const { category, title, content, imagePreview } =
+          JSON.parse(savedData);
+        setSelectedCategory(category);
+        setTitle(title);
+        setContent(content);
+        setImagePreview(imagePreview);
+      }
     }
 
     return () => {
-      localStorage.removeItem('boardWriteTemp');
+      if (!isEditMode) {
+        localStorage.removeItem('boardWriteTemp');
+      }
     };
-  }, []);
+  }, [location]);
 
   useEffect(() => {
-    const tempData = JSON.stringify({
-      category: selectedCategory,
-      title,
-      content,
-      imagePreview,
-    });
-    localStorage.setItem('boardWriteTemp', tempData);
-  }, [selectedCategory, title, content, imagePreview]);
+    if (!isEditMode) {
+      const tempData = JSON.stringify({
+        category: selectedCategory,
+        title,
+        content,
+        imagePreview,
+      });
+      localStorage.setItem('boardWriteTemp', tempData);
+    }
+  }, [selectedCategory, title, content, imagePreview, isEditMode]);
+
+  const fetchBoardData = async (id) => {
+    const { data, error } = await supabase
+      .from('board')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching board data:', error);
+      toast.error('게시글을 불러오는데 실패했습니다.');
+      return;
+    }
+
+    setSelectedCategory(data.category);
+    setTitle(data.title);
+    setContent(data.content);
+    if (data.board_img) {
+      setImagePreview(data.board_img);
+    }
+  };
 
   const handlePictureClick = () => {
     fileInputRef.current.click();
@@ -113,26 +149,45 @@ function BoardWrite() {
           .getPublicUrl(filePath);
 
         boardImg = urlData.publicUrl;
+      } else if (imagePreview && isEditMode) {
+        boardImg = imagePreview;
       }
 
-      const { data: boardData, error: boardError } = await supabase
-        .from('board')
-        .insert({
-          category: selectedCategory,
-          title,
-          content,
-          user_id: user.id,
-          username: userData.username,
-          board_img: boardImg,
-        })
-        .select()
-        .single();
+      const boardData = {
+        category: selectedCategory,
+        title,
+        content,
+        user_id: user.id,
+        username: userData.username,
+        board_img: boardImg,
+      };
+
+      let result;
+      if (isEditMode) {
+        const editId = atob(new URLSearchParams(location.search).get('edit'));
+        result = await supabase
+          .from('board')
+          .update(boardData)
+          .eq('id', editId)
+          .select()
+          .single();
+      } else {
+        result = await supabase
+          .from('board')
+          .insert(boardData)
+          .select()
+          .single();
+      }
+
+      const { data: boardResult, error: boardError } = result;
 
       if (boardError) throw boardError;
 
-      if (boardData) {
+      if (boardResult) {
         toast.success(
-          `게시글 "${boardData.title}"이(가) 성공적으로 작성되었습니다. (ID: ${boardData.id})`
+          `게시글 "${boardResult.title}"이(가) 성공적으로 ${
+            isEditMode ? '수정' : '작성'
+          }되었습니다. (ID: ${boardResult.id})`
         );
         localStorage.removeItem('boardWriteTemp');
 
@@ -147,9 +202,14 @@ function BoardWrite() {
     }
 
     if (error) {
-      toast.error(`게시글 작성 중 오류가 발생했습니다: ${error.message}`);
+      toast.error(
+        `게시글 ${isEditMode ? '수정' : '작성'} 중 오류가 발생했습니다: ${
+          error.message
+        }`
+      );
     }
   };
+
   const handleRemoveImage = () => {
     setImageFile(null);
     setImagePreview('');
@@ -157,6 +217,7 @@ function BoardWrite() {
       fileInputRef.current.value = '';
     }
   };
+
   return (
     <>
       <Toaster />
@@ -203,12 +264,21 @@ function BoardWrite() {
         </div>
         <footer>
           <Button color="black" onClick={handleSubmit}>
-            작성 완료
+            {isEditMode ? '수정 완료' : '작성 완료'}
           </Button>
         </footer>
       </main>
     </>
   );
 }
+
+BoardWrite.propTypes = {
+  selectedCategory: PropTypes.string,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  imageFile: PropTypes.object,
+  imagePreview: PropTypes.string,
+  isEditMode: PropTypes.bool,
+};
 
 export default BoardWrite;
