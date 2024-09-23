@@ -20,7 +20,6 @@ function ChatRoom() {
     setCurrentRoom,
     setMessages,
     fetchChatRoomById,
-    sendMessage,
   } = useStore();
   const listRef = useRef();
   const { id } = useParams();
@@ -58,7 +57,22 @@ function ChatRoom() {
   }, [currentRoom, fetchMessages, isNewRoom]);
 
   useEffect(() => {
-    const unsubscribe = subscribeToMessages();
+    let isMounted = true;
+    let unsubscribe;
+
+    const handleSubscription = async () => {
+      try {
+        unsubscribe = await subscribeToMessages();
+        if (isMounted) {
+          console.log('구독 성공');
+        }
+      } catch (error) {
+        console.error('구독 실패:', error);
+      }
+    };
+
+    handleSubscription();
+
     return () => {
       if (unsubscribe) unsubscribe();
     };
@@ -67,6 +81,13 @@ function ChatRoom() {
   useEffect(() => {
     return () => {
       setCurrentRoom(null);
+      console.log(currentRoom);
+    };
+  }, [setCurrentRoom]);
+
+  //컴포넌트 언마운트시 메시지값 초기화
+  useEffect(() => {
+    return () => {
       setMessages([]);
     };
   }, [setCurrentRoom, setMessages]);
@@ -91,24 +112,6 @@ function ChatRoom() {
       );
     },
     [messages, currentUser]
-  );
-
-  const handleSendMessage = useCallback(
-    async (newMessage) => {
-      if (newMessage.trim()) {
-        try {
-          await sendMessage(newMessage);
-          // 메시지 전송 후 스크롤을 맨 아래로 이동
-          if (listRef.current) {
-            listRef.current.scrollToRow(messages.length);
-          }
-        } catch (error) {
-          console.error('Failed to send message:', error);
-          // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
-        }
-      }
-    },
-    [sendMessage, messages.length]
   );
 
   const handleSearchButton = () => {
