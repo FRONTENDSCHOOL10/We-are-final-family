@@ -193,7 +193,7 @@ function Profile() {
 
       const { error: updateError } = await supabase
         .from('users')
-        .update({ location: '종로구' })
+        .update({ location: null })
         .eq('id', user.id);
 
       if (updateError) throw updateError;
