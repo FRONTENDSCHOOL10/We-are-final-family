@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import S from './ListModal.module.css';
-import { CategoryOptions } from '@/components/ListSelect/data/CategorySelectData';
 import ToggleAllButton from './ToggleAllButton';
 import ToggleListMenu from './ToggleListMenu';
 
@@ -23,26 +22,11 @@ function CategoryModal({ isOpen, onClose }) {
     }
   };
 
-  const validCategories = CategoryOptions.filter(
-    (option) => option.value !== ''
-  );
-
   function toggleCategory(value) {
     setSelectedCategories((prev) => ({
       ...prev,
       [value]: !prev[value],
     }));
-  }
-
-  function toggleAll() {
-    const allSelected = validCategories.every(
-      (option) => selectedCategories[option.value]
-    );
-    const newSelectedCategories = {};
-    validCategories.forEach((option) => {
-      newSelectedCategories[option.value] = !allSelected;
-    });
-    setSelectedCategories(newSelectedCategories);
   }
 
   if (!isOpen && !animationClass) return null;
@@ -64,13 +48,8 @@ function CategoryModal({ isOpen, onClose }) {
             <span className={`${S.closeIcon} i_close`} />
           </button>
         </header>
-        <ToggleAllButton
-          validCategories={validCategories}
-          selectedCategories={selectedCategories}
-          onClick={toggleAll}
-        />
+        <ToggleAllButton selectedCategories={selectedCategories} />
         <ToggleListMenu
-          validCategories={validCategories}
           selectedCategories={selectedCategories}
           toggleCategory={toggleCategory}
         />
