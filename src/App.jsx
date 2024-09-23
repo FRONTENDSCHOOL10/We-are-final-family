@@ -3,8 +3,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from '@/router';
 import useThemeStore from './stores/useThemeStore';
 import { useEffect } from 'react';
-
-import { setVH } from '@/utils/viewport';
+import setVH from '@/utils/viewport';
 
 function App() {
   const { theme } = useThemeStore();
