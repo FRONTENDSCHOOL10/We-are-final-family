@@ -11,7 +11,7 @@ function ProfileList({ label, icon, onClick, className = '' }) {
   return (
     <li
       tabIndex={0}
-      className={className}
+      className={`${className} para-md`}
       onClick={onClick}
       onKeyDown={(e) => e.key === 'Enter' && onClick()}
     >

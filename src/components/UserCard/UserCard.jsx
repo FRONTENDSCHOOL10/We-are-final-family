@@ -99,7 +99,7 @@ function UserCard({
           <ProfileImg></ProfileImg>
           <div className={S.component}>
             <ProfileTitle name={username} className={'lbl-md'}>
-              {currentuser === writer ? (
+              {isWriter && (
                 <div className={S.actions}>
                   <button
                     type="submit"
@@ -115,8 +115,6 @@ function UserCard({
                     거절
                   </button>
                 </div>
-              ) : (
-                ''
               )}
             </ProfileTitle>
           </div>

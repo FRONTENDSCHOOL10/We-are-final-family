@@ -28,10 +28,8 @@ function Intro() {
     <main className={S.intro}>
       {/* 로고 + 타이틀 */}
       <div className={S.logo_container}>
-        <h1 className="hdg-xxl">
-          <Logo W="7rem" H="7rem" />
-          파티구함
-        </h1>
+        <Logo W="7rem" H="7rem" />
+        <h1 className="hdg-xxl">파티구함</h1>
 
         {/* 텍스트 */}
         <p className="para-md">

@@ -1,8 +1,16 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { RouterProvider } from 'react-router-dom';
 import router from '@/router';
+import useThemeStore from './stores/useThemeStore';
+import { useEffect } from 'react';
 
 function App() {
+  const { theme } = useThemeStore();
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+  }, [theme]);
+
   return (
     <HelmetProvider>
       <RouterProvider router={router} />

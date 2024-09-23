@@ -110,6 +110,17 @@ function HomeWriteNext() {
 
       if (partyError) throw partyError;
 
+      console.log('🚀 ~ handleSubmit ~ user.id:', user.id);
+      // party_detail 테이블에 데이터 삽입
+      const { error: detailError } = await supabase
+        .from('party_detail')
+        .insert({
+          id: partyData.id,
+          join_1: user.id,
+        });
+
+      if (detailError) throw detailError;
+
       const imageUrl = await uploadImage(user.id, partyData.id);
 
       if (imageUrl) {
