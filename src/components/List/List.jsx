@@ -115,9 +115,6 @@ function List({
       ? '일치하는 파티가 없습니다.'
       : '일치하는 게시글이 없습니다.';
 
-  // if (filteredData.length === 0)
-  //   return <NoneData icon="i_close" text="일치하는 파티 또는 글이 없습니다." />;
-
   if (filteredData.length === 0) {
     console.log('filteredData is empty, rendering NoneData');
     return <NoneData icon="i_close" text={noneDataText} />;
@@ -142,7 +139,7 @@ function List({
                   }
                   category={item.category}
                   title={item.title}
-                  currentPeopleCount={item.people}
+                  currentPeopleCount={item.currentPeopleCount || 1}
                   peopleCount={item.people}
                   date={item.meet_date || '날짜를 불러올 수 없습니다.'}
                   place={item.location_2 || '장소를 불러올 수 없습니다.'}
@@ -167,7 +164,7 @@ function List({
                 }
                 category={item.category}
                 title={item.title}
-                currentPeopleCount={item.people}
+                currentPeopleCount={item.currentPeopleCount || 1}
                 peopleCount={item.people}
                 date={item.meet_date || '날짜를 불러올 수 없습니다.'}
                 place={item.location_2 || '장소를 불러올 수 없습니다.'}
