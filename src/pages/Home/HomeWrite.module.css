@@ -131,19 +131,7 @@
   }
 
   .removeImageBtn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    border: none;
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
     background-color: var(--gray-800);
-    transition: background-color 0.3s ease;
   }
 
   .removeImageBtn:hover {
@@ -152,6 +140,5 @@
 
   .removeImageBtn span {
     color: var(--gray-100);
-    font-size: 1rem;
   }
 }

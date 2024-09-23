@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './LogoAnimation.module.css';
 
-const LogoAnimation = ({ width = '200rem', height = '200rem' }) => {
+const LogoAnimation = ({ width = '100rem', height = '100rem' }) => {
   const wavePath = (
     <g className={styles.wave}>
       <path

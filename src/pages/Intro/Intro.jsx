@@ -1,29 +1,8 @@
 import Button from '@/components/Button/Button';
 import Logo from '@/components/Logo/Logo';
 import S from './Intro.module.css';
-// import { useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { supabase } from '@/api/supabase';
 
 function Intro() {
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const checkUserAuth = async () => {
-  //     const storedUser = JSON.parse(localStorage.getItem('currentUser'));
-  //     if (storedUser && storedUser.id) {
-  //       const {
-  //         data: { user },
-  //       } = await supabase.auth.getUser();
-  //       if (user && user.id === storedUser.id) {
-  //         navigate('/home');
-  //       }
-  //     }
-  //   };
-
-  //   checkUserAuth();
-  // }, [navigate]);
-
   return (
     <main className={S.intro}>
       {/* 로고 + 타이틀 */}

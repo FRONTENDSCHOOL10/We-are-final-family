@@ -30,3 +30,21 @@
     color: var(--primary);
   }
 }
+
+[data-theme='dark'] {
+  .pencil {
+    color: var(--gray-600);
+    border: 1px solid var(--gray-700);
+    background: var(--gray-900);
+    &:hover {
+      color: var(--secondary);
+    }
+    &:focus {
+      color: var(--secondary);
+      outline-color: var(--secondary);
+    }
+    &:active {
+      color: var(--primary);
+    }
+  }
+}

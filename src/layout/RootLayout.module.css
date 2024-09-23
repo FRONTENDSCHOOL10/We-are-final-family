@@ -1,6 +1,6 @@
 .root {
   display: flex;
-  flex-flow: column nowrap; /* 필요없으면 제거 */
+  flex-flow: column nowrap;
   height: 100vh;
   background-color: var(--root-bg);
 }
