@@ -10,9 +10,15 @@
   }
 }
 .titleInput {
+  box-sizing: border-box;
   padding: 1rem;
-  border: 0;
+  color: var(--gray-900);
+  border: none;
   background-color: transparent;
+
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }
 .writeWrap {
   flex: 1;
@@ -39,6 +45,9 @@
   border: none;
   resize: none;
   flex: 1;
+  &:focus {
+    outline-color: var(--secondary);
+  }
 }
 
 .removeImageBtn {
@@ -64,4 +73,26 @@
 .removeImageBtn span {
   color: var(--gray-900);
   font-size: 1rem;
+}
+
+[data-theme='dark'] {
+  .titleInput {
+    color: var(--gray-100);
+  }
+
+  .textArea {
+    background-color: var(--black);
+  }
+
+  .removeImageBtn {
+    background-color: var(--gray-800);
+  }
+
+  .removeImageBtn:hover {
+    background-color: var(--gray-600);
+  }
+
+  .removeImageBtn span {
+    color: var(--gray-100);
+  }
 }
