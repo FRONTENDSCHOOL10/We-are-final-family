@@ -12,6 +12,7 @@
 .titleInput {
   padding: 1rem;
   border: 0;
+  background-color: transparent;
 }
 .writeWrap {
   flex: 1;

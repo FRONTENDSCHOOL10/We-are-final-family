@@ -40,3 +40,36 @@
   color: var(--white);
   background-color: var(--gray-900);
 }
+
+[data-theme='dark'] {
+  .container {
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .categoryButton,
+  .filterButton {
+    color: var(--gray-100);
+    border: 1px solid var(--gray-700);
+    background-color: var(--gray-800);
+
+    .icon {
+      font-size: 1rem;
+    }
+
+    &:hover {
+      border-color: var(--gray-600);
+      background-color: var(--gray-700);
+    }
+
+    &:focus {
+      outline-offset: 1px;
+      outline-color: var(--secondary);
+    }
+  }
+
+  .categoryButton.active,
+  .filterButton.active {
+    color: var(--white);
+    background-color: var(--primary);
+  }
+}

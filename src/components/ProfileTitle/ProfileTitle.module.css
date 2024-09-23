@@ -9,3 +9,13 @@
     color: var(--gray-600);
   }
 }
+
+[data-theme='dark'] {
+  .component {
+    color: var(--gray-100);
+
+    span {
+      color: var(--gray-300);
+    }
+  }
+}

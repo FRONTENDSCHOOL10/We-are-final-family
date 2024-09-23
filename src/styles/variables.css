@@ -1,38 +1,8 @@
 :root {
-  /* Color styles */
-  --black: #181818;
-  --white: #ffffff;
-  --primary: #148ce1;
-  --secondary: #5aaef1;
-  --negative: #ff4500;
-  --gray-100: #e5e5e5;
-  --gray-200: #cccccc;
-  --gray-300: #b2b2b2;
-  --gray-400: #999999;
-  --gray-500: #7f7f7f;
-  --gray-600: #666666;
-  --gray-700: #4c4c4c;
-  --gray-800: #333333;
-  --gray-900: #212121;
-
-  /* 라이트 모드 (기본) */
-  --bg-color: var(--white);
-  --text-color: var(--gray-900);
-  /* --border-color: var(--gray-200); */
-
-  /* 다크 모드 */
-  --bg-color-dark: var(--gray-900);
-  --text-color-dark: var(--white);
-  /* --border-color-dark: var(--gray-700); */
-
   --base-font: 'Pretendard Variable', Pretendard, -apple-system,
     BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-
-  --icon-color-white: var(--white);
-  --icon-color-black: var(--gray-800);
-  --icon-color-primary: var(--primary);
 
   /* line-height */
   --lh-hdg: 140%;
@@ -56,19 +26,32 @@
   --fw-semibold: 600; /* SemiBold */
   --fw-bold: 700; /* Bold */
 
-  /* 새로운 변수 추가 */
-  --menu-icon-color: var(--gray-700);
-}
+  /* Color styles */
+  --black: #181818;
+  --white: #ffffff;
+  --primary: #148ce1;
+  --secondary: #5aaef1;
+  --negative: #ff4500;
+  --gray-100: #e5e5e5;
+  --gray-200: #cccccc;
+  --gray-300: #b2b2b2;
+  --gray-400: #999999;
+  --gray-500: #7f7f7f;
+  --gray-600: #666666;
+  --gray-700: #4c4c4c;
+  --gray-800: #333333;
+  --gray-900: #212121;
 
-body.dark-mode {
-  /* 다크모드에서의 변수 값 변경 */
-  --menu-icon-color: var(--gray-300); /* 또는 다크모드에 적합한 다른 색상 */
-}
+  --root-bg: var(--white);
 
-body.dark-mode {
-  --bg-color: var(--bg-color-dark);
-  --text-color: var(--text-color-dark);
-  --border-color: var(--border-color-dark);
+  --btn-bg: var(--white);
+  --btn-bg-dark: var(--gray-900);
+  --btn-bg-primary: var(--primary);
+
+  --btn-txt: var(--white);
+  --btn-txt-dark: var(--gray-900);
+
+  --btn-bd: var(--gray-100);
 }
 
 .hdg-sm,
@@ -240,11 +223,6 @@ body.dark-mode {
   font-family: var(--base-font);
 }
 
-body.dark-mode {
-  background-color: var(--bg-color);
-}
-
-/* 필요한 경우 특정 요소에 대한 추가 스타일 */
-body.dark-mode .some-specific-element {
-  border-color: var(--border-color);
+[data-theme='dark'] {
+  --root-bg: #181818;
 }

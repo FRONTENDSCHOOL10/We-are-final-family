@@ -1,3 +1,8 @@
+.listSearch {
+  padding: 1rem;
+  border-bottom: 1px solid var(--gray-100);
+}
+
 .listSearchItem {
   text-decoration: none;
   color: inherit;
@@ -7,14 +12,25 @@
   display: flex;
   flex-flow: column;
   gap: 0.25rem;
-  /* padding: 1rem; */
-  border-bottom: 0.0625rem solid var(--gray-100);
 }
 
 .listSearchTitle {
   padding-top: 0.25rem;
+  color: var(--gray-900);
 }
 
 .listSearchDate {
   color: var(--gray-600);
+}
+
+[data-theme='dark'] {
+  .listSearch {
+    border-bottom: 1px solid var(--gray-800);
+  }
+  .listSearchTitle {
+    color: var(--gray-100);
+  }
+  .listSearchDate {
+    color: var(--gray-300);
+  }
 }

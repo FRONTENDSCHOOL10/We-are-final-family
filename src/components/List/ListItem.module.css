@@ -82,3 +82,38 @@
     }
   }
 }
+
+[data-theme='dark'] {
+  .listItem {
+    a {
+      color: var(--gray-100);
+      border-bottom: 1px solid var(--gray-800);
+    }
+  }
+
+  .boardItem {
+    a {
+      color: var(--gray-100);
+      border-bottom: 1px solid var(--gray-800);
+    }
+  }
+  .info {
+    color: var(--gray-300);
+  }
+
+  .info_sub {
+    color: var(--gray-300);
+    /* color: red; */
+
+    .people_count {
+      span[class^='i_'],
+      span[class*=' i_'] {
+        color: var(--gray-400);
+      }
+
+      .current {
+        color: var(--secondary);
+      }
+    }
+  }
+}

@@ -9,6 +9,9 @@
   display: flex;
   flex-flow: column nowrap;
   gap: 0.75rem;
+  h2 {
+    color: var(--gray-900);
+  }
 }
 
 .recentSearchesContainer,
@@ -36,4 +39,35 @@
   border-color: var(--gray-900);
   background-color: var(--gray-900);
   cursor: pointer;
+}
+
+[data-theme='dark'] {
+  .searchContainer {
+    h2 {
+      color: var(--gray-100);
+    }
+  }
+
+  .recentSearch,
+  .popularSearch {
+    color: var(--gray-100);
+    border: 1px solid var(--gray-800);
+    background-color: var(--gray-900);
+    &:focus {
+      outline-color: var(--secondary);
+    }
+  }
+
+  .recentSearch:hover,
+  .popularSearch:hover {
+    color: var(--white);
+    border-color: var(--gray-600);
+    background-color: var(--gray-700);
+  }
+  .recentSearch:active,
+  .popularSearch:active {
+    color: var(--white);
+    border-color: var(--primary);
+    background-color: var(--primary);
+  }
 }

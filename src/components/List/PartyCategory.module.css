@@ -15,8 +15,6 @@
     line-height: 3rem;
     font-size: 1.25rem;
     border-radius: 3rem;
-    /* border: 2px solid var(--gray-100); */
-    /* background-color: var(--gray-100); */
     border: 2px solid #eef1f8;
     background-color: #eef1f8;
   }
@@ -29,10 +27,10 @@
   align-items: center;
   width: 100%;
   padding: 0.5rem;
+  color: var(--gray-900);
   border: none;
   background-color: transparent;
   &.active {
-    color: #333;
     .icon_circle {
       border: 2px solid var(--primary);
       background-color: var(--white);
@@ -43,5 +41,30 @@
   }
   &:focus {
     outline-color: var(--secondary);
+  }
+}
+
+[data-theme='dark'] {
+  .party_category {
+    .icon_circle {
+      border-color: var(--gray-800);
+      background-color: var(--gray-800);
+    }
+  }
+
+  .button {
+    color: var(--gray-200);
+    background-color: transparent;
+    &.active {
+      .icon_circle {
+        border-color: var(--secondary);
+      }
+      span {
+        color: var(--secondary);
+      }
+    }
+    &:focus {
+      outline-color: var(--secondary);
+    }
   }
 }

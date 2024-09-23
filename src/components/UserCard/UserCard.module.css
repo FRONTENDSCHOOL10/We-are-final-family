@@ -63,3 +63,33 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+[data-theme='dark'] {
+  .wrapper {
+    background-color: var(--gray-900);
+  }
+  .cert {
+    color: var(--gray-200);
+    span {
+      color: var(--secondary);
+    }
+  }
+
+  .desc {
+    color: var(--gray-600);
+  }
+
+  .actions {
+    button {
+      &:focus {
+        outline: 2px solid var(--secondary);
+      }
+    }
+    .agree {
+      color: var(--secondary);
+    }
+    .disagree {
+      color: var(--negative);
+    }
+  }
+}

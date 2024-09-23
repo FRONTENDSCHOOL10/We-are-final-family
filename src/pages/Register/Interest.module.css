@@ -30,3 +30,12 @@ footer {
     color: var(--gray-600);
   }
 }
+
+[data-theme='dark'] {
+  .lateBtn {
+    color: var(--gray-400);
+    &:visited {
+      color: var(--gray-400);
+    }
+  }
+}

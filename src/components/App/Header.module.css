@@ -57,3 +57,23 @@
     outline: 2px solid var(--secondary);
   }
 }
+
+[data-theme='dark'] {
+  .header {
+    border-bottom: 1px solid var(--gray-800);
+    background-color: var(--black);
+  }
+
+  .locationBtn {
+    color: var(--gray-100);
+    background-color: var(--black);
+    span {
+      color: var(--gray-100);
+    }
+  }
+
+  .inputField {
+    color: var(--gray-100);
+    background-color: var(--gray-900);
+  }
+}

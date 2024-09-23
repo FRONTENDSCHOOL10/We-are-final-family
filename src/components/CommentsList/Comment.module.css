@@ -21,3 +21,21 @@
 .commentText {
   color: var(--gray-900);
 }
+
+[data-theme='dark'] {
+  .commentItem {
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .commentHeader {
+    color: var(--gray-100);
+
+    .commentTime {
+      color: var(--gray-400);
+    }
+  }
+
+  .commentText {
+    color: var(--gray-200);
+  }
+}

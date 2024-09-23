@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    color: var(--gray-900);
   }
 }
 
@@ -52,6 +53,49 @@
       color: var(--white);
       border-color: var(--gray-900);
       background-color: var(--gray-900);
+    }
+  }
+}
+
+[data-theme='dark'] {
+  .container {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+  }
+
+  .contHeader {
+    h4 {
+      color: var(--gray-100);
+    }
+  }
+
+  .guidance {
+    color: var(--gray-600);
+  }
+
+  .optionBtn {
+    color: var(--gray-100);
+    border: 1px solid var(--gray-800);
+    background-color: var(--gray-800);
+
+    &:hover {
+      outline: 2px solid var(--gray-600);
+      background-color: var(--gray-600);
+    }
+    &:focus {
+      outline-color: var(--secondary);
+    }
+
+    &.selected {
+      color: var(--white);
+      border-color: var(--primary);
+      background-color: var(--primary);
+      &:hover {
+        color: var(--white);
+        border-color: var(--primary);
+        background-color: var(--primary);
+      }
     }
   }
 }

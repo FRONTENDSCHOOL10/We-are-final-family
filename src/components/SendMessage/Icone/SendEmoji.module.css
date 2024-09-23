@@ -25,3 +25,11 @@
 .block {
   display: block;
 }
+
+[data-theme='dark'] {
+  .emoji {
+    span {
+      color: var(--gray-100);
+    }
+  }
+}
