@@ -109,6 +109,7 @@ function Login() {
         <ValidationInput
           type="email"
           label="이메일"
+          info="이메일을 입력해주세요"
           onChange={setEmail}
           onKeyDown={(e) => handleKeyDown(e, 'email')}
           required
@@ -116,6 +117,7 @@ function Login() {
         <ValidationInput
           type="pw"
           label="비밀번호"
+          info="비밀번호를 입력해주세요"
           onChange={setPassword}
           onKeyDown={(e) => handleKeyDown(e, 'password')}
           required

@@ -22,10 +22,8 @@ function SendMessage({ onSendMessage }) {
 
   const focusInput = useCallback(() => {
     if (inputRef.current) {
-      console.log('Attempting to focus input');
       focusTimeoutRef.current = setTimeout(() => {
         inputRef.current.focus();
-        console.log('Focus attempt completed');
       }, 0);
     } else {
       console.log('Input ref is null');
@@ -49,7 +47,6 @@ function SendMessage({ onSendMessage }) {
   }, [newMessage, isSubmitting, onSendMessage, focusInput]);
 
   useEffect(() => {
-    console.log('Component mounted, focusing input');
     focusInput();
     return () => {
       if (focusTimeoutRef.current) {

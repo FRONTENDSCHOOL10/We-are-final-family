@@ -110,7 +110,6 @@ function HomeWriteNext() {
 
       if (partyError) throw partyError;
 
-      console.log('🚀 ~ handleSubmit ~ user.id:', user.id);
       // party_detail 테이블에 데이터 삽입
       const { error: detailError } = await supabase
         .from('party_detail')

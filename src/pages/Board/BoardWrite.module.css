@@ -96,3 +96,26 @@
     color: var(--gray-100);
   }
 }
+
+[data-theme='dark'] {
+  .titleInput {
+    color: var(--gray-100);
+  }
+
+  .textArea {
+    color: var(--gray-100);
+    background-color: var(--black);
+  }
+
+  .removeImageBtn {
+    background-color: var(--gray-800);
+  }
+
+  .removeImageBtn:hover {
+    background-color: var(--gray-600);
+  }
+
+  .removeImageBtn span {
+    color: var(--gray-100);
+  }
+}

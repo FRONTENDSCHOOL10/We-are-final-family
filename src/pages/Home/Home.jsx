@@ -104,7 +104,6 @@ function Home() {
   // 카테고리
   const handleCategoryClick = (label) => {
     setActiveCategory(label);
-    console.log(`카테고리 선택 : ${label}`);
   };
 
   useEffect(() => {

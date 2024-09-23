@@ -168,7 +168,6 @@ export const useStore = create((set, get) => ({
             draft.messages.push(newMsg);
           }
           draft.newMessage = ''; // Clear the message input
-          console.log('전송완료');
         })
       );
     } catch (error) {
@@ -180,7 +179,7 @@ export const useStore = create((set, get) => ({
 
   fetchMessages: async () => {
     const { currentRoom } = get();
-    console.log(currentRoom);
+
     const roomId =
       typeof currentRoom === 'string' ? currentRoom : currentRoom?.id;
 
@@ -190,8 +189,6 @@ export const useStore = create((set, get) => ({
       .select('*')
       .eq('room_id', roomId)
       .order('created_at', { ascending: true });
-
-    console.log(data);
 
     if (error) console.error('메시지 가져오기 오류:', error);
     else set({ messages: data });
@@ -250,8 +247,6 @@ export const useStore = create((set, get) => ({
       return;
     }
 
-    console.log('Current user ID:', currentUser); // 디버깅용
-
     const { data, error } = await supabase
       .from('chat_rooms')
       .select(
@@ -266,8 +261,6 @@ export const useStore = create((set, get) => ({
     if (error) {
       console.error('채팅룸 가져오기 오류:', error);
     } else {
-      console.log('Raw data from Supabase:', data); // 디버깅용
-
       // 채팅방 데이터를 처리하여 otherUser 정보를 올바르게 설정
       const processedChatRooms = data.map((room) => ({
         ...room,
@@ -275,7 +268,6 @@ export const useStore = create((set, get) => ({
       }));
 
       set({ chatRooms: processedChatRooms });
-      console.log('chatRooms 상태가 업데이트됨:', get().chatRooms);
     }
   },
   fetchChatRoomById: async (roomId) => {
@@ -313,7 +305,6 @@ export const useStore = create((set, get) => ({
       };
 
       set({ currentRoom: processedRoom });
-      console.log('currentRoom 상태가 업데이트됨:', processedRoom);
 
       return processedRoom;
     } catch (error) {

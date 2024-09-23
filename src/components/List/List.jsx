@@ -116,7 +116,6 @@ function List({
       : '일치하는 게시글이 없습니다.';
 
   if (filteredData.length === 0) {
-    console.log('filteredData is empty, rendering NoneData');
     return <NoneData icon="i_close" text={noneDataText} />;
   }
 
@@ -169,7 +168,7 @@ function List({
                 date={item.meet_date || '날짜를 불러올 수 없습니다.'}
                 place={item.location_2 || '장소를 불러올 수 없습니다.'}
                 createDate={item.create_at}
-                onClick={() => console.log(`${item.id} 클릭됨`)}
+                onClick={() => `${item.id} 클릭됨`}
                 boardImg={item.board_img}
               />
             );

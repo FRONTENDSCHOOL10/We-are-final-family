@@ -23,18 +23,10 @@ function Chat() {
     setCurrentUser(user.id);
   }, [setCurrentUser]);
 
-  const handleSearchButton = () => {
-    console.log('검색 버튼 클릭');
-  };
+  const handleSearchButton = () => {};
 
   useEffect(() => {
     fetchChatRooms();
-
-    if (currentUser) {
-      console.log('currentUser가 설정됨:', currentUser);
-    } else {
-      console.log('currentUser가 아직 설정되지 않음');
-    }
   }, [currentUser, fetchChatRooms]);
 
   function handleClick(selectedUser, currentRoom) {

@@ -51,7 +51,6 @@ export function PendingList({ join = 1 }) {
     setTimeout(() => {
       fatch();
     }, 500);
-    console.log(id);
   };
 
   const cancelClick = (singleDataId, id) => {
@@ -72,7 +71,6 @@ export function PendingList({ join = 1 }) {
       </h3>
 
       {pendingUsers.map((item) => {
-        console.log(item);
         return (
           <UserCard
             states={'pending'}
