@@ -72,7 +72,7 @@
 
 <details><summary>파티모집 글작성 페이지</summary>
 
-<img src = 'https://github.com/user-attachments/assets/7a07c621-a942-4720-88c0-83fa6e4365a6' width="375" height="667" />
+<img src = 'https://github.com/user-attachments/assets/1655a0d3-c4ce-46b2-87ad-751a44f7a442' width="375" height="667" />
 
 - 스터디 모집 게시글 작성
 - 카테고리, 관심분야 선택가능 선택된내용에 따라 랜더링 다르게됨
