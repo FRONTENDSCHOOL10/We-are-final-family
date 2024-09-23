@@ -12,7 +12,7 @@ const useListStore = create((set, get) => ({
   fetchData: async (tableName, id = null) => {
     const { page } = get();
     set({ isLoading: true, error: null });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve));
 
     try {
       // 전체 데이터를 가져올지, 특정 데이터를 가져올지 분기 처리
