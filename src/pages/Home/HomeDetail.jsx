@@ -185,6 +185,15 @@ function HomeDetail() {
                 </li>
               </ul>
               <p className="para-md">{singleData.description}</p>
+              {singleData.party_img && (
+                <div className={S.partyImageContainer}>
+                  <img
+                    src={singleData.party_img}
+                    alt="파티 이미지"
+                    className={S.partyImage}
+                  />
+                </div>
+              )}
             </div>
           </section>
           <section className={S.state}>
