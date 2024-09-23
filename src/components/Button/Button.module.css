@@ -40,6 +40,14 @@
     }
   }
 
+  &.negative {
+    border-color: var(--btn-bg-negative);
+    background: var(--btn-bg-negative);
+    &:focus {
+      outline-color: var(--btn-bg-negative);
+    }
+  }
+
   &.transparent {
     background-color: transparent;
   }

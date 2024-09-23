@@ -50,3 +50,15 @@
     outline: 2px solid var(--secondary);
   }
 }
+
+[data-theme='dark'] {
+  .logo_container {
+    color: var(--gray-100);
+  }
+
+  .button_container {
+    p {
+      color: var(--gray-300);
+    }
+  }
+}

@@ -47,6 +47,7 @@
   --btn-bg: var(--white);
   --btn-bg-dark: var(--gray-900);
   --btn-bg-primary: var(--primary);
+  --btn-bg-negative: var(--negative);
 
   --btn-txt: var(--white);
   --btn-txt-dark: var(--gray-900);
@@ -225,4 +226,17 @@
 
 [data-theme='dark'] {
   --root-bg: #181818;
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--gray-800);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 1px solid var(--gray-700);
+    background-color: var(--gray-600);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--gray-400);
+  }
 }
