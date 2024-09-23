@@ -142,7 +142,7 @@ function List({
                   }
                   category={item.category}
                   title={item.title}
-                  currentPeopleCount={item.people}
+                  currentPeopleCount={item.currentPeopleCount || 1}
                   peopleCount={item.people}
                   date={item.meet_date || '날짜를 불러올 수 없습니다.'}
                   place={item.location_2 || '장소를 불러올 수 없습니다.'}
@@ -167,7 +167,7 @@ function List({
                 }
                 category={item.category}
                 title={item.title}
-                currentPeopleCount={item.people}
+                currentPeopleCount={item.currentPeopleCount || 1}
                 peopleCount={item.people}
                 date={item.meet_date || '날짜를 불러올 수 없습니다.'}
                 place={item.location_2 || '장소를 불러올 수 없습니다.'}
