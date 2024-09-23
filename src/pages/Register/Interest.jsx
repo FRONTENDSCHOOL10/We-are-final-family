@@ -99,11 +99,11 @@ function Interest() {
       return;
     }
 
-    await saveInterestsToSupabase(selectedInterests);
     saveInterests(); // 로컬 상태 저장
 
     if (isFromProfile) {
       localStorage.removeItem('interest-storage');
+      await saveInterestsToSupabase(selectedInterests);
       navigate('/profile');
     } else {
       saveInterests(); // 로컬 상태 저장

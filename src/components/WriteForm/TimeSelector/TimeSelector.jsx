@@ -24,7 +24,7 @@ function TimeSelector({ label, value, onChange }) {
     if (!value) {
       onChange(defaultTime);
     }
-  }, []);
+  });
 
   useEffect(() => {
     function handleClickOutside(event) {

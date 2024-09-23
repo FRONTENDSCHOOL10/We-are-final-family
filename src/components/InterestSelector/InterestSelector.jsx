@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Button from '../Button/Button';
 import S from './InterestSelector.module.css';
 import PropTypes from 'prop-types';
@@ -15,11 +15,11 @@ function InterestSelector({ interests, onSelectInterest, onViewAll }) {
     setIsOpen(false);
   };
 
-  const handleOutsideClick = (event) => {
+  const handleOutsideClick = useCallback((event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
       handleClose();
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -34,7 +34,7 @@ function InterestSelector({ interests, onSelectInterest, onViewAll }) {
       document.removeEventListener('mousedown', handleOutsideClick);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, handleOutsideClick]);
 
   const handleInterestClick = (interest) => {
     onSelectInterest(interest);

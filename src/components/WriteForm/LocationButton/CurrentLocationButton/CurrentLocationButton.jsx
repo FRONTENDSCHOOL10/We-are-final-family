@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import S from './CurrentLocationButton.module.css';
 
 function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
@@ -107,5 +108,13 @@ function CurrentLocationButton({ onLocationUpdate, standalone = false }) {
     </button>
   );
 }
+CurrentLocationButton.propTypes = {
+  onLocationUpdate: PropTypes.func,
+  standalone: PropTypes.bool,
+};
 
+CurrentLocationButton.defaultProps = {
+  onLocationUpdate: () => {},
+  standalone: false,
+};
 export default CurrentLocationButton;
