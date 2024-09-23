@@ -79,7 +79,7 @@ export function PendingList({ join = 1 }) {
             key={item.id}
             username={item.username}
             userId={item.id}
-            currentuser={currentUser}
+            currentUser={currentUser}
             writer={singleData.user_id}
             onClick={() => {
               handleClick(singleData.id, item.id);

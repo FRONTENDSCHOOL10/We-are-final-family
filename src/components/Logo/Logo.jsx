@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import styles from './Logo.module.css';
+import S from './Logo.module.css';
 
 function Logo({ width = '7rem', height = '7rem' }) {
   const wavePath = (
-    <g className={styles.wave}>
+    <g className={S.wave}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -20,12 +20,12 @@ function Logo({ width = '7rem', height = '7rem' }) {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={`${S.container} ${S.dw}`}>
       <svg
         width={width}
         height={height}
         viewBox="0 0 193 192"
-        className={styles.logo}
+        className={S.logo}
       >
         <defs>
           <mask id="mask">
@@ -72,7 +72,7 @@ function Logo({ width = '7rem', height = '7rem' }) {
           />
 
           {/* 움직이는 파도 부분 */}
-          <g className={styles.movingWaves}>
+          <g className={S.movingWaves}>
             {wavePath}
             {wavePath}
             {wavePath}
@@ -81,7 +81,7 @@ function Logo({ width = '7rem', height = '7rem' }) {
         </g>
 
         {/* 회색 로고 (마스크 밖에 표시) */}
-        <g className={styles.grayLogo}>
+        <g className={S.grayLogo}>
           <path d="M95.3547 0.120605V83.6836L47.9105 72.6643L95.3547 0.120605Z" />
           <path d="M95.3545 0.120605V83.6836L142.799 72.6643L95.3545 0.120605Z" />
           <path d="M0.313232 61.645L95.3547 83.5306L40.5643 128.067L0.313232 61.645Z" />
