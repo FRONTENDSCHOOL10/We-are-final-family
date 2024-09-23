@@ -142,7 +142,40 @@ function UserCard({
                 },
                 {
                   label: '채팅하기',
-                  onClick: () => console.log('삭제하기 클릭!'),
+                  onClick: async () => {
+                    try {
+                      setSelectedUser(userId);
+                      let room = currentRoom;
+
+                      if (!room) {
+                        room = await fetchChatRoom();
+                        console.log('New room created:', room);
+                      }
+                      if (room === null || room === undefined) {
+                        navigate(`/chat/room/new`);
+                      }
+
+                      const fetchedRoom = await fetchChatRoomById(room.id);
+                      console.log('Fetched room details:', fetchedRoom);
+
+                      // 상태 업데이트가 반영될 때까지 기다립니다
+                      await new Promise((resolve) => setTimeout(resolve, 0));
+
+                      console.log('Current user:', currentUser);
+                      console.log('Selected user:', userId);
+                      console.log('Current room:', fetchedRoom);
+
+                      if (fetchedRoom && fetchedRoom.id) {
+                        navigate(`/chat/room/${fetchedRoom.id}`);
+                      } else {
+                        console.error('Invalid room data');
+                        // 에러 처리 로직 (예: 사용자에게 알림)
+                      }
+                    } catch (error) {
+                      console.error('Error in chat room navigation:', error);
+                      // 에러 처리 로직 (예: 사용자에게 알림)
+                    }
+                  },
                 },
               ]}
             />
