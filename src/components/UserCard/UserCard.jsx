@@ -138,7 +138,7 @@ function UserCard({
               options={[
                 {
                   label: '프로필 보기',
-                  onClick: () => console.log('수정하기 클릭!'),
+                  onClick: () => {},
                 },
                 {
                   label: '채팅하기',

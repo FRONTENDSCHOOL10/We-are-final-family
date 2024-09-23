@@ -135,7 +135,6 @@ async function fetchPartyData(partyId) {
     console.error('Error fetching party data:', error);
     return null;
   }
-  console.log(data);
 
   return data;
 }

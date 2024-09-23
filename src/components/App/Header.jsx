@@ -39,7 +39,6 @@ function Header({
   const navigate = useNavigate();
 
   const handleBackButton = () => {
-    console.log('뒤로가기 버튼 클릭');
     navigate(-1); // 이전 페이지로 이동
   };
 

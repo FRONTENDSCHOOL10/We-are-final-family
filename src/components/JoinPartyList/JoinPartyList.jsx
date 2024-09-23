@@ -16,7 +16,7 @@ export function JoinPartyList({ join = 1, maxparty }) {
   const { singleData } = useListStore();
   const {
     updateJoinArray,
-    joinArray,
+
     joinUsers,
     // updatePendingArray,
     // movePendingToJoin,
@@ -24,7 +24,6 @@ export function JoinPartyList({ join = 1, maxparty }) {
     updateJoinUsers,
   } = usePartyStore();
 
-  console.log(joinArray);
   useEffect(() => {
     const fatch = async () => {
       await fetchAndSetPartyData(singleData.id);
@@ -37,7 +36,6 @@ export function JoinPartyList({ join = 1, maxparty }) {
       updateJoinUsers([]);
     };
   }, [updateJoinUsers]);
-  console.log(joinUsers);
 
   join = joinUsers.length;
   maxparty = singleData.people;
@@ -50,8 +48,6 @@ export function JoinPartyList({ join = 1, maxparty }) {
       </h3>
 
       {[...joinUsers].reverse().map((item) => {
-        console.log(item);
-
         return (
           <UserCard
             states={'join'}
@@ -60,9 +56,7 @@ export function JoinPartyList({ join = 1, maxparty }) {
             key={item.id}
             userId={item.id}
             username={item.username}
-            showModal={() => {
-              console.log(item.id);
-            }}
+            showModal={() => {}}
           />
         );
       })}

@@ -31,11 +31,9 @@ function ChatSendMessages() {
 
   const focusInput = useCallback(() => {
     if (inputRef.current) {
-      console.log('Attempting to focus input');
       // 포커스 설정을 약간 지연시킵니다.
       focusTimeoutRef.current = setTimeout(() => {
         inputRef.current.focus();
-        console.log('Focus attempt completed');
       }, 0);
     } else {
       console.log('Input ref is null');
@@ -66,7 +64,6 @@ function ChatSendMessages() {
   ]);
 
   useEffect(() => {
-    console.log('Component mounted, focusing input');
     focusInput();
     return () => {
       if (focusTimeoutRef.current) {
@@ -77,7 +74,6 @@ function ChatSendMessages() {
 
   useEffect(() => {
     if (newMessage === '') {
-      console.log('New message is empty, focusing input');
       focusInput();
     }
   }, [focusInput, newMessage]);
