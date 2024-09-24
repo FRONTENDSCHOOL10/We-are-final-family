@@ -42,7 +42,7 @@ function BoardWrite() {
         localStorage.removeItem('boardWriteTemp');
       }
     };
-  }, [location]);
+  }, [location, isEditMode]);
 
   useEffect(() => {
     if (!isEditMode) {
