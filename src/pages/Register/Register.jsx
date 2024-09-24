@@ -9,7 +9,6 @@ import { validateEmail, validatePassword } from '@/utils/validation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
-import Fallback from '@/pages/Fallback';
 
 const signUp = async (email, password, username) => {
   try {
@@ -105,74 +104,68 @@ function Register() {
     username;
 
   return (
-    <>
-      {isLoading ? (
-        <Fallback />
-      ) : (
-        <main className={S.register}>
-          <div>
-            <Toaster />
-          </div>
-          <header>
-            <h1 className="hdg-lg">
-              안녕하세요.
-              <br />
-              파티구함에 처음 오셨나요?
-            </h1>
-            <p className="para-md">아래 양식에 맞게 새로 가입해주세요.</p>
-          </header>
-          <form className={S.body}>
-            <ValidationInput
-              type="email"
-              label="이메일"
-              info="이메일을 입력해주세요"
-              onChange={setEmail}
-            />
-            <ValidationInput
-              type="pw"
-              label="비밀번호"
-              info="비밀번호를 입력해주세요"
-              onChange={setPassword}
-            />
-            <ValidationInput
-              type="normal"
-              label="이름(별명)"
-              info="이름(별명)을 입력해주세요."
-              onChange={setName}
-            />
-          </form>
-          <footer>
-            <Button
-              color="black"
-              aria-label="회원가입"
-              onClick={handleSubmit}
-              disabled={!isFormValid || isLoading}
-            >
-              {isLoading ? '처리 중...' : '회원가입'}
-            </Button>
-            <div
-              style={{
-                display: active ? 'block' : 'none',
-              }}
-            >
-              <Modal
-                title="인증 메일 발송"
-                desc={`인증메일이 발송되었습니다.\n 입력하신 메일로 돌아가 \n인증을 완료해주세요`}
-                buttons={[
-                  {
-                    type: 'submit',
-                    to: '/login',
-                    color: 'black',
-                    label: '확인',
-                    action: 'confirm',
-                  },
-                ]}
-              />
-            </div>
-          </footer>
-        </main>
-      )}
-    </>
+    <main className={S.register}>
+      <div>
+        <Toaster />
+      </div>
+      <header>
+        <h1 className="hdg-lg">
+          안녕하세요.
+          <br />
+          파티구함에 처음 오셨나요?
+        </h1>
+        <p className="para-md">아래 양식에 맞게 새로 가입해주세요.</p>
+      </header>
+      <form className={S.body}>
+        <ValidationInput
+          type="email"
+          label="이메일"
+          info="이메일을 입력해주세요"
+          onChange={setEmail}
+        />
+        <ValidationInput
+          type="pw"
+          label="비밀번호"
+          info="비밀번호를 입력해주세요"
+          onChange={setPassword}
+        />
+        <ValidationInput
+          type="normal"
+          label="이름(별명)"
+          info="이름(별명)을 입력해주세요."
+          onChange={setName}
+        />
+      </form>
+      <footer>
+        <Button
+          color="black"
+          aria-label="회원가입"
+          onClick={handleSubmit}
+          disabled={!isFormValid || isLoading}
+        >
+          {isLoading ? '처리 중...' : '회원가입'}
+        </Button>
+        <div
+          style={{
+            display: active ? 'block' : 'none',
+          }}
+        >
+          <Modal
+            title="인증 메일 발송"
+            desc={`인증메일이 발송되었습니다.\n 입력하신 메일로 돌아가 \n인증을 완료해주세요`}
+            buttons={[
+              {
+                type: 'submit',
+                to: '/login',
+                color: 'black',
+                label: '확인',
+                action: 'confirm',
+              },
+            ]}
+          />
+        </div>
+      </footer>
+    </main>
   );
 }
 
