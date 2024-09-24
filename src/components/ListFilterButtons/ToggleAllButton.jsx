@@ -1,10 +1,15 @@
 import S from './ToggleAllButton.module.css';
 
 /* eslint-disable react/prop-types */
-function ToggleAllButton({ validCategories, selectedCategories, onClick }) {
-  const allSelected = validCategories.every(
-    (option) => selectedCategories[option.value]
-  );
+function ToggleAllButton({
+  validCategories = [],
+  selectedCategories = {},
+  onClick,
+}) {
+  const allSelected =
+    Array.isArray(validCategories) &&
+    validCategories.length > 0 &&
+    validCategories.every((option) => selectedCategories[option.value]);
 
   return (
     <>
