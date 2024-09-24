@@ -92,7 +92,6 @@ function Register() {
       toast.success('회원가입이 완료되었습니다.');
     } catch (error) {
       console.error('회원가입 중 오류가 발생했습니다:', error);
-      toast.error('회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.');
     } finally {
       setIsLoading(false); // 로딩 종료
     }
