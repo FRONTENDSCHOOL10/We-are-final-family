@@ -54,8 +54,8 @@
 }
 
 [data-theme='dark'] {
-  --btn-bg: var(--gray-800);
-  --btn-bg-dark: var(--gray-900);
+  --btn-bg: var(--gray-900);
+  --btn-bg-dark: var(--primary);
   --btn-bg-primary: var(--primary);
 
   --btn-txt: var(--white);

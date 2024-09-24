@@ -1,11 +1,13 @@
 .listSearch {
-  padding: 1rem;
-  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .listSearchItem {
+  padding: 1rem;
   text-decoration: none;
   color: inherit;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .listSearchItemContent {
@@ -25,12 +27,14 @@
 
 [data-theme='dark'] {
   .listSearch {
+  }
+  .listSearchItem {
     border-bottom: 1px solid var(--gray-800);
   }
   .listSearchTitle {
-    color: var(--gray-100);
+    color: var(--white);
   }
   .listSearchDate {
-    color: var(--gray-300);
+    color: var(--gray-200);
   }
 }
