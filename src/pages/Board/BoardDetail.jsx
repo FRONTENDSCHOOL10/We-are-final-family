@@ -128,30 +128,30 @@ function BoardDetail() {
     console.log('내보내기 버튼 클릭');
   };
 
-  const handleEdit = () => {
-    navigate(`/board/write?edit=${encodedId}`);
-  };
-
-  const handleDelete = async () => {
-    if (!window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
-
-    try {
-      const { error } = await supabase
-        .from('board')
-        .delete()
-        .eq('id', singleData.id);
-
-      if (error) throw error;
-
-      toast.success('게시글이 성공적으로 삭제되었습니다.');
-      navigate('/board');
-    } catch (error) {
-      console.error('Error deleting post:', error);
-      toast.error('게시글 삭제 중 오류가 발생했습니다.');
-    }
-  };
-
   const menuOptions = useMemo(() => {
+    const handleEdit = () => {
+      navigate(`/board/write?edit=${encodedId}`);
+    };
+
+    const handleDelete = async () => {
+      if (!window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
+
+      try {
+        const { error } = await supabase
+          .from('board')
+          .delete()
+          .eq('id', singleData.id);
+
+        if (error) throw error;
+
+        toast.success('게시글이 성공적으로 삭제되었습니다.');
+        navigate('/board');
+      } catch (error) {
+        console.error('Error deleting post:', error);
+        toast.error('게시글 삭제 중 오류가 발생했습니다.');
+      }
+    };
+
     const options = [];
     if (currentUser && singleData && currentUser.id === singleData.user_id) {
       options.push({ label: '수정하기', onClick: handleEdit });
@@ -161,7 +161,7 @@ function BoardDetail() {
       });
     }
     return options;
-  }, [currentUser, singleData, encodedId]);
+  }, [currentUser, singleData, navigate, encodedId]);
 
   const handleOptionButton = () => {
     console.log('옵션 버튼 클릭');
